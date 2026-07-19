@@ -64,7 +64,8 @@ jobs:
         run: npm ci
 
       - name: Sync Python sidecar deps
-        run: uv sync --cwd graphforge-hybrid --extra build
+        working-directory: graphforge-hybrid
+        run: uv sync --extra build
 
       - name: Build bundled graph sidecar
         run: npm run build:sidecar
