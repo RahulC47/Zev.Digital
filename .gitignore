@@ -1,0 +1,39 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Tauri build artifacts & binaries
+src-tauri/target/
+src-tauri/binaries/
+graphforge-hybrid/.venv/
+graphforge-hybrid/dist/
+graphforge-hybrid/build/
+graphforge-hybrid/__pycache__/
+test-graphiti/
+test-graphiti2/
+*.exe
+*.msi
+*.dmg
+*.AppImage
+*.deb
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

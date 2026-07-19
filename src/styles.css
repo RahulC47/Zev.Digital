@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* ── Design tokens (from GraphForge) ──────────────────────────────────────── */
+:root {
+  --accent: #5b8cff;
+  --accent2: #7c5cff;
+  --danger: #ff5b6e;
+  --ok: #34d399;
+}
+
+/* Dark theme (default) */
+:root, [data-theme="dark"] {
+  --bg: #0b0f17;
+  --panel: #0d1320;
+  --panel2: #181b24;
+  --border: #1f2937;
+  --text: #e4e7ee;
+  --muted: #8b93a7;
+  --input-bg: #111827;
+  --hover: rgba(255,255,255,0.04);
+  color-scheme: dark;
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --panel2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --input-bg: #ffffff;
+  --hover: rgba(0,0,0,0.04);
+  color-scheme: light;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* ── Scrollbars ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* ── Animations ───────────────────────────────────────────────────────────── */
+@keyframes zev-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.7); }
+}
+
+/* ── Orb ──────────────────────────────────────────────────────────────────── */
+@keyframes zev-orb-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes zev-orb-spin-rev {
+  to { transform: rotate(-360deg); }
+}
+@keyframes zev-orb-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(var(--orb-breathe, 1.04)); }
+}
+@keyframes zev-orb-ring {
+  0%   { transform: scale(1);   opacity: 0.30; }
+  50%  { transform: scale(var(--orb-ring, 1.10)); opacity: 0.08; }
+  100% { transform: scale(1);   opacity: 0.30; }
+}
+@keyframes zev-orb-dot {
+  0%, 100% { opacity: 0.5; transform: scale(0.85); }
+  50%      { opacity: 1;   transform: scale(1.25); }
+}

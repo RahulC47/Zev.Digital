@@ -1,0 +1,46 @@
+[package]
+name = "zev-digital"
+version = "0.1.0"
+description = "Zev.Digital — a local-first, offline company brain (capture → vault → cited RAG chat)"
+authors = ["Zev.Digital contributors"]
+license = "MIT"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "zev_digital_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+# Used only to talk to the local sidecar over 127.0.0.1 (graph/parse/STT).
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "multipart"] }
+anyhow = "1"
+log = "0.4"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4"] }
+tauri-plugin-dialog = "2.7.1"
+tauri-plugin-shell = "2"
+# No embedding dependency needed — chunk search uses SQLite FTS5 (bundled).
+
+# OS-level accessibility capture is platform-specific.
+# Windows: the battle-tested `uiautomation` crate (UIAutomation API).
+# macOS/Linux providers are stubbed for now; `xa11y` is the planned
+# cross-platform swap-in (see plan / capture/mod.rs).
+[target.'cfg(windows)'.dependencies]
+uiautomation = "0.25"
+sysinfo = "0.30"
+# Keep in lockstep with uiautomation's pinned `windows` version (0.62.x) so the
+# dependency tree doesn't grow a duplicate windows crate.
+windows = { version = "0.62", features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging"] }

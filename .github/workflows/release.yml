@@ -1,0 +1,78 @@
+name: Release
+
+# Builds Zev.Digital installers for Windows, macOS and Linux and attaches them to a
+# GitHub Release. Trigger by pushing a tag like `v0.1.0`, or run manually.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Apple Silicon (the current GitHub-hosted macOS runner).
+          - platform: macos-latest
+            args: "--target aarch64-apple-darwin"
+          # macOS Intel
+          - platform: macos-latest
+            args: "--target x86_64-apple-darwin"
+          - platform: ubuntu-22.04
+            args: ""
+          - platform: windows-latest
+            args: ""
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux system deps
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev \
+            librsvg2-dev patchelf build-essential curl wget file libssl-dev \
+            libgtk-3-dev
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install frontend deps
+        run: npm ci
+
+      - name: Build bundled graph sidecar
+        run: npm run build:sidecar
+
+      # Builds the app AND creates/updates a GitHub Release with the installers.
+      # (Windows: .exe/.msi · macOS: .dmg · Linux: .AppImage/.deb)
+      - name: Build + release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # For signed/notarized macOS builds, add the Apple secrets here later:
+          #   APPLE_CERTIFICATE, APPLE_CERTIFICATE_PASSWORD, APPLE_SIGNING_IDENTITY,
+          #   APPLE_ID, APPLE_PASSWORD, APPLE_TEAM_ID
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: "Zev.Digital ${{ github.ref_name }}"
+          releaseBody: "See the assets below to download Zev.Digital for your OS."
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
