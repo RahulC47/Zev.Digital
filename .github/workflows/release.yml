@@ -48,7 +48,8 @@ jobs:
         with:
           node-version: 20
 
-      - uses: astral-sh/setup-uv@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.12"
 
@@ -65,12 +66,37 @@ jobs:
       - name: Install frontend deps
         run: npm ci
 
-      - name: Sync Python sidecar deps
-        working-directory: graphforge-hybrid
-        run: uv sync --extra build
+      - name: Build Python sidecar (Unix)
+        if: matrix.platform != 'windows-latest'
+        env:
+          TAURI_ENV_TARGET_TRIPLE: ${{ matrix.target }}
+        run: |
+          cd graphforge-hybrid
+          uv sync --extra build
+          uv run pyinstaller contxt-sidecar.spec --noconfirm --clean
+          ls -la dist/
+          # Copy with correct platform-triple name for Tauri
+          mkdir -p ../src-tauri/binaries
+          cp dist/contxt-sidecar ../src-tauri/binaries/contxt-sidecar-${{ matrix.target }}
+          ls -la ../src-tauri/binaries/
 
-      - name: Build bundled graph sidecar
-        run: npm run build:sidecar
+      - name: Build Python sidecar (Windows)
+        if: matrix.platform == 'windows-latest'
+        env:
+          TAURI_ENV_TARGET_TRIPLE: ${{ matrix.target }}
+        run: |
+          cd graphforge-hybrid
+          uv sync --extra build
+          uv run pyinstaller contxt-sidecar.spec --noconfirm --clean
+          dir dist
+          # Copy with correct platform-triple name for Tauri
+          mkdir -p ../src-tauri/binaries
+          copy dist\contxt-sidecar.exe ..\src-tauri\binaries\contxt-sidecar-${{ matrix.target }}.exe
+          dir ..\src-tauri\binaries\
+
+      - name: Verify sidecar binary exists
+        run: |
+          ls src-tauri/binaries/ || dir src-tauri\binaries\
 
       # Builds the app AND creates/updates a GitHub Release with the installers.
       # (Windows: .exe/.msi · macOS: .dmg · Linux: .AppImage/.deb)
