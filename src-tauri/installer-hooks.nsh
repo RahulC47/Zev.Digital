@@ -1,15 +1,25 @@
 ; installer-hooks.nsh
 ; Custom NSIS hooks for Zev.Digital installer.
-; This hook runs BEFORE files are copied, killing any running instance
-; of the app or its Python sidecar so the installer can overwrite them.
+; Runs BEFORE files are copied — forcefully terminates any running
+; instance of Zev.Digital or its Python sidecar so the installer
+; can overwrite locked files without error.
 
 !macro NSIS_HOOK_PREINSTALL
-  ; Kill the main Zev.Digital process if running
-  nsExec::Exec 'taskkill /F /IM "Zev.Digital.exe"'
-  ; Kill the Python sidecar process if running
-  nsExec::Exec 'taskkill /F /IM "contxt-sidecar.exe"'
-  ; Brief pause to let OS release file handles
-  Sleep 2000
+  ; --- Gracefully close the main window first ---
+  FindWindow $0 "" "Zev.Digital"
+  ${If} $0 != 0
+    SendMessage $0 ${WM_CLOSE} 0 0
+    Sleep 1500
+  ${EndIf}
+
+  ; --- Force-kill main process (ExecWait = blocking, waits for taskkill to finish) ---
+  ExecWait 'taskkill /F /IM "Zev.Digital.exe"'
+
+  ; --- Force-kill the Python sidecar ---
+  ExecWait 'taskkill /F /IM "contxt-sidecar.exe"'
+
+  ; --- Wait for the OS to fully release file handles ---
+  Sleep 3000
 !macroend
 
 !macro NSIS_HOOK_POSTINSTALL
