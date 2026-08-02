@@ -3,6 +3,8 @@ import { useStore } from "../store/useStore";
 import { api, type ChunkRow, type Source } from "../lib/api";
 import { GraphView } from "./GraphView";
 import { CollectionsBar } from "./CollectionsBar";
+ 
+const IS_WINDOWS = navigator.userAgent.includes("Windows");
 
 type Tab = "list" | "graph";
 
@@ -427,7 +429,7 @@ export function Sources() {
   }, [refreshSources, refreshCollections]);
 
   useEffect(() => {
-    if (tab === "graph") refreshGraph();
+    if (IS_WINDOWS && tab === "graph") refreshGraph();
   }, [tab, refreshGraph, selected.join(","), sources.length]);
 
 
@@ -473,29 +475,31 @@ export function Sources() {
           </div>
 
           {/* List / Graph toggle */}
-          <div
-            className="mb-3 inline-flex rounded-lg p-0.5"
-            style={{ background: "var(--panel2)", border: "1px solid var(--border)" }}
-          >
-            {(["list", "graph"] as Tab[]).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className="rounded-md px-4 py-1.5 text-xs font-medium transition"
-                style={{
-                  background: tab === t ? "var(--accent)" : "transparent",
-                  color: tab === t ? "#fff" : "var(--muted)",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                {t === "list" ? "List" : "Graph"}
-              </button>
-            ))}
-          </div>
+          {IS_WINDOWS && (
+            <div
+              className="mb-3 inline-flex rounded-lg p-0.5"
+              style={{ background: "var(--panel2)", border: "1px solid var(--border)" }}
+            >
+              {(["list", "graph"] as Tab[]).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTab(t)}
+                  className="rounded-md px-4 py-1.5 text-xs font-medium transition"
+                  style={{
+                    background: tab === t ? "var(--accent)" : "transparent",
+                    color: tab === t ? "#fff" : "var(--muted)",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  {t === "list" ? "List" : "Graph"}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Folders (collections) scoping + management + export */}
-          {tab === "list" && <CollectionsBar />}
+          {(tab === "list" || !IS_WINDOWS) && <CollectionsBar />}
 
           {/* Bulk-select action bar */}
           {selectedIds.size > 0 && (
@@ -540,7 +544,7 @@ export function Sources() {
 
       {/* Content area */}
       <div className="flex-1 overflow-hidden">
-        {tab === "list" ? (
+        {tab === "list" || !IS_WINDOWS ? (
           <div className="h-full overflow-y-auto px-5 pb-4">
             <div className="mx-auto max-w-3xl">
               {shown.length === 0 ? (
