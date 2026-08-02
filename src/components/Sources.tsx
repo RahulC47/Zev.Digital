@@ -196,19 +196,21 @@ function SourceRow({
           )}
         </div>
         {/* move to folder */}
-        <select
-          value={s.collection_id}
-          onChange={(e) => moveSource(s.id, e.target.value)}
-          title="Move to folder"
-          className="shrink-0 rounded-md px-2 py-1 text-xs"
-          style={{ background: "var(--input-bg)", color: "var(--text)", border: "1px solid var(--border)", cursor: "pointer" }}
-        >
-          {collections.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
+        {IS_WINDOWS && (
+          <select
+            value={s.collection_id}
+            onChange={(e) => moveSource(s.id, e.target.value)}
+            title="Move to folder"
+            className="shrink-0 rounded-md px-2 py-1 text-xs"
+            style={{ background: "var(--input-bg)", color: "var(--text)", border: "1px solid var(--border)", cursor: "pointer" }}
+          >
+            {collections.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        )}
         <button
           onClick={() => {
             if (isEditingTitle) {
@@ -499,7 +501,7 @@ export function Sources() {
           )}
 
           {/* Folders (collections) scoping + management + export */}
-          {(tab === "list" || !IS_WINDOWS) && <CollectionsBar />}
+          {IS_WINDOWS && tab === "list" && <CollectionsBar />}
 
           {/* Bulk-select action bar */}
           {selectedIds.size > 0 && (
@@ -510,26 +512,30 @@ export function Sources() {
               <span className="text-xs font-medium" style={{ color: "var(--accent)" }}>
                 {selectedIds.size} selected
               </span>
-              <span className="text-xs" style={{ color: "var(--muted)" }}>Move to:</span>
-              <select
-                value={bulkTarget}
-                onChange={(e) => setBulkTarget(e.target.value)}
-                className="rounded-md px-2 py-1 text-xs"
-                style={{ background: "var(--input-bg)", color: "var(--text)", border: "1px solid var(--border)", cursor: "pointer" }}
-              >
-                <option value="">Select folder…</option>
-                {collections.map((c) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
-                ))}
-              </select>
-              <button
-                onClick={bulkMove}
-                disabled={!bulkTarget || bulkMoving}
-                className="rounded-md px-3 py-1 text-xs font-medium text-white"
-                style={{ background: !bulkTarget || bulkMoving ? "var(--muted)" : "var(--accent)", border: "none", cursor: !bulkTarget || bulkMoving ? "not-allowed" : "pointer" }}
-              >
-                {bulkMoving ? "Moving…" : "Move"}
-              </button>
+              {IS_WINDOWS && (
+                <>
+                  <span className="text-xs" style={{ color: "var(--muted)" }}>Move to:</span>
+                  <select
+                    value={bulkTarget}
+                    onChange={(e) => setBulkTarget(e.target.value)}
+                    className="rounded-md px-2 py-1 text-xs"
+                    style={{ background: "var(--input-bg)", color: "var(--text)", border: "1px solid var(--border)", cursor: "pointer" }}
+                  >
+                    <option value="">Select folder…</option>
+                    {collections.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={bulkMove}
+                    disabled={!bulkTarget || bulkMoving}
+                    className="rounded-md px-3 py-1 text-xs font-medium text-white"
+                    style={{ background: !bulkTarget || bulkMoving ? "var(--muted)" : "var(--accent)", border: "none", cursor: !bulkTarget || bulkMoving ? "not-allowed" : "pointer" }}
+                  >
+                    {bulkMoving ? "Moving…" : "Move"}
+                  </button>
+                </>
+              )}
               <button
                 onClick={clearSelection}
                 className="ml-auto text-xs"
