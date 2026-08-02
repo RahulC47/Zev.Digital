@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import ForceGraph2D from "react-force-graph-2d";
 import { api, type GraphData, type Answer } from "../lib/api";
 import { useStore } from "../store/useStore";
@@ -34,7 +34,6 @@ export function GraphView({ data }: Props) {
   const [size, setSize] = useState({ w: 700, h: 600 });
   const [graphBg, setGraphBg] = useState("var(--bg)");
   const [labelColor, setLabelColor] = useState("#cdd3e0");
-  const [linkColor, setLinkColor] = useState("rgba(150,160,190,0.35)");
 
   // selection state
   const [selectedNodeIds, setSelectedNodeIds] = useState<Set<string>>(new Set());
@@ -42,17 +41,28 @@ export function GraphView({ data }: Props) {
   const [rectSel, setRectSel] = useState<RectSel>(null);
   const [deleting, setDeleting] = useState(false);
 
-  // subgraph filter: when set, only these node ids (+ connecting edges) are shown
+  // subgraph filter
   const [subgraphIds, setSubgraphIds] = useState<Set<string> | null>(null);
 
-  // Querying Panel (Right side) state
+  // hover
+  const [hoveredNode, setHoveredNode] = useState<any>(null);
+
+  // search
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchDropdownOpen, setSearchDropdownOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  // highlighted type from legend click
+  const [highlightedType, setHighlightedType] = useState<string | null>(null);
+
+  // Querying Panel state
   const [queryPanelOpen, setQueryPanelOpen] = useState(true);
   const [panelInput, setPanelInput] = useState("");
   const [panelAnswering, setPanelAnswering] = useState(false);
   const [panelAnswer, setPanelAnswer] = useState<Answer | null>(null);
   const [panelError, setPanelError] = useState<string | null>(null);
 
-  // modal state for add node / add edge
+  // modal state
   const [modal, setModal] = useState<Modal>(null);
   const [saving, setSaving] = useState(false);
 
@@ -84,8 +94,6 @@ export function GraphView({ data }: Props) {
     function updateColors() {
       setGraphBg(getCSSVar("--bg") || "#0b0f17");
       setLabelColor(getCSSVar("--text") || "#cdd3e0");
-      const theme = document.documentElement.dataset.theme;
-      setLinkColor(theme === "light" ? "rgba(80,90,120,0.3)" : "rgba(150,160,190,0.35)");
     }
     updateColors();
     const obs = new MutationObserver(updateColors);
@@ -93,7 +101,7 @@ export function GraphView({ data }: Props) {
     return () => obs.disconnect();
   }, []);
 
-  // Responsive sizing for canvas container
+  // Responsive sizing
   useEffect(() => {
     if (!wrap.current) return;
     const ro = new ResizeObserver(([e]) =>
@@ -103,6 +111,17 @@ export function GraphView({ data }: Props) {
     return () => ro.disconnect();
   }, [queryPanelOpen]);
 
+  // Close search dropdown on outside click
+  useEffect(() => {
+    function onOutside(e: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setSearchDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onOutside);
+    return () => document.removeEventListener("mousedown", onOutside);
+  }, []);
+
   // Color-code nodes by type
   const colorByType = useMemo(() => {
     const types = [...new Set((data.nodes || []).map((n) => n.node_type))];
@@ -110,6 +129,25 @@ export function GraphView({ data }: Props) {
     types.forEach((t, i) => (map[t] = COLORS[i % COLORS.length]));
     return map;
   }, [data]);
+
+  // Degree map for proportional sizing
+  const degreeMap = useMemo(() => {
+    const map: Record<string, number> = {};
+    (data.nodes || []).forEach((n) => (map[n.id] = 0));
+    (data.links || []).forEach((l) => {
+      const src = typeof l.source === "object" ? (l.source as any).id : l.source;
+      const tgt = typeof l.target === "object" ? (l.target as any).id : l.target;
+      if (src) map[src] = (map[src] || 0) + 1;
+      if (tgt) map[tgt] = (map[tgt] || 0) + 1;
+    });
+    return map;
+  }, [data]);
+
+  // Node radius based on degree
+  const nodeRadius = useCallback((nodeId: string) => {
+    const deg = degreeMap[nodeId] || 0;
+    return 5 + Math.min(deg * 1.5, 12);
+  }, [degreeMap]);
 
   // Clone + filter for subgraph view
   const graph = useMemo(() => {
@@ -125,7 +163,36 @@ export function GraphView({ data }: Props) {
     };
   }, [data, subgraphIds]);
 
-  // Active collection label (always entire brain)
+  // Search results
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const q = searchQuery.toLowerCase();
+    return graph.nodes
+      .filter((n: any) =>
+        n.label?.toLowerCase().includes(q) ||
+        n.node_type?.toLowerCase().includes(q) ||
+        n.summary?.toLowerCase().includes(q)
+      )
+      .slice(0, 8);
+  }, [searchQuery, graph.nodes]);
+
+  // Active nodes based on search / highlight
+  const dimmedNodeIds = useMemo(() => {
+    if (searchQuery.trim() && searchResults.length > 0) {
+      const matchIds = new Set(searchResults.map((n: any) => n.id));
+      return new Set(graph.nodes.filter((n: any) => !matchIds.has(n.id)).map((n: any) => n.id));
+    }
+    if (highlightedType) {
+      return new Set(graph.nodes.filter((n: any) => n.node_type !== highlightedType).map((n: any) => n.id));
+    }
+    return new Set<string>();
+  }, [searchQuery, searchResults, highlightedType, graph.nodes]);
+
+  // Unique entity types in graph for legend
+  const entityTypes = useMemo(() => {
+    return [...new Set(graph.nodes.map((n: any) => n.node_type).filter(Boolean))];
+  }, [graph.nodes]);
+
   const activeFolderNames = "Entire Brain";
 
   // ── helpers ──────────────────────────────────────────────────────────────────
@@ -152,6 +219,27 @@ export function GraphView({ data }: Props) {
       return dx * dx + dy * dy < 144;
     });
   }
+
+  // ── Zoom to a specific node ───────────────────────────────────────────────
+  function zoomToNode(node: any) {
+    if (!fgRef.current || node.x == null) return;
+    fgRef.current.centerAt(node.x, node.y, 800);
+    fgRef.current.zoom(7, 800);
+  }
+
+  function selectAndZoomNode(node: any) {
+    setSelectedNodeIds(new Set([node.id]));
+    setSearchQuery("");
+    setSearchDropdownOpen(false);
+    setHighlightedType(null);
+    // Slight delay to let graph stabilize
+    setTimeout(() => zoomToNode(node), 100);
+  }
+
+  // ── Zoom controls ─────────────────────────────────────────────────────────
+  function zoomIn() { if (fgRef.current) fgRef.current.zoom(fgRef.current.zoom() * 1.4, 300); }
+  function zoomOut() { if (fgRef.current) fgRef.current.zoom(fgRef.current.zoom() / 1.4, 300); }
+  function zoomFit() { if (fgRef.current) fgRef.current.zoomToFit(400, 40); }
 
   // ── Rubber-band mouse handlers ────────────────────────────────────────────
 
@@ -367,6 +455,148 @@ export function GraphView({ data }: Props) {
     return graph.nodes.filter((n: any) => selectedNodeIds.has(n.id));
   }, [graph.nodes, selectedNodeIds]);
 
+  // ── Canvas render callbacks ───────────────────────────────────────────────
+
+  const nodeCanvasObject = useCallback((node: any, ctx: CanvasRenderingContext2D, scale: number) => {
+    const isSelected = selectedNodeIds.has(node.id);
+    const isHovered = hoveredNode?.id === node.id;
+    const isDimmed = dimmedNodeIds.has(node.id);
+    const r = nodeRadius(node.id);
+    const color = colorByType[node.node_type] || "#5b8cff";
+
+    ctx.globalAlpha = isDimmed ? 0.15 : 1;
+
+    // Glow effect for selected nodes
+    if (isSelected) {
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 16;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, r + 4, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    // Hover ring
+    if (isHovered && !isSelected) {
+      ctx.strokeStyle = "rgba(255,255,255,0.5)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, r + 3, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
+
+    // Node circle
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // Inner highlight (gives depth)
+    const grad = ctx.createRadialGradient(node.x - r * 0.3, node.y - r * 0.3, r * 0.05, node.x, node.y, r);
+    grad.addColorStop(0, "rgba(255,255,255,0.35)");
+    grad.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // Label — always show when selected or hovered, otherwise scale-dependent
+    const label = node.label || "";
+    const showLabel = isSelected || isHovered || scale > 1.5;
+    if (showLabel && label) {
+      const fs = Math.max(10, Math.min(14, 12 / scale));
+      ctx.font = `${isSelected ? "600 " : ""}${fs}px -apple-system, system-ui, sans-serif`;
+      ctx.fillStyle = labelColor;
+      ctx.shadowColor = "rgba(0,0,0,0.8)";
+      ctx.shadowBlur = 3;
+      ctx.fillText(label, node.x + r + 2, node.y + fs / 3);
+      ctx.shadowBlur = 0;
+    }
+
+    ctx.globalAlpha = 1;
+  }, [selectedNodeIds, hoveredNode, dimmedNodeIds, nodeRadius, colorByType, labelColor]);
+
+  const linkCanvasObject = useCallback((link: any, ctx: CanvasRenderingContext2D, scale: number) => {
+    const src = link.source;
+    const tgt = link.target;
+    if (!src || !tgt || src.x == null || tgt.x == null) return;
+
+    const theme = document.documentElement.dataset.theme;
+    const lc = theme === "light" ? "rgba(80,90,120,0.25)" : "rgba(150,160,190,0.3)";
+
+    // Draw link line
+    ctx.strokeStyle = lc;
+    ctx.lineWidth = 1 / scale;
+    ctx.beginPath();
+    ctx.moveTo(src.x, src.y);
+    ctx.lineTo(tgt.x, tgt.y);
+    ctx.stroke();
+
+    // Arrow
+    const dx = tgt.x - src.x;
+    const dy = tgt.y - src.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 1) return;
+    const ux = dx / dist, uy = dy / dist;
+    const tgtR = nodeRadius(tgt.id || "");
+    const arrowX = tgt.x - ux * (tgtR + 4 / scale);
+    const arrowY = tgt.y - uy * (tgtR + 4 / scale);
+    const arrowLen = 6 / scale;
+    const arrowAngle = 0.45;
+    ctx.fillStyle = lc;
+    ctx.beginPath();
+    ctx.moveTo(arrowX, arrowY);
+    ctx.lineTo(
+      arrowX - arrowLen * (ux * Math.cos(arrowAngle) - uy * Math.sin(arrowAngle)),
+      arrowY - arrowLen * (uy * Math.cos(arrowAngle) + ux * Math.sin(arrowAngle))
+    );
+    ctx.lineTo(
+      arrowX - arrowLen * (ux * Math.cos(arrowAngle) + uy * Math.sin(arrowAngle)),
+      arrowY - arrowLen * (uy * Math.cos(arrowAngle) - ux * Math.sin(arrowAngle))
+    );
+    ctx.closePath();
+    ctx.fill();
+
+    // Edge label — show when zoomed in enough
+    const name = link.name || "";
+    if (name && scale > 1.2) {
+      const midX = (src.x + tgt.x) / 2;
+      const midY = (src.y + tgt.y) / 2;
+      const fs = Math.max(7, 10 / scale);
+      ctx.font = `${fs}px -apple-system, system-ui, sans-serif`;
+      const textW = ctx.measureText(name).width;
+
+      // Label background pill
+      ctx.fillStyle = theme === "light" ? "rgba(241,245,249,0.9)" : "rgba(13,19,32,0.85)";
+      ctx.beginPath();
+      const pad = 2 / scale;
+      ctx.roundRect(midX - textW / 2 - pad, midY - fs / 2 - pad, textW + pad * 2, fs + pad * 2, 3 / scale);
+      ctx.fill();
+
+      ctx.fillStyle = theme === "light" ? "rgba(100,116,139,0.9)" : "rgba(139,147,167,0.9)";
+      ctx.textAlign = "center";
+      ctx.fillText(name, midX, midY + fs * 0.35);
+      ctx.textAlign = "left";
+    }
+  }, [nodeRadius]);
+
+  // ── Hover tooltip ─────────────────────────────────────────────────────────
+  // We render a DOM tooltip (not canvas) for crisp text and emoji
+  const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
+
+  function onNodeHover(node: any, _prev: any) {
+    setHoveredNode(node || null);
+    if (!node) { setTooltipPos(null); return; }
+    if (!fgRef.current || node.x == null) return;
+    const sc = fgRef.current.graph2ScreenCoords(node.x, node.y);
+    const wrapRect = wrap.current?.getBoundingClientRect();
+    if (wrapRect) {
+      setTooltipPos({ x: sc.x + 14, y: sc.y - 10 });
+    }
+  }
+
   return (
     <div className="flex h-full w-full overflow-hidden">
       {/* ── Left: Interactive 2D Graph Canvas ────────────────────────────── */}
@@ -410,11 +640,13 @@ export function GraphView({ data }: Props) {
               backgroundColor={graphBg}
               enablePanInteraction={true}
               enableNodeDrag={true}
-              nodeLabel={(n: any) => `${n.label}${n.summary ? " — " + n.summary : ""}`}
-              linkLabel={(l: any) => l.fact || l.name}
-              linkColor={() => linkColor}
-              linkDirectionalArrowLength={3}
-              linkDirectionalArrowRelPos={1}
+              nodeLabel={() => ""}
+              linkLabel={() => ""}
+              linkColor={() => "transparent"}
+              linkDirectionalArrowLength={0}
+              cooldownTime={1800}
+              d3VelocityDecay={0.3}
+              d3AlphaDecay={0.02}
               onNodeClick={(node: any, event: MouseEvent) => {
                 if (drag.current?.active) return;
                 setSelectedNodeIds((prev) => {
@@ -438,38 +670,149 @@ export function GraphView({ data }: Props) {
                   return next;
                 });
               }}
+              onNodeHover={onNodeHover}
               onLinkClick={(link: any) => {
                 setSelEdge({ id: link.id, name: link.name || "", fact: link.fact || "" });
               }}
               onBackgroundClick={() => {
                 setSelectedNodeIds(new Set());
                 setSelEdge(null);
+                setHighlightedType(null);
               }}
-              nodeCanvasObject={(node: any, ctx: CanvasRenderingContext2D, scale: number) => {
-                const isSelected = selectedNodeIds.has(node.id);
-                const r = isSelected ? 5.5 : 4;
-                const color = colorByType[node.node_type] || "#5b8cff";
-
-                if (isSelected) {
-                  ctx.strokeStyle = "var(--accent, #5b8cff)";
-                  ctx.lineWidth = 2;
-                  ctx.beginPath();
-                  ctx.arc(node.x, node.y, r + 3, 0, 2 * Math.PI);
-                  ctx.stroke();
-                }
-
-                ctx.fillStyle = color;
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
-                ctx.fill();
-
-                const label = node.label || "";
-                const fs = 12 / scale;
-                ctx.font = `${isSelected ? "bold " : ""}${fs}px sans-serif`;
-                ctx.fillStyle = labelColor;
-                ctx.fillText(label, node.x + r + 1, node.y + fs / 3);
-              }}
+              nodeCanvasObject={nodeCanvasObject}
+              nodeCanvasObjectMode={() => "replace"}
+              linkCanvasObject={linkCanvasObject}
+              linkCanvasObjectMode={() => "replace"}
             />
+
+            {/* ── Entity Search Bar ──────────────────────────────────────── */}
+            <div
+              ref={searchRef}
+              className="absolute"
+              style={{ top: 12, left: 12, width: 240, zIndex: 30 }}
+            >
+              <div style={{ position: "relative" }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 10,
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "var(--muted)",
+                    fontSize: 13,
+                    pointerEvents: "none",
+                  }}
+                >
+                  🔍
+                </div>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setSearchDropdownOpen(true);
+                  }}
+                  onFocus={() => setSearchDropdownOpen(true)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") { setSearchQuery(""); setSearchDropdownOpen(false); setHighlightedType(null); }
+                    if (e.key === "Enter" && searchResults.length > 0) selectAndZoomNode(searchResults[0]);
+                  }}
+                  placeholder="Find entity…"
+                  style={{
+                    width: "100%",
+                    background: "var(--panel)",
+                    color: "var(--text)",
+                    border: "1px solid var(--border)",
+                    borderRadius: 10,
+                    padding: "7px 10px 7px 32px",
+                    fontSize: 12,
+                    outline: "none",
+                    boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
+                    backdropFilter: "blur(8px)",
+                  }}
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => { setSearchQuery(""); setSearchDropdownOpen(false); }}
+                    style={{
+                      position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)",
+                      background: "none", border: "none", color: "var(--muted)", cursor: "pointer", fontSize: 13,
+                    }}
+                  >✕</button>
+                )}
+              </div>
+
+              {/* Autocomplete Dropdown */}
+              {searchDropdownOpen && searchResults.length > 0 && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "calc(100% + 4px)",
+                    left: 0,
+                    right: 0,
+                    background: "var(--panel)",
+                    border: "1px solid var(--border)",
+                    borderRadius: 10,
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+                    overflow: "hidden",
+                    zIndex: 50,
+                  }}
+                >
+                  {searchResults.map((n: any, i: number) => (
+                    <button
+                      key={n.id}
+                      onClick={() => selectAndZoomNode(n)}
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        padding: "8px 12px",
+                        background: i === 0 ? "rgba(91,140,255,0.08)" : "transparent",
+                        border: "none",
+                        borderBottom: i < searchResults.length - 1 ? "1px solid var(--border)" : "none",
+                        cursor: "pointer",
+                        textAlign: "left",
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: "50%",
+                          background: colorByType[n.node_type] || "#5b8cff",
+                          flexShrink: 0,
+                        }}
+                      />
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {n.label}
+                        </div>
+                        {n.summary && (
+                          <div style={{ fontSize: 10, color: "var(--muted)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                            {n.summary}
+                          </div>
+                        )}
+                      </div>
+                      <span
+                        style={{
+                          fontSize: 9,
+                          padding: "2px 5px",
+                          borderRadius: 4,
+                          background: `${colorByType[n.node_type] || "#5b8cff"}22`,
+                          color: colorByType[n.node_type] || "#5b8cff",
+                          flexShrink: 0,
+                          fontWeight: 600,
+                          letterSpacing: "0.03em",
+                        }}
+                      >
+                        {n.node_type}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Rubber-band rectangle */}
             {rectSel && (
@@ -491,11 +834,15 @@ export function GraphView({ data }: Props) {
             {/* Subgraph filter banner */}
             {subgraphIds && (
               <div
-                className="absolute top-3 left-3 flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs shadow"
+                className="absolute flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs shadow"
                 style={{
+                  top: 12,
+                  left: "50%",
+                  transform: "translateX(-50%)",
                   background: "rgba(91,140,255,0.15)",
                   border: "1px solid var(--accent)",
                   color: "var(--accent)",
+                  zIndex: 20,
                 }}
               >
                 <span>Filtered subgraph: {subgraphIds.size} entities</span>
@@ -510,7 +857,7 @@ export function GraphView({ data }: Props) {
             )}
 
             {/* Top-right toolbar */}
-            <div className="absolute top-3 right-3 flex items-center gap-2">
+            <div className="absolute top-3 right-3 flex items-center gap-2" style={{ zIndex: 20 }}>
               <div
                 className="rounded-lg px-2.5 py-1 text-xs"
                 style={{ background: "var(--panel)", border: "1px solid var(--border)", color: "var(--muted)", pointerEvents: "none" }}
@@ -542,15 +889,132 @@ export function GraphView({ data }: Props) {
                 }}
                 title="Toggle Graph Querying Panel"
               >
-                🔍 Query Tab {selectedNodeIds.size > 0 && `(${selectedNodeIds.size})`}
+                🔍 Query {selectedNodeIds.size > 0 && `(${selectedNodeIds.size})`}
               </button>
             </div>
+
+            {/* ── Type Legend (bottom-left) ──────────────────────────────── */}
+            {entityTypes.length > 0 && (
+              <div
+                className="absolute flex flex-wrap items-center gap-1.5"
+                style={{
+                  bottom: selEdge ? 90 : 14,
+                  left: 14,
+                  maxWidth: "55%",
+                  zIndex: 20,
+                  background: "var(--panel)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 10,
+                  padding: "6px 10px",
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+                }}
+              >
+                <span style={{ fontSize: 9, color: "var(--muted)", marginRight: 2, fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Types</span>
+                {entityTypes.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setHighlightedType(highlightedType === type ? null : type)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                      background: highlightedType === type ? `${colorByType[type]}22` : "transparent",
+                      border: highlightedType === type ? `1px solid ${colorByType[type]}` : "1px solid transparent",
+                      borderRadius: 6,
+                      padding: "2px 6px",
+                      cursor: "pointer",
+                    }}
+                    title={`Highlight all ${type} entities`}
+                  >
+                    <span style={{ width: 7, height: 7, borderRadius: "50%", background: colorByType[type] || "#5b8cff", flexShrink: 0 }} />
+                    <span style={{ fontSize: 10, color: highlightedType === type ? colorByType[type] : "var(--muted)", fontWeight: highlightedType === type ? 600 : 400 }}>{type}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* ── Zoom Controls (bottom-right) ───────────────────────────── */}
+            <div
+              className="absolute flex flex-col gap-1"
+              style={{ bottom: 14, right: queryPanelOpen ? 14 : 14, zIndex: 20 }}
+            >
+              {[
+                { label: "+", action: zoomIn, title: "Zoom in" },
+                { label: "−", action: zoomOut, title: "Zoom out" },
+                { label: "⊞", action: zoomFit, title: "Fit all nodes" },
+              ].map(({ label, action, title }) => (
+                <button
+                  key={label}
+                  onClick={action}
+                  title={title}
+                  style={{
+                    width: 30,
+                    height: 30,
+                    background: "var(--panel)",
+                    border: "1px solid var(--border)",
+                    borderRadius: 8,
+                    color: "var(--text)",
+                    fontSize: 16,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0 1px 4px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* ── Hover Tooltip ─────────────────────────────────────────── */}
+            {hoveredNode && tooltipPos && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: Math.min(tooltipPos.x, size.w - 220),
+                  top: Math.max(tooltipPos.y, 10),
+                  background: "var(--panel)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 10,
+                  padding: "8px 12px",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+                  pointerEvents: "none",
+                  zIndex: 40,
+                  maxWidth: 210,
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                  <span style={{ width: 8, height: 8, borderRadius: "50%", background: colorByType[hoveredNode.node_type] || "#5b8cff", flexShrink: 0 }} />
+                  <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text)" }}>{hoveredNode.label}</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: hoveredNode.summary ? 6 : 0 }}>
+                  <span style={{
+                    fontSize: 9, padding: "1px 5px", borderRadius: 4,
+                    background: `${colorByType[hoveredNode.node_type] || "#5b8cff"}22`,
+                    color: colorByType[hoveredNode.node_type] || "#5b8cff",
+                    fontWeight: 600, letterSpacing: "0.03em",
+                  }}>
+                    {hoveredNode.node_type}
+                  </span>
+                  <span style={{ fontSize: 9, color: "var(--muted)" }}>
+                    {degreeMap[hoveredNode.id] || 0} connection{degreeMap[hoveredNode.id] !== 1 ? "s" : ""}
+                  </span>
+                </div>
+                {hoveredNode.summary && (
+                  <div style={{ fontSize: 11, color: "var(--muted)", lineHeight: 1.4 }}>
+                    {hoveredNode.summary.slice(0, 120)}{hoveredNode.summary.length > 120 ? "…" : ""}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Bottom edge detail pill */}
             {selEdge && (
               <div
-                className="absolute bottom-4 left-4 z-40 rounded-xl p-3 shadow-lg"
-                style={{ background: "var(--panel)", border: "1px solid var(--border)", maxWidth: 450 }}
+                className="absolute bottom-4 z-40 rounded-xl p-3 shadow-lg"
+                style={{ background: "var(--panel)", border: "1px solid var(--border)", maxWidth: 450, left: "50%", transform: "translateX(-50%)" }}
               >
                 <div className="flex items-start gap-3">
                   <div className="min-w-0 flex-1">
@@ -673,15 +1137,27 @@ export function GraphView({ data }: Props) {
                     className="flex items-center justify-between rounded px-2 py-1 text-xs"
                     style={{ background: "var(--input-bg)", border: "1px solid var(--border)" }}
                   >
-                    <span className="truncate font-medium" style={{ color: "var(--text)" }}>{n.label}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: 5, minWidth: 0 }}>
+                      <span style={{ width: 7, height: 7, borderRadius: "50%", background: colorByType[n.node_type] || "#5b8cff", flexShrink: 0 }} />
+                      <span className="truncate font-medium" style={{ color: "var(--text)" }}>{n.label}</span>
+                    </div>
                     <span className="shrink-0 text-[10px]" style={{ color: "var(--muted)" }}>{n.node_type}</span>
                   </div>
                 ))}
               </div>
+
+              <button
+                onClick={copyNodesToChatAndSwitch}
+                className="w-full rounded-lg py-1.5 text-xs"
+                style={{ background: "transparent", border: "1px solid var(--border)", color: "var(--muted)", cursor: "pointer" }}
+                title="Transfer graph context to Chat view"
+              >
+                Export to Chat
+              </button>
             </div>
           ) : (
             <div className="rounded-lg p-2.5 text-[11px] leading-relaxed" style={{ background: "var(--input-bg)", color: "var(--muted)", border: "1px dashed var(--border)" }}>
-              Tip: Shift + Drag on canvas or click graph nodes to select specific graph parts to query!
+              💡 Tip: Use the search bar to find entities. Shift + Drag or click nodes to select.
             </div>
           )}
 
@@ -738,15 +1214,17 @@ export function GraphView({ data }: Props) {
               >
                 {panelAnswering ? "Querying Graph…" : "Query Graph"}
               </button>
-              <button
-                type="button"
-                onClick={copyNodesToChatAndSwitch}
-                className="rounded-lg px-2.5 py-2 text-xs"
-                style={{ background: "transparent", border: "1px solid var(--border)", color: "var(--muted)", cursor: "pointer" }}
-                title="Transfer graph context to Chat view"
-              >
-                Export to Chat
-              </button>
+              {selectedNodeIds.size === 0 && (
+                <button
+                  type="button"
+                  onClick={copyNodesToChatAndSwitch}
+                  className="rounded-lg px-2.5 py-2 text-xs"
+                  style={{ background: "transparent", border: "1px solid var(--border)", color: "var(--muted)", cursor: "pointer" }}
+                  title="Transfer graph context to Chat view"
+                >
+                  Export to Chat
+                </button>
+              )}
             </div>
           </div>
 
