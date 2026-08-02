@@ -77,6 +77,7 @@ export function GraphView({ data }: Props) {
   const refreshGraph = useStore((s) => s.refreshGraph);
   const setGraphContext = useStore((s) => s.setGraphContext);
   const setView = useStore((s) => s.setView);
+  const selectedCollections = useStore((s) => s.selectedCollections);
 
   // Theme colors
   useEffect(() => {
