@@ -77,8 +77,6 @@ export function GraphView({ data }: Props) {
   const refreshGraph = useStore((s) => s.refreshGraph);
   const setGraphContext = useStore((s) => s.setGraphContext);
   const setView = useStore((s) => s.setView);
-  const selectedCollections = useStore((s) => s.selectedCollections);
-  const collections = useStore((s) => s.collections);
 
   // Theme colors
   useEffect(() => {
@@ -126,14 +124,8 @@ export function GraphView({ data }: Props) {
     };
   }, [data, subgraphIds]);
 
-  // Active collection label
-  const activeFolderNames = useMemo(() => {
-    if (selectedCollections.length === 0) return "All Folders";
-    return collections
-      .filter((c) => selectedCollections.includes(c.id))
-      .map((c) => c.name)
-      .join(", ");
-  }, [selectedCollections, collections]);
+  // Active collection label (always entire brain)
+  const activeFolderNames = "Entire Brain";
 
   // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -629,7 +621,7 @@ export function GraphView({ data }: Props) {
             style={{ background: "var(--panel2)", border: "1px solid var(--border)" }}
           >
             <div className="flex items-center justify-between text-[11px]" style={{ color: "var(--muted)" }}>
-              <span>Folder scope:</span>
+              <span>Graph scope:</span>
               <span className="font-medium" style={{ color: "var(--accent)" }}>{activeFolderNames}</span>
             </div>
             <div className="flex items-center justify-between text-[11px]" style={{ color: "var(--muted)" }}>

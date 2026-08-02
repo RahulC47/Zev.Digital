@@ -698,7 +698,7 @@ export const useStore = create<AppState>((set, get) => ({
   refreshGraph: async () => {
     set({ graphLoading: true });
     try {
-      set({ graphData: await api.getGraph(get().selectedCollections) });
+      set({ graphData: await api.getGraph() });
     } catch {
       set({ graphData: { nodes: [], links: [] } });
     } finally {
