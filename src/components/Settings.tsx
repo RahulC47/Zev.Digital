@@ -510,19 +510,6 @@ export function Settings() {
                 Password managers are blocked by default.
               </span>
             </div>
-
-            <label className="flex cursor-pointer items-center gap-2 text-sm" style={{ color: "var(--text)" }}>
-              <input
-                type="checkbox"
-                checked={draft.skip_private_browsing}
-                onChange={(e) => set({ skip_private_browsing: e.target.checked })}
-                style={{ accentColor: "var(--accent)", cursor: "pointer" }}
-              />
-              Skip private browsing windows
-              <span className="text-[11px]" style={{ color: "var(--muted)" }}>
-                Incognito / InPrivate windows are never captured.
-              </span>
-            </label>
           </div>
         </div>
 

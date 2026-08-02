@@ -36,6 +36,7 @@ fn build_state(app: &tauri::App) -> anyhow::Result<AppState> {
         sidecar_ready: std::sync::Mutex::new(false),
         capture_running: std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false)),
         capture_thread: std::sync::Mutex::new(None),
+        sidecar_child: std::sync::Mutex::new(None),
     })
 }
 
@@ -67,7 +68,12 @@ pub fn run() {
                         .args(["--port", port_arg.as_str(), "--data-dir", data_dir_arg.as_str()])
                         .spawn()
                     {
-                        Ok((_events, _child)) => log::info!("Started bundled Graphiti sidecar"),
+                        Ok((_events, child)) => {
+                            log::info!("Started bundled Graphiti sidecar");
+                            if let Ok(mut guard) = state.sidecar_child.lock() {
+                                *guard = Some(child);
+                            }
+                        }
                         Err(error) => log::warn!("Could not start bundled Graphiti sidecar: {error}"),
                     },
                     Err(error) => log::warn!("Bundled Graphiti sidecar is unavailable: {error}"),
@@ -98,6 +104,17 @@ pub fn run() {
             });
 
             Ok(())
+        })
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::Destroyed = event {
+                let state = window.state::<AppState>();
+                if let Ok(mut child_guard) = state.sidecar_child.lock() {
+                    if let Some(child) = child_guard.take() {
+                        let _ = child.kill();
+                        log::info!("Killed Graphiti sidecar child process");
+                    }
+                }
+            }
         })
         .invoke_handler(tauri::generate_handler![
             commands::capture_active_window,

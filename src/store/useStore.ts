@@ -341,7 +341,8 @@ export const useStore = create<AppState>((set, get) => ({
         persistSessions(sessions, s.activeSessionId);
         return { turns: active?.turns ?? s.turns, sessions };
       });
-      api.saveChatMemory(question, answer.text).catch(() => {});
+      const activeColl = get().selectedCollections[0];
+      api.saveChatMemory(question, answer.text, activeColl).catch(() => {});
       get().refreshSources();
     } catch (e) {
       set((s) => {
@@ -434,6 +435,11 @@ export const useStore = create<AppState>((set, get) => ({
         get().selectedCollections,
       );
       set({ councilResults: results });
+      const activeColl = get().selectedCollections[0];
+      for (const res of results) {
+        api.saveChatMemory(`${question} (${res.expert_name})`, res.answer.text, activeColl).catch(() => {});
+      }
+      get().refreshSources();
     } catch (e) {
       set({
         councilResults: [{
@@ -558,6 +564,13 @@ export const useStore = create<AppState>((set, get) => ({
         persistSessions(sessions, s.activeSessionId);
         return { compareResults: results, turns: active?.turns ?? s.turns, sessions };
       });
+      const activeColl = get().selectedCollections[0];
+      for (const res of results) {
+        if (!res.error) {
+          api.saveChatMemory(`${question} (${res.label})`, res.answer.text, activeColl).catch(() => {});
+        }
+      }
+      get().refreshSources();
     } catch (e) {
       set((s) => {
         const sessions = s.sessions.map((sess) =>

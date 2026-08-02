@@ -266,8 +266,8 @@ export const api = {
   listOllamaModels: () => invoke<string[]>("list_ollama_models"),
 
   // save a chat Q&A pair into the memory vault so conversations are searchable
-  saveChatMemory: (question: string, answer: string) =>
-    invoke<CaptureResult>("save_chat_memory", { question, answer }),
+  saveChatMemory: (question: string, answer: string, collectionId?: string) =>
+    invoke<CaptureResult>("save_chat_memory", { question, answer, collectionId: collectionId ?? null }),
 
   // manual graph node/edge creation
   createGraphNode: (name: string, nodeType: string, summary: string) =>

@@ -34,6 +34,7 @@ pub struct AppState {
     pub capture_running: Arc<AtomicBool>,
     /// Join handle for the capture loop thread (so Stop can join it).
     pub capture_thread: Mutex<Option<std::thread::JoinHandle<()>>>,
+    pub sidecar_child: Mutex<Option<tauri_plugin_shell::process::CommandChild>>,
 }
 
 // ── response types ────────────────────────────────────────────────────────────
@@ -222,6 +223,7 @@ pub(crate) fn persist_normalized(
     window_title: &str,
     url: Option<&str>,
     normalized: &str,
+    collection_id_override: Option<&str>,
 ) -> Result<CaptureResult, String> {
     if normalized.trim().is_empty() {
         return Err(
@@ -230,7 +232,9 @@ pub(crate) fn persist_normalized(
     }
     let chunks = chunk::chunk(normalized, 800, 80);
 
-    let collection_id = {
+    let collection_id = if let Some(cid) = collection_id_override {
+        cid.to_string()
+    } else {
         let s = state.settings.lock().unwrap();
         if s.active_collection_id.trim().is_empty() {
             vault::DEFAULT_COLLECTION_ID.to_string()
@@ -382,7 +386,7 @@ fn spawn_graphiti_ingest(
 pub fn perform_capture(state: &AppState) -> Result<CaptureResult, String> {
     let cap = read_foreground(state)?;
     let normalized = chunk::normalize(&cap.text);
-    persist_normalized(state, &cap.app, &cap.window_title, cap.url.as_deref(), &normalized)
+    persist_normalized(state, &cap.app, &cap.window_title, cap.url.as_deref(), &normalized, None)
 }
 
 #[tauri::command]
@@ -404,7 +408,7 @@ fn is_plain_text_ext(ext: &str) -> bool {
 
 /// Import a file from disk into the brain: extract text (locally for plain
 /// text, via the sidecar's parsers for pdf/docx), then run it through the
-/// normal capture pipeline (FTS + markdown mirror + graph ingest).
+/// normal pipeline (FTS + markdown mirror + graph ingest).
 #[tauri::command]
 pub async fn import_file(state: State<'_, AppState>, path: String) -> Result<CaptureResult, String> {
     let p = PathBuf::from(&path);
@@ -445,7 +449,7 @@ pub async fn import_file(state: State<'_, AppState>, path: String) -> Result<Cap
             "No text could be extracted from \"{filename}\" (scanned/image-only PDFs aren't supported yet)."
         ));
     }
-    persist_normalized(&state, "File upload", &filename, None, &normalized)
+    persist_normalized(&state, "File upload", &filename, None, &normalized, None)
 }
 
 /// Return the full captured text of a source (its markdown mirror file).
@@ -993,11 +997,12 @@ pub async fn save_chat_memory(
     state: State<'_, AppState>,
     question: String,
     answer: String,
+    collection_id: Option<String>,
 ) -> Result<CaptureResult, String> {
     let title = question.chars().take(80).collect::<String>();
     let content = format!("Q: {question}\n\nA: {answer}");
     let normalized = chunk::normalize(&content);
-    persist_normalized(&state, "Zev Chat", &title, None, &normalized)
+    persist_normalized(&state, "Zev Chat", &title, None, &normalized, collection_id.as_deref())
 }
 
 // ── export ──────────────────────────────────────────────────────────────────
