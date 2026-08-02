@@ -108,11 +108,13 @@ pub fn run() {
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::Destroyed = event {
                 let state = window.state::<AppState>();
-                if let Ok(mut child_guard) = state.sidecar_child.lock() {
-                    if let Some(child) = child_guard.take() {
-                        let _ = child.kill();
-                        log::info!("Killed Graphiti sidecar child process");
-                    }
+                let mut child_opt = None;
+                if let Ok(mut guard) = state.sidecar_child.lock() {
+                    child_opt = guard.take();
+                }
+                if let Some(child) = child_opt {
+                    let _ = child.kill();
+                    log::info!("Killed Graphiti sidecar child process");
                 }
             }
         })

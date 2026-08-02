@@ -211,6 +211,7 @@ pub fn run(app: AppHandle, running: Arc<AtomicBool>) {
                 &cap.window_title,
                 cap.url.as_deref(),
                 &normalized,
+                None,
             ) {
                 Ok(r) => {
                     sessions.insert(
