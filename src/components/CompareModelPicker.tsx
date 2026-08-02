@@ -12,8 +12,8 @@ const PROVIDER_COLORS: Record<string, string> = {
 
 const styles = {
   container: {
-    background: "rgba(255,255,255,0.03)",
-    border: "1px solid rgba(255,255,255,0.08)",
+    background: "var(--panel2)",
+    border: "1px solid var(--border)",
     borderRadius: 10,
     padding: 12,
     marginBottom: 8,
@@ -34,9 +34,9 @@ const styles = {
       borderRadius: 999,
       fontSize: 12,
       fontWeight: 500,
-      color: "#e2e8f0",
+      color: "var(--text)",
       background: `${PROVIDER_COLORS[provider] ?? "#6b7280"}22`,
-      border: `1px solid ${PROVIDER_COLORS[provider] ?? "#6b7280"}55`,
+      border: `1px solid ${PROVIDER_COLORS[provider] ?? "#6b7280"}88`,
     }) as React.CSSProperties,
   chipX: {
     cursor: "pointer",
@@ -44,6 +44,7 @@ const styles = {
     opacity: 0.6,
     fontSize: 14,
     lineHeight: 1,
+    color: "var(--text)",
   } as React.CSSProperties,
   addBtn: {
     display: "inline-flex",
@@ -53,9 +54,9 @@ const styles = {
     borderRadius: 999,
     fontSize: 12,
     fontWeight: 500,
-    color: "#94a3b8",
-    background: "rgba(255,255,255,0.04)",
-    border: "1px dashed rgba(255,255,255,0.15)",
+    color: "var(--muted)",
+    background: "transparent",
+    border: "1px dashed var(--border)",
     cursor: "pointer",
   } as React.CSSProperties,
   form: {
@@ -65,24 +66,24 @@ const styles = {
     marginTop: 8,
     padding: 10,
     borderRadius: 8,
-    background: "rgba(0,0,0,0.2)",
-    border: "1px solid rgba(255,255,255,0.06)",
+    background: "var(--panel)",
+    border: "1px solid var(--border)",
   } as React.CSSProperties,
   input: {
     padding: "6px 10px",
     borderRadius: 6,
-    border: "1px solid rgba(255,255,255,0.1)",
-    background: "rgba(0,0,0,0.3)",
-    color: "#e2e8f0",
+    border: "1px solid var(--border)",
+    background: "var(--input-bg)",
+    color: "var(--text)",
     fontSize: 13,
     outline: "none",
   } as React.CSSProperties,
   select: {
     padding: "6px 10px",
     borderRadius: 6,
-    border: "1px solid rgba(255,255,255,0.1)",
-    background: "rgba(0,0,0,0.3)",
-    color: "#e2e8f0",
+    border: "1px solid var(--border)",
+    background: "var(--input-bg)",
+    color: "var(--text)",
     fontSize: 13,
     outline: "none",
   } as React.CSSProperties,
@@ -99,7 +100,7 @@ const styles = {
   } as React.CSSProperties,
   note: {
     fontSize: 11,
-    color: "#64748b",
+    color: "var(--muted)",
     margin: 0,
   } as React.CSSProperties,
   dot: (color: string) =>
@@ -112,6 +113,7 @@ const styles = {
       flexShrink: 0,
     }) as React.CSSProperties,
 } as const;
+
 
 type FormProvider = "ollama" | "openrouter" | "byok";
 
