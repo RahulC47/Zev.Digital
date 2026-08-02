@@ -63,7 +63,7 @@ pub struct Citation {
     pub url: Option<String>,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 pub struct Answer {
     pub text: String,
     pub citations: Vec<Citation>,
