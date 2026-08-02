@@ -98,19 +98,24 @@ jobs:
         run: |
           ls src-tauri/binaries/ || dir src-tauri\binaries\
 
+      - name: Set macOS signing env
+        if: matrix.platform == 'macos-latest' && env.HAS_APPLE_CERT == 'true'
+        env:
+          HAS_APPLE_CERT: ${{ secrets.APPLE_CERTIFICATE != '' }}
+        run: |
+          echo "APPLE_CERTIFICATE=${{ secrets.APPLE_CERTIFICATE }}" >> $GITHUB_ENV
+          echo "APPLE_CERTIFICATE_PASSWORD=${{ secrets.APPLE_CERTIFICATE_PASSWORD }}" >> $GITHUB_ENV
+          echo "APPLE_SIGNING_IDENTITY=${{ secrets.APPLE_SIGNING_IDENTITY }}" >> $GITHUB_ENV
+          echo "APPLE_ID=${{ secrets.APPLE_ID }}" >> $GITHUB_ENV
+          echo "APPLE_PASSWORD=${{ secrets.APPLE_PASSWORD }}" >> $GITHUB_ENV
+          echo "APPLE_TEAM_ID=${{ secrets.APPLE_TEAM_ID }}" >> $GITHUB_ENV
+
       # Builds the app AND creates/updates a GitHub Release with the installers.
       # (Windows: .exe/.msi · macOS: .dmg · Linux: .AppImage/.deb)
       - name: Build + release
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # macOS code signing & notarization — only active when secrets are set.
-          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
-          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
           tagName: ${{ github.ref_name }}
           releaseName: "Zev.Digital ${{ github.ref_name }}"
@@ -118,3 +123,4 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
+
