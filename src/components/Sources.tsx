@@ -495,7 +495,7 @@ export function Sources() {
           </div>
 
           {/* Folders (collections) scoping + management + export */}
-          <CollectionsBar />
+          {tab === "list" && <CollectionsBar />}
 
           {/* Bulk-select action bar */}
           {selectedIds.size > 0 && (
