@@ -12,14 +12,12 @@
     Sleep 1500
   ${EndIf}
 
-  ; --- Force-kill main process (ExecWait = blocking, waits for taskkill to finish) ---
-  ExecWait 'taskkill /F /IM "Zev.Digital.exe"'
-
-  ; --- Force-kill the Python sidecar ---
-  ExecWait 'taskkill /F /IM "contxt-sidecar.exe"'
+  ; --- Force-kill process trees (ExecWait = blocking, waits for taskkill to finish) ---
+  ExecWait 'taskkill /F /T /IM "Zev.Digital.exe"'
+  ExecWait 'taskkill /F /T /IM "contxt-sidecar.exe"'
 
   ; --- Wait for the OS to fully release file handles ---
-  Sleep 3000
+  Sleep 2500
 !macroend
 
 !macro NSIS_HOOK_POSTINSTALL
