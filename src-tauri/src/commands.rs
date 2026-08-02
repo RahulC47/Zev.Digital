@@ -589,8 +589,9 @@ pub async fn ask(
             .collect::<Vec<_>>()
             .join("\n\n");
         let system = compose_system_prompt(
-            "Answer ONLY using the captured context from the specific sources the user selected. \
-             Cite the source name and time. If the answer is not in the context, say you don't have it in those sources.",
+            "Use the provided captured context (which contains your recent work or screen content) to answer the question. \
+             Integrate this context naturally. If the answer is not in the context, or if the question is a general query, \
+             answer using your general knowledge and research capabilities. Cite specific details from the context if used.",
             expert.as_ref(),
             &project_instructions,
             &settings.default_system_prompt,
@@ -644,8 +645,9 @@ pub async fn ask(
                     .join("\n\n");
 
                 let system = compose_system_prompt(
-                    "Answer using the knowledge graph facts and entities from the user's captured work. \
-                     Cite specific facts. If the answer is not in the context, say you don't have it in memory. Be concise.",
+                    "Use the knowledge graph facts and entities from the user's captured work to help answer the question. \
+                     If the answer is not in the context, or if the question is a general query, answer using your general \
+                     knowledge and research capabilities. Cite specific facts from the context if used.",
                     expert.as_ref(),
                     &project_instructions,
                     &settings.default_system_prompt,
@@ -705,12 +707,13 @@ pub async fn ask(
         .join("\n\n");
 
     let ctx_instr = if is_fallback {
-        "The user's question didn't match any specific captured text, so you are being shown the most \
-         recently captured items. Use this context to answer questions about what has been captured \
-         (app, window title, content preview). Be concise and helpful."
+        "Use the provided captured context (which contains recently captured screen content) to help answer the question. \
+         If the answer is not in the context, or if the question is a general query, answer using your general \
+         knowledge and research capabilities. Cite specific details from the context if used."
     } else {
-        "Answer ONLY using the captured work context provided. If the answer is not in the context, \
-         say you don't have it in memory. Be concise and specific."
+        "Use the provided captured context (which contains your recent work or screen content) to answer the question. \
+         Integrate this context naturally. If the answer is not in the context, or if the question is a general query, \
+         answer using your general knowledge and research capabilities. Cite specific details from the context if used."
     };
     let system = compose_system_prompt(ctx_instr, expert.as_ref(), &project_instructions, &settings.default_system_prompt);
     let user_prompt = format!("Captured context:\n{context}\n\nQuestion: {question}");
@@ -1305,13 +1308,14 @@ pub async fn ask_council(
         council_fts5_context(&state, &question, &collections)?
     };
 
-    if context.is_empty() {
-        return Ok(vec![]);
-    }
-
-    let user_prompt = format!("{ctx_label}:\n{context}\n\nQuestion: {question}");
-    let ctx_instr = "Answer using the provided context. Cite specific facts. \
-                     If the answer is not in the context, say so. Be concise and specific.";
+    let user_prompt = if context.is_empty() {
+        format!("Question: {question}")
+    } else {
+        format!("{ctx_label}:\n{context}\n\nQuestion: {question}")
+    };
+    let ctx_instr = "Use the provided captured context (recent work or screen content) to answer the question. \
+                     If the answer is not in the context, or if the question is a general query, answer using your general \
+                     knowledge and research capabilities. Cite specific facts from the context if used.";
 
     // Run LLM calls — sequential for Ollama (single-concurrency), parallel for cloud.
     let is_local = settings.chat_provider == crate::settings::ChatProvider::Ollama;
@@ -1437,14 +1441,16 @@ pub async fn ask_compare(
         council_fts5_context(&state, &question, &collections)?
     };
 
-    if context.is_empty() {
-        return Ok(vec![]);
-    }
+    let user_prompt = if context.is_empty() {
+        format!("Question: {question}")
+    } else {
+        format!("{ctx_label}:\n{context}\n\nQuestion: {question}")
+    };
 
-    let ctx_instr = "Answer using the provided context. Cite specific facts. \
-                     If the answer is not in the context, say so. Be concise and specific.";
+    let ctx_instr = "Use the provided captured context (recent work or screen content) to answer the question. \
+                     If the answer is not in the context, or if the question is a general query, answer using your general \
+                     knowledge and research capabilities. Cite specific facts from the context if used.";
     let system = compose_system_prompt(ctx_instr, expert.as_ref(), &project_instructions, &settings.default_system_prompt);
-    let user_prompt = format!("{ctx_label}:\n{context}\n\nQuestion: {question}");
 
     // ── Fan out to all models in parallel ─────────────────────────────────
     let mut handles = Vec::with_capacity(model_specs.len());
