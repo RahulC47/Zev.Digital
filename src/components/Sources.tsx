@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useStore } from "../store/useStore";
 import { api, type ChunkRow, type Source } from "../lib/api";
 import { GraphView } from "./GraphView";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { CollectionsBar } from "./CollectionsBar";
  
 const IS_WINDOWS = navigator.userAgent.includes("Windows");
@@ -583,7 +584,9 @@ export function Sources() {
                 Loading graph…
               </div>
             ) : graphData ? (
-              <GraphView data={graphData} />
+              <ErrorBoundary>
+                <GraphView data={graphData} />
+              </ErrorBoundary>
             ) : (
               <div className="flex h-full items-center justify-center text-sm" style={{ color: "var(--muted)" }}>
                 Knowledge graph unavailable. Make sure the sidecar is running.

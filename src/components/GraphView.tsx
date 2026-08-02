@@ -458,6 +458,7 @@ export function GraphView({ data }: Props) {
   // ── Canvas render callbacks ───────────────────────────────────────────────
 
   const nodeCanvasObject = useCallback((node: any, ctx: CanvasRenderingContext2D, scale: number) => {
+    if (node.x == null || node.y == null) return;
     const isSelected = selectedNodeIds.has(node.id);
     const isHovered = hoveredNode?.id === node.id;
     const isDimmed = dimmedNodeIds.has(node.id);
@@ -506,7 +507,8 @@ export function GraphView({ data }: Props) {
     const label = node.label || "";
     const showLabel = isSelected || isHovered || scale > 1.5;
     if (showLabel && label) {
-      const fs = Math.max(10, Math.min(14, 12 / scale));
+      const safeScale = Math.max(scale, 0.001);
+      const fs = Math.max(10, Math.min(14, 12 / safeScale));
       ctx.font = `${isSelected ? "600 " : ""}${fs}px -apple-system, system-ui, sans-serif`;
       ctx.fillStyle = labelColor;
       ctx.shadowColor = "rgba(0,0,0,0.8)";
@@ -525,10 +527,11 @@ export function GraphView({ data }: Props) {
 
     const theme = document.documentElement.dataset.theme;
     const lc = theme === "light" ? "rgba(80,90,120,0.25)" : "rgba(150,160,190,0.3)";
+    const safeScale = Math.max(scale, 0.001);
 
     // Draw link line
     ctx.strokeStyle = lc;
-    ctx.lineWidth = 1 / scale;
+    ctx.lineWidth = 1 / safeScale;
     ctx.beginPath();
     ctx.moveTo(src.x, src.y);
     ctx.lineTo(tgt.x, tgt.y);
@@ -541,9 +544,9 @@ export function GraphView({ data }: Props) {
     if (dist < 1) return;
     const ux = dx / dist, uy = dy / dist;
     const tgtR = nodeRadius(tgt.id || "");
-    const arrowX = tgt.x - ux * (tgtR + 4 / scale);
-    const arrowY = tgt.y - uy * (tgtR + 4 / scale);
-    const arrowLen = 6 / scale;
+    const arrowX = tgt.x - ux * (tgtR + 4 / safeScale);
+    const arrowY = tgt.y - uy * (tgtR + 4 / safeScale);
+    const arrowLen = 6 / safeScale;
     const arrowAngle = 0.45;
     ctx.fillStyle = lc;
     ctx.beginPath();
@@ -564,19 +567,19 @@ export function GraphView({ data }: Props) {
     if (name && scale > 1.2) {
       const midX = (src.x + tgt.x) / 2;
       const midY = (src.y + tgt.y) / 2;
-      const fs = Math.max(7, 10 / scale);
+      const fs = Math.max(7, 10 / safeScale);
       ctx.font = `${fs}px -apple-system, system-ui, sans-serif`;
       const textW = ctx.measureText(name).width;
 
       // Label background pill
       ctx.fillStyle = theme === "light" ? "rgba(241,245,249,0.9)" : "rgba(13,19,32,0.85)";
       ctx.beginPath();
-      const pad = 2 / scale;
+      const pad = 2 / safeScale;
       const rx = midX - textW / 2 - pad;
       const ry = midY - fs / 2 - pad;
       const rw = textW + pad * 2;
       const rh = fs + pad * 2;
-      const radVal = 3 / scale;
+      const radVal = 3 / safeScale;
       if (typeof (ctx as any).roundRect === "function") {
         (ctx as any).roundRect(rx, ry, rw, rh, radVal);
       } else {
