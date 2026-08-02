@@ -1,0 +1,687 @@
+﻿build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	∩╗┐2026-07-22T11:18:40.2574360Z ##[group]Run tauri-apps/tauri-action@v0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2604550Z with:
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2605090Z   tagName: v0.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2605420Z   releaseName: Zev.Digital v0.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2606350Z   releaseBody: See the assets below to download Zev.Digital for your OS.
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2607160Z   releaseDraft: true
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2608180Z   prerelease: false
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2608510Z   args: --target x86_64-apple-darwin
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2609810Z   projectPath: .
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2610320Z   includeDebug: false
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2610790Z   includeRelease: true
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2611450Z   includeUpdaterJson: true
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2612600Z   updaterJsonKeepUniversal: false
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2613600Z   isGitea: false
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2614160Z   uploadPlainBinary: false
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2614970Z   generateReleaseNotes: false
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2615480Z env:
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2616170Z   UV_PYTHON: 3.12
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2616810Z   VIRTUAL_ENV: /Users/runner/work/Zev.Digital/Zev.Digital/.venv
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2617460Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2617810Z   CARGO_HOME: /Users/runner/.cargo
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2618050Z   CARGO_INCREMENTAL: 0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2618290Z   CARGO_TERM_COLOR: always
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2618550Z   CACHE_ON_FAILURE: false
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2622010Z   GITHUB_TOKEN: ***
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:40.2622430Z ##[endgroup]
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:41.6164380Z running npm [ 'run', 'tauri', 'build', '--', '--target', 'x86_64-apple-darwin' ]
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:41.8742120Z 
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:41.8746070Z > zev-digital@0.1.0 tauri
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:41.8746580Z > tauri build --target x86_64-apple-darwin
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:41.8746920Z 
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:42.1766940Z         Info Looking up installed tauri packages to check mismatched versions...
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:42.6296470Z      Running beforeBuildCommand `npm run build`
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:42.8014280Z 
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:42.8116360Z > zev-digital@0.1.0 build
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:42.8215710Z > tsc && vite build
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:42.8316840Z 
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:45.6316860Z [36mvite v7.3.5 [32mbuilding client environment for production...[36m[39m
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:45.6838690Z transforming...
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.2637930Z [32mΓ£ô[39m 1085 modules transformed.
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4487140Z rendering chunks...
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4566240Z computing gzip size...
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4754910Z [2mdist/[22m[32mindex.html                 [39m[1m[2m  0.46 kB[22m[1m[22m[2m Γöé gzip:   0.29 kB[22m
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4764360Z [33m
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4765010Z [2mdist/[22m[2massets/[22m[35mindex-Dk3WXGem.css  [39m[1m[2m 24.86 kB[22m[1m[22m[2m Γöé gzip:   5.39 kB[22m
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4768670Z (!) Some chunks are larger than 500 kB after minification. Consider:
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4771640Z [2mdist/[22m[2massets/[22m[36mindex-WOx-msLV.js   [39m[1m[33m513.63 kB[39m[22m[2m Γöé gzip: 154.92 kB[22m
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4780610Z - Using dynamic import() to code-split the application
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4781290Z [32mΓ£ô built in 1.82s[39m
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4782140Z - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:47.4783140Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.0568910Z [1m[92m    Updating[0m crates.io index
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.8640850Z [1m[92m Downloading[0m crates ...
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9015770Z [1m[92m  Downloaded[0m adler2 v2.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9080030Z [1m[92m  Downloaded[0m alloc-no-stdlib v2.0.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9155920Z [1m[92m  Downloaded[0m alloc-stdlib v0.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9273800Z [1m[92m  Downloaded[0m atomic-waker v1.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9288670Z [1m[92m  Downloaded[0m ahash v0.8.12
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9308570Z [1m[92m  Downloaded[0m anyhow v1.0.102
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9762060Z [1m[92m  Downloaded[0m autocfg v1.5.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9812330Z [1m[92m  Downloaded[0m camino v1.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9936550Z [1m[92m  Downloaded[0m cargo-platform v0.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:48.9982320Z [1m[92m  Downloaded[0m cargo_metadata v0.19.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0017240Z [1m[92m  Downloaded[0m cargo_toml v0.22.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0085100Z [1m[92m  Downloaded[0m cc v1.2.63
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0142130Z [1m[92m  Downloaded[0m core-foundation v0.10.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0244290Z [1m[92m  Downloaded[0m core-graphics-types v0.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0305300Z [1m[92m  Downloaded[0m aho-corasick v1.1.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0481470Z [1m[92m  Downloaded[0m bit-set v0.8.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0677640Z [1m[92m  Downloaded[0m bitflags v1.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0856300Z [1m[92m  Downloaded[0m bitflags v2.13.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0957150Z [1m[92m  Downloaded[0m block-buffer v0.10.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.0959310Z [1m[92m  Downloaded[0m cfb v0.7.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1020830Z [1m[92m  Downloaded[0m cfg-if v1.0.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1046270Z [1m[92m  Downloaded[0m cfg_aliases v0.2.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1060700Z [1m[92m  Downloaded[0m base64 v0.22.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1125600Z [1m[92m  Downloaded[0m cookie v0.18.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1517970Z [1m[92m  Downloaded[0m core-foundation-sys v0.8.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1574030Z [1m[92m  Downloaded[0m crc32fast v1.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1603760Z [1m[92m  Downloaded[0m serialize-to-javascript-impl v0.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1614650Z [1m[92m  Downloaded[0m core-graphics v0.25.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1656650Z [1m[92m  Downloaded[0m cpufeatures v0.2.17
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1679830Z [1m[92m  Downloaded[0m scopeguard v1.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1702790Z [1m[92m  Downloaded[0m serde_spanned v1.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1725840Z [1m[92m  Downloaded[0m string_cache_codegen v0.6.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1736850Z [1m[92m  Downloaded[0m tauri-runtime v2.11.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1772650Z [1m[92m  Downloaded[0m tauri-winres v0.3.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.1857820Z [1m[92m  Downloaded[0m thiserror v1.0.69
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.2317900Z [1m[92m  Downloaded[0m thiserror-impl v2.0.18
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.2346180Z [1m[92m  Downloaded[0m time-macros v0.2.27
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.2393000Z [1m[92m  Downloaded[0m toml v0.9.12+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.2468920Z [1m[92m  Downloaded[0m tracing-attributes v0.1.31
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.2550650Z [1m[92m  Downloaded[0m try-lock v0.2.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.2573520Z [1m[92m  Downloaded[0m unic-char-property v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.2597850Z [1m[92m  Downloaded[0m unic-ucd-ident v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.2626980Z [1m[92m  Downloaded[0m utf-8 v0.7.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.2651010Z [1m[92m  Downloaded[0m chrono v0.4.45
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3083240Z [1m[92m  Downloaded[0m crossbeam-channel v0.5.15
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3168300Z [1m[92m  Downloaded[0m crossbeam-utils v0.8.21
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3230480Z [1m[92m  Downloaded[0m cssparser v0.36.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3273740Z [1m[92m  Downloaded[0m ctor-proc-macro v0.0.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3290070Z [1m[92m  Downloaded[0m darling_macro v0.23.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3302640Z [1m[92m  Downloaded[0m derive_more-impl v2.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3403260Z [1m[92m  Downloaded[0m digest v0.10.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3435140Z [1m[92m  Downloaded[0m dirs v6.0.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3454630Z [1m[92m  Downloaded[0m dirs-sys v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3850320Z [1m[92m  Downloaded[0m displaydoc v0.2.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3909490Z [1m[92m  Downloaded[0m dpi v0.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3926300Z [1m[92m  Downloaded[0m dtoa v1.0.11
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3955010Z [1m[92m  Downloaded[0m dtoa-short v0.3.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3973160Z [1m[92m  Downloaded[0m dunce v1.0.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.3988600Z [1m[92m  Downloaded[0m dyn-clone v1.0.20
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4019290Z [1m[92m  Downloaded[0m embed-resource v3.0.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4052170Z [1m[92m  Downloaded[0m fallible-iterator v0.3.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4074770Z [1m[92m  Downloaded[0m fallible-streaming-iterator v0.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4089170Z [1m[92m  Downloaded[0m fastrand v2.4.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4116660Z [1m[92m  Downloaded[0m find-msvc-tools v0.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4149050Z [1m[92m  Downloaded[0m foldhash v0.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4190600Z [1m[92m  Downloaded[0m form_urlencoded v1.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4208430Z [1m[92m  Downloaded[0m futures-core v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4288940Z [1m[92m  Downloaded[0m futures-sink v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4313100Z [1m[92m  Downloaded[0m getrandom v0.2.17
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4687270Z [1m[92m  Downloaded[0m heck v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4709640Z [1m[92m  Downloaded[0m schemars_derive v0.8.22
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4744730Z [1m[92m  Downloaded[0m selectors v0.36.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4798230Z [1m[92m  Downloaded[0m semver v1.0.28
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4840920Z [1m[92m  Downloaded[0m serde v1.0.228
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4906320Z [1m[92m  Downloaded[0m serde-untagged v0.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.4971620Z [1m[92m  Downloaded[0m signal-hook v0.3.18
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.5042720Z [1m[92m  Downloaded[0m socket2 v0.6.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.5082390Z [1m[92m  Downloaded[0m tauri v2.11.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.5696030Z [1m[92m  Downloaded[0m tauri-codegen v2.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.5791150Z [1m[92m  Downloaded[0m tauri-plugin-fs v2.5.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.5971960Z [1m[92m  Downloaded[0m thiserror v2.0.18
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.6178640Z [1m[92m  Downloaded[0m time-core v0.1.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.6197670Z [1m[92m  Downloaded[0m url v2.5.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.6271750Z [1m[92m  Downloaded[0m vcpkg v0.2.15
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8326610Z [1m[92m  Downloaded[0m quote v1.0.45
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8390150Z [1m[92m  Downloaded[0m base64 v0.21.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8469080Z [1m[92m  Downloaded[0m bit-vec v0.8.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8497990Z [1m[92m  Downloaded[0m block2 v0.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8592050Z [1m[92m  Downloaded[0m bs58 v0.5.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8617500Z [1m[92m  Downloaded[0m byteorder v1.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8652650Z [1m[92m  Downloaded[0m crypto-common v0.1.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8665500Z [1m[92m  Downloaded[0m cssparser-macros v0.6.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8680290Z [1m[92m  Downloaded[0m ctor v0.8.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8702810Z [1m[92m  Downloaded[0m darling_core v0.23.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8805700Z [1m[92m  Downloaded[0m deranged v0.5.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8832580Z [1m[92m  Downloaded[0m dispatch2 v0.3.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.8911900Z [1m[92m  Downloaded[0m dom_query v0.27.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9052270Z [1m[92m  Downloaded[0m dtor v0.3.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9119420Z [1m[92m  Downloaded[0m dtor-proc-macro v0.0.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9219460Z [1m[92m  Downloaded[0m equivalent v1.0.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9229480Z [1m[92m  Downloaded[0m errno v0.3.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9232320Z [1m[92m  Downloaded[0m fdeflate v0.3.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9260850Z [1m[92m  Downloaded[0m flate2 v1.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9384130Z [1m[92m  Downloaded[0m fnv v1.0.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9413900Z [1m[92m  Downloaded[0m foreign-types v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9432800Z [1m[92m  Downloaded[0m foreign-types-macros v0.2.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9452110Z [1m[92m  Downloaded[0m foreign-types-shared v0.3.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9475270Z [1m[92m  Downloaded[0m futures-io v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9496660Z [1m[92m  Downloaded[0m futures-macro v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9523480Z [1m[92m  Downloaded[0m futures-task v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9557430Z [1m[92m  Downloaded[0m generic-array v0.14.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9587650Z [1m[92m  Downloaded[0m getrandom v0.3.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9670370Z [1m[92m  Downloaded[0m glob v0.3.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9700750Z [1m[92m  Downloaded[0m hex v0.4.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9731590Z [1m[92m  Downloaded[0m http v1.4.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9826790Z [1m[92m  Downloaded[0m serde_json v1.0.150
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:49.9975300Z [1m[92m  Downloaded[0m serde_with_macros v3.21.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0010610Z [1m[92m  Downloaded[0m servo_arc v0.4.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0034090Z [1m[92m  Downloaded[0m sha2 v0.10.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0082160Z [1m[92m  Downloaded[0m shared_child v1.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0154550Z [1m[92m  Downloaded[0m sigchld v0.2.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0171210Z [1m[92m  Downloaded[0m signal-hook-registry v1.4.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0190220Z [1m[92m  Downloaded[0m siphasher v1.0.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0227780Z [1m[92m  Downloaded[0m slab v0.4.12
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0254950Z [1m[92m  Downloaded[0m smallvec v1.15.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0290900Z [1m[92m  Downloaded[0m strsim v0.11.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0313680Z [1m[92m  Downloaded[0m subtle v2.6.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0336490Z [1m[92m  Downloaded[0m sync_wrapper v1.0.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0352190Z [1m[92m  Downloaded[0m tao v0.35.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0596630Z [1m[92m  Downloaded[0m tauri-macros v2.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0626700Z [1m[92m  Downloaded[0m tauri-plugin v2.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0652440Z [1m[92m  Downloaded[0m tauri-plugin-dialog v2.7.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0761160Z [1m[92m  Downloaded[0m tauri-plugin-opener v2.5.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0834820Z [1m[92m  Downloaded[0m tendril v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0903980Z [1m[92m  Downloaded[0m thiserror-impl v1.0.69
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.0934790Z [1m[92m  Downloaded[0m time v0.3.47
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1184360Z [1m[92m  Downloaded[0m tinystr v0.8.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1260830Z [1m[92m  Downloaded[0m tower-layer v0.3.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1276780Z [1m[92m  Downloaded[0m ref-cast-impl v1.0.25
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1285550Z [1m[92m  Downloaded[0m yoke-derive v0.8.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1303470Z [1m[92m  Downloaded[0m zerofrom v0.1.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1321130Z [1m[92m  Downloaded[0m zerofrom-derive v0.1.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1335970Z [1m[92m  Downloaded[0m lock_api v0.4.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1361090Z [1m[92m  Downloaded[0m lru-slab v0.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1378930Z [1m[92m  Downloaded[0m markup5ever v0.38.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1402030Z [1m[92m  Downloaded[0m writeable v0.6.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1451360Z [1m[92m  Downloaded[0m http-body v1.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1489230Z [1m[92m  Downloaded[0m brotli-decompressor v5.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1642620Z [1m[92m  Downloaded[0m bytes v1.11.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1753720Z [1m[92m  Downloaded[0m darling v0.23.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.1888080Z [1m[92m  Downloaded[0m derive_more v2.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.2199710Z [1m[92m  Downloaded[0m embed_plist v1.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.2224240Z [1m[92m  Downloaded[0m erased-serde v0.4.10
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.2274390Z [1m[92m  Downloaded[0m futures-channel v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.2313510Z [1m[92m  Downloaded[0m futures-util v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.2631580Z [1m[92m  Downloaded[0m getrandom v0.4.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.2757480Z [1m[92m  Downloaded[0m hashlink v0.9.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.2798940Z [1m[92m  Downloaded[0m serde_urlencoded v0.7.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.2821450Z [1m[92m  Downloaded[0m serde_with v3.21.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3113450Z [1m[92m  Downloaded[0m serialize-to-javascript v0.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3134140Z [1m[92m  Downloaded[0m simd-adler32 v0.3.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3168790Z [1m[92m  Downloaded[0m stable_deref_trait v1.2.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3193670Z [1m[92m  Downloaded[0m swift-rs v1.0.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3233700Z [1m[92m  Downloaded[0m tauri-plugin-shell v2.3.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3314800Z [1m[92m  Downloaded[0m tauri-runtime-wry v2.11.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3363030Z [1m[92m  Downloaded[0m tinyvec_macros v0.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3413180Z [1m[92m  Downloaded[0m toml v1.1.2+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3509060Z [1m[92m  Downloaded[0m toml_datetime v0.7.5+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3533470Z [1m[92m  Downloaded[0m toml_writer v1.1.1+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3562900Z [1m[92m  Downloaded[0m tower-service v0.3.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3581420Z [1m[92m  Downloaded[0m typeid v1.0.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3603920Z [1m[92m  Downloaded[0m unic-common v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3612450Z [1m[92m  Downloaded[0m unicase v2.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3644600Z [1m[92m  Downloaded[0m utf8_iter v1.0.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3689820Z [1m[92m  Downloaded[0m version_check v0.9.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3729090Z [1m[92m  Downloaded[0m rfd v0.16.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3887380Z [1m[92m  Downloaded[0m yoke v0.8.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3924310Z [1m[92m  Downloaded[0m zeroize v1.8.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.3952950Z [1m[92m  Downloaded[0m zerotrie v0.2.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.4021180Z [1m[92m  Downloaded[0m keyboard-types v0.7.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.4064560Z [1m[92m  Downloaded[0m litemap v0.8.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.4107520Z [1m[92m  Downloaded[0m log v0.4.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.4150990Z [1m[92m  Downloaded[0m quinn v0.11.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.4565460Z [1m[92m  Downloaded[0m quinn-udp v0.5.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.4599480Z [1m[92m  Downloaded[0m same-file v1.0.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.4630960Z [1m[92m  Downloaded[0m schemars v0.8.22
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5117130Z [1m[92m  Downloaded[0m hashbrown v0.12.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5505190Z [1m[92m  Downloaded[0m hashbrown v0.14.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5583290Z [1m[92m  Downloaded[0m hashbrown v0.17.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5665370Z [1m[92m  Downloaded[0m html5ever v0.38.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5741200Z [1m[92m  Downloaded[0m serde_derive_internals v0.29.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5764110Z [1m[92m  Downloaded[0m serde_repr v0.1.20
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5797800Z [1m[92m  Downloaded[0m shlex v2.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5817790Z [1m[92m  Downloaded[0m string_cache v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5844090Z [1m[92m  Downloaded[0m synstructure v0.13.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.5864990Z [1m[92m  Downloaded[0m tokio-rustls v0.26.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.6198000Z [1m[92m  Downloaded[0m toml_parser v1.1.2+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.6246170Z [1m[92m  Downloaded[0m tower v0.5.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.6485870Z [1m[92m  Downloaded[0m tracing-core v0.1.36
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.6537470Z [1m[92m  Downloaded[0m unic-char-range v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.6567490Z [1m[92m  Downloaded[0m unic-ucd-version v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.6585270Z [1m[92m  Downloaded[0m unicode-ident v1.0.24
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.6973500Z [1m[92m  Downloaded[0m unicode-segmentation v1.13.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7018950Z [1m[92m  Downloaded[0m untrusted v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7063220Z [1m[92m  Downloaded[0m urlpattern v0.3.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7100980Z [1m[92m  Downloaded[0m uuid v1.23.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7161230Z [1m[92m  Downloaded[0m walkdir v2.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7208440Z [1m[92m  Downloaded[0m rusqlite v0.32.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7363340Z [1m[92m  Downloaded[0m zerovec v0.11.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7839110Z [1m[92m  Downloaded[0m pkg-config v0.3.33
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7887420Z [1m[92m  Downloaded[0m plist v1.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7965510Z [1m[92m  Downloaded[0m potential_utf v0.1.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.7986970Z [1m[92m  Downloaded[0m powerfmt v0.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8008990Z [1m[92m  Downloaded[0m ppv-lite86 v0.2.21
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8048160Z [1m[92m  Downloaded[0m precomputed-hash v0.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8065530Z [1m[92m  Downloaded[0m proc-macro2 v1.0.106
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8157690Z [1m[92m  Downloaded[0m rustc_version v0.4.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8186230Z [1m[92m  Downloaded[0m serde_core v1.0.228
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8241230Z [1m[92m  Downloaded[0m serde_derive v1.0.228
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8309700Z [1m[92m  Downloaded[0m tauri-build v2.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8674050Z [1m[92m  Downloaded[0m tinyvec v1.11.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8729410Z [1m[92m  Downloaded[0m toml_datetime v1.1.1+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.8761870Z [1m[92m  Downloaded[0m tray-icon v0.23.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.9110620Z [1m[92m  Downloaded[0m webpki-roots v1.0.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.9186140Z [1m[92m  Downloaded[0m wry v0.55.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.9332540Z [1m[92m  Downloaded[0m quick-xml v0.39.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.9460820Z [1m[92m  Downloaded[0m want v0.3.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.9478300Z [1m[92m  Downloaded[0m zerovec-derive v0.11.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.9517400Z [1m[92m  Downloaded[0m httparse v1.10.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.9933790Z [1m[92m  Downloaded[0m rand_chacha v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.9963720Z [1m[92m  Downloaded[0m rand_core v0.9.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:50.9989490Z [1m[92m  Downloaded[0m raw-window-handle v0.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.0032570Z [1m[92m  Downloaded[0m ref-cast v1.0.25
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.0108890Z [1m[92m  Downloaded[0m rustc-hash v2.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.0152910Z [1m[92m  Downloaded[0m rustls-pki-types v1.14.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.0246730Z [1m[92m  Downloaded[0m hyper-rustls v0.27.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.0275500Z [1m[92m  Downloaded[0m syn v2.0.117
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.1220130Z [1m[92m  Downloaded[0m tauri-utils v2.9.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.1313610Z [1m[92m  Downloaded[0m tower-http v0.6.11
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.1552980Z [1m[92m  Downloaded[0m typenum v1.20.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.1615490Z [1m[92m  Downloaded[0m quinn-proto v0.11.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.1772450Z [1m[92m  Downloaded[0m zmij v1.0.21
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.2078180Z [1m[92m  Downloaded[0m png v0.17.16
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.2166550Z [1m[92m  Downloaded[0m png v0.18.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.2352310Z [1m[92m  Downloaded[0m rand v0.9.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.2420880Z [1m[92m  Downloaded[0m rustls-webpki v0.103.13
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.2477770Z [1m[92m  Downloaded[0m ryu v1.0.23
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.2545720Z [1m[92m  Downloaded[0m hyper-util v0.1.20
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.3012260Z [1m[92m  Downloaded[0m iana-time-zone v0.1.65
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.3079080Z [1m[92m  Downloaded[0m ipnet v2.12.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.3115180Z [1m[92m  Downloaded[0m itoa v1.0.18
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.3137160Z [1m[92m  Downloaded[0m jsonptr v0.6.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.3200190Z [1m[92m  Downloaded[0m mime_guess v2.0.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.3269020Z [1m[92m  Downloaded[0m option-ext v0.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.3320930Z [1m[92m  Downloaded[0m zerocopy v0.8.50
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.4541260Z [1m[92m  Downloaded[0m web_atoms v0.2.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.4563710Z [1m[92m  Downloaded[0m http-body-util v0.1.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.4605140Z [1m[92m  Downloaded[0m regex v1.12.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5050640Z [1m[92m  Downloaded[0m icu_properties v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5093530Z [1m[92m  Downloaded[0m mime v0.3.17
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5124390Z [1m[92m  Downloaded[0m new_debug_unreachable v1.0.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5177550Z [1m[92m  Downloaded[0m num-conv v0.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5203730Z [1m[92m  Downloaded[0m objc2-encode v4.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5249750Z [1m[92m  Downloaded[0m objc2-exception-helper v0.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5281600Z [1m[92m  Downloaded[0m parking_lot_core v0.9.12
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5324250Z [1m[92m  Downloaded[0m pathdiff v0.2.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5338330Z [1m[92m  Downloaded[0m percent-encoding v2.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5361040Z [1m[92m  Downloaded[0m phf v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5384720Z [1m[92m  Downloaded[0m phf_codegen v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5408950Z [1m[92m  Downloaded[0m phf_generator v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5446270Z [1m[92m  Downloaded[0m phf_macros v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5464500Z [1m[92m  Downloaded[0m phf_shared v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.5478440Z [1m[92m  Downloaded[0m tracing v0.1.44
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.6158780Z [1m[92m  Downloaded[0m schemars v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.6573790Z [1m[92m  Downloaded[0m schemars v1.2.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.7337890Z [1m[92m  Downloaded[0m reqwest v0.12.28
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.7778550Z [1m[92m  Downloaded[0m json-patch v3.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.7833700Z [1m[92m  Downloaded[0m objc2-io-surface v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.7865660Z [1m[92m  Downloaded[0m open v5.3.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.7921910Z [1m[92m  Downloaded[0m os_pipe v1.2.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.7947160Z [1m[92m  Downloaded[0m parking_lot v0.12.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.7997260Z [1m[92m  Downloaded[0m pin-project-lite v0.2.17
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8105020Z [1m[92m  Downloaded[0m icu_normalizer_data v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8144150Z [1m[92m  Downloaded[0m ident_case v1.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8159330Z [1m[92m  Downloaded[0m idna_adapter v1.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8188240Z [1m[92m  Downloaded[0m num-traits v0.2.19
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8593130Z [1m[92m  Downloaded[0m once_cell v1.21.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8648740Z [1m[92m  Downloaded[0m hyper v1.10.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8798230Z [1m[92m  Downloaded[0m icu_provider v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8851660Z [1m[92m  Downloaded[0m infer v0.19.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8894710Z [1m[92m  Downloaded[0m miniz_oxide v0.8.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.8997320Z [1m[92m  Downloaded[0m muda v0.19.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.9167050Z [1m[92m  Downloaded[0m objc2-core-graphics v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.9607910Z [1m[92m  Downloaded[0m winnow v0.7.15
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:51.9848600Z [1m[92m  Downloaded[0m winnow v1.0.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.0413570Z [1m[92m  Downloaded[0m ico v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.0480920Z [1m[92m  Downloaded[0m icu_normalizer v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.0619280Z [1m[92m  Downloaded[0m indexmap v1.9.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.0680980Z [1m[92m  Downloaded[0m memchr v2.8.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.0797490Z [1m[92m  Downloaded[0m mio v1.2.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.1306050Z [1m[92m  Downloaded[0m icu_collections v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.1447800Z [1m[92m  Downloaded[0m icu_locale_core v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.1610430Z [1m[92m  Downloaded[0m indexmap v2.14.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.1739760Z [1m[92m  Downloaded[0m idna v1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.1825570Z [1m[92m  Downloaded[0m objc2-web-kit v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.2564240Z [1m[92m  Downloaded[0m regex-syntax v0.8.10
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.2699360Z [1m[92m  Downloaded[0m objc2-core-foundation v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.3367380Z [1m[92m  Downloaded[0m icu_properties_data v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.3699940Z [1m[92m  Downloaded[0m rustls v0.23.40
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.4370150Z [1m[92m  Downloaded[0m objc2 v0.6.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.4605830Z [1m[92m  Downloaded[0m objc2-foundation v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.5379270Z [1m[92m  Downloaded[0m brotli v8.0.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.5763200Z [1m[92m  Downloaded[0m regex-automata v0.4.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.6391410Z [1m[92m  Downloaded[0m libc v0.2.186
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:52.7805820Z [1m[92m  Downloaded[0m tokio v1.52.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:53.0039930Z [1m[92m  Downloaded[0m objc2-app-kit v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:53.1367870Z [1m[92m  Downloaded[0m window-vibrancy v0.6.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:53.1507060Z [1m[92m  Downloaded[0m encoding_rs v0.8.35
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:53.1882240Z [1m[92m  Downloaded[0m ring v0.17.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:53.4721470Z [1m[92m  Downloaded[0m libsqlite3-sys v0.30.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:53.8352740Z [1m[92m   Compiling[0m proc-macro2 v1.0.106
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:53.8353960Z [1m[92m   Compiling[0m unicode-ident v1.0.24
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:53.8354860Z [1m[92m   Compiling[0m quote v1.0.45
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:54.4901690Z [1m[92m   Compiling[0m libc v0.2.186
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:59.2278950Z [1m[92m   Compiling[0m serde_core v1.0.228
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:59.5117190Z [1m[92m   Compiling[0m find-msvc-tools v0.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:18:59.7558040Z [1m[92m   Compiling[0m shlex v2.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:00.2222230Z [1m[92m   Compiling[0m syn v2.0.117
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:00.2817630Z [1m[92m   Compiling[0m cc v1.2.63
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:01.8370030Z [1m[92m   Compiling[0m icu_normalizer_data v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:02.0559500Z [1m[92m   Compiling[0m icu_properties_data v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:02.8863500Z [1m[92m   Compiling[0m siphasher v1.0.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:03.0490610Z [1m[92m   Compiling[0m phf_shared v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:03.2354740Z [1m[92m   Compiling[0m zmij v1.0.21
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:03.5179090Z [1m[92m   Compiling[0m synstructure v0.13.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:04.0551040Z [1m[92m   Compiling[0m fastrand v2.4.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:04.1461130Z [1m[92m   Compiling[0m phf_generator v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:04.2562370Z [1m[92m   Compiling[0m stable_deref_trait v1.2.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:04.3192120Z [1m[92m   Compiling[0m cfg-if v1.0.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:04.5267490Z [1m[92m   Compiling[0m memchr v2.8.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:04.7470550Z [1m[92m   Compiling[0m serde v1.0.228
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:04.8947030Z [1m[92m   Compiling[0m smallvec v1.15.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:04.9484990Z [1m[92m   Compiling[0m zerofrom-derive v0.1.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:04.9782500Z [1m[92m   Compiling[0m yoke-derive v0.8.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:05.0519820Z [1m[92m   Compiling[0m serde_derive v1.0.228
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:05.8131620Z [1m[92m   Compiling[0m zerovec-derive v0.11.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:05.9958050Z [1m[92m   Compiling[0m displaydoc v0.2.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:07.0604670Z [1m[92m   Compiling[0m zerofrom v0.1.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:07.2790090Z [1m[92m   Compiling[0m yoke v0.8.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:07.3766120Z [1m[92m   Compiling[0m getrandom v0.4.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:07.5875500Z [1m[92m   Compiling[0m itoa v1.0.18
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:07.8506070Z [1m[92m   Compiling[0m zerovec v0.11.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:08.0773870Z [1m[92m   Compiling[0m phf_macros v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:09.2136680Z [1m[92m   Compiling[0m typeid v1.0.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:09.4961120Z [1m[92m   Compiling[0m num-conv v0.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:09.6339810Z [1m[92m   Compiling[0m time-core v0.1.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:09.7733480Z [1m[92m   Compiling[0m thiserror v2.0.18
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:09.7835610Z [1m[92m   Compiling[0m tinystr v0.8.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:09.9625020Z [1m[92m   Compiling[0m phf_codegen v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:10.1070600Z [1m[92m   Compiling[0m strsim v0.11.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:10.3867060Z [1m[92m   Compiling[0m litemap v0.8.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:10.4396860Z [1m[92m   Compiling[0m writeable v0.6.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:10.5144390Z [1m[92m   Compiling[0m erased-serde v0.4.10
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:10.6734160Z [1m[92m   Compiling[0m thiserror v1.0.69
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:10.7250190Z [1m[92m   Compiling[0m ident_case v1.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:10.8194380Z [1m[92m   Compiling[0m serde_json v1.0.150
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:10.8784130Z [1m[92m   Compiling[0m darling_core v0.23.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:11.1893330Z [1m[92m   Compiling[0m icu_locale_core v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:11.6428430Z [1m[92m   Compiling[0m potential_utf v0.1.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:11.8531980Z [1m[92m   Compiling[0m zerotrie v0.2.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:12.2277420Z [1m[92m   Compiling[0m thiserror-impl v2.0.18
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:12.7917050Z [1m[92m   Compiling[0m parking_lot_core v0.9.12
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:13.0636810Z [1m[92m   Compiling[0m autocfg v1.5.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:13.4198690Z [1m[92m   Compiling[0m utf8_iter v1.0.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:13.4796160Z [1m[92m   Compiling[0m icu_provider v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:13.5000650Z [1m[92m   Compiling[0m icu_collections v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:13.9160890Z [1m[92m   Compiling[0m thiserror-impl v1.0.69
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:14.0413710Z [1m[92m   Compiling[0m darling_macro v0.23.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:14.4193950Z [1m[92m   Compiling[0m anyhow v1.0.102
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:14.6653850Z [1m[92m   Compiling[0m new_debug_unreachable v1.0.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:14.6967740Z [1m[92m   Compiling[0m scopeguard v1.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:14.7478220Z [1m[92m   Compiling[0m lock_api v0.4.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:14.9484260Z [1m[92m   Compiling[0m darling v0.23.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:14.9845760Z [1m[92m   Compiling[0m phf v0.13.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:15.0082130Z [1m[92m   Compiling[0m string_cache_codegen v0.6.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:15.1202610Z [1m[92m   Compiling[0m precomputed-hash v0.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:15.1586240Z [1m[92m   Compiling[0m winnow v1.0.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:15.1688040Z [1m[92m   Compiling[0m parking_lot v0.12.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:15.4432010Z [1m[92m   Compiling[0m web_atoms v0.2.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:15.4936320Z [1m[92m   Compiling[0m toml_parser v1.1.2+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:15.4999820Z [1m[92m   Compiling[0m icu_properties v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:15.8240370Z [1m[92m   Compiling[0m serde_with_macros v3.21.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:15.9365470Z [1m[92m   Compiling[0m icu_normalizer v2.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.2584640Z [1m[92m   Compiling[0m serde_spanned v1.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.3557830Z [1m[92m   Compiling[0m toml_writer v1.1.1+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.3563670Z [1m[92m   Compiling[0m ctor-proc-macro v0.0.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.5192310Z [1m[92m   Compiling[0m idna_adapter v1.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.6285450Z [1m[92m   Compiling[0m string_cache v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.7492940Z [1m[92m   Compiling[0m semver v1.0.28
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.7583730Z [1m[92m   Compiling[0m dtoa v1.0.11
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.8283940Z [1m[92m   Compiling[0m log v0.4.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.9255760Z [1m[92m   Compiling[0m version_check v0.9.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.9426640Z [1m[92m   Compiling[0m percent-encoding v2.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:16.9658310Z [1m[92m   Compiling[0m utf-8 v0.7.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.0393790Z [1m[92m   Compiling[0m form_urlencoded v1.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.0646830Z [1m[92m   Compiling[0m tendril v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.2314630Z [1m[92m   Compiling[0m dtoa-short v0.3.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.2367420Z [1m[92m   Compiling[0m idna v1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.3250460Z [1m[92m   Compiling[0m uuid v1.23.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.6154490Z [1m[92m   Compiling[0m indexmap v1.9.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.6198000Z [1m[92m   Compiling[0m selectors v0.36.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.7723110Z [1m[92m   Compiling[0m derive_more-impl v2.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.7819940Z [1m[92m   Compiling[0m cssparser-macros v0.6.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:17.9101230Z [1m[92m   Compiling[0m aho-corasick v1.1.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:18.0825720Z [1m[92m   Compiling[0m toml_datetime v1.1.1+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:18.2680160Z [1m[92m   Compiling[0m byteorder v1.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:18.5216050Z [1m[92m   Compiling[0m regex-syntax v0.8.10
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:18.6559140Z [1m[92m   Compiling[0m unic-common v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:18.7196010Z [1m[92m   Compiling[0m powerfmt v0.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:18.8161950Z [1m[92m   Compiling[0m camino v1.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:19.0341610Z [1m[92m   Compiling[0m alloc-no-stdlib v2.0.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:19.1232980Z [1m[92m   Compiling[0m unic-char-range v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:19.1962140Z [1m[92m   Compiling[0m unic-char-property v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:19.2591900Z [1m[92m   Compiling[0m alloc-stdlib v0.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:19.3344470Z [1m[92m   Compiling[0m deranged v0.5.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:19.3773690Z [1m[92m   Compiling[0m unic-ucd-version v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:19.4374450Z [1m[92m   Compiling[0m derive_more v2.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:19.5113650Z [1m[92m   Compiling[0m toml v1.1.2+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:20.4413020Z [1m[92m   Compiling[0m regex-automata v0.4.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:20.8410770Z [1m[92m   Compiling[0m cssparser v0.36.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:21.0456410Z [1m[92m   Compiling[0m markup5ever v0.38.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:21.1872650Z [1m[92m   Compiling[0m url v2.5.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:21.4574600Z [1m[92m   Compiling[0m swift-rs v1.0.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:21.8814400Z [1m[92m   Compiling[0m bitflags v2.13.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:21.9238270Z [1m[92m   Compiling[0m servo_arc v0.4.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:22.0377880Z [1m[92m   Compiling[0m serde_derive_internals v0.29.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:22.3957410Z [1m[92m   Compiling[0m bit-vec v0.8.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:22.5299480Z [1m[92m   Compiling[0m rustc-hash v2.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:22.6041620Z [1m[92m   Compiling[0m hashbrown v0.17.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:22.6808580Z [1m[92m   Compiling[0m fnv v1.0.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:22.7282590Z [1m[92m   Compiling[0m hashbrown v0.12.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:22.8995470Z [1m[92m   Compiling[0m schemars v0.8.22
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:23.0599210Z [1m[92m   Compiling[0m equivalent v1.0.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:23.1011660Z [1m[92m   Compiling[0m indexmap v2.14.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:23.5392290Z [1m[92m   Compiling[0m cfb v0.7.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:23.7938270Z [1m[92m   Compiling[0m schemars_derive v0.8.22
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:24.2821230Z [1m[92m   Compiling[0m bit-set v0.8.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:24.3684510Z [1m[92m   Compiling[0m regex v1.12.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:24.8399760Z [1m[92m   Compiling[0m html5ever v0.38.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:25.0748550Z [1m[92m   Compiling[0m time v0.3.47
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:25.7194460Z [1m[92m   Compiling[0m unic-ucd-ident v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:25.8906270Z [1m[92m   Compiling[0m brotli-decompressor v5.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:26.7836920Z [1m[92m   Compiling[0m jsonptr v0.6.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:26.8134950Z [1m[92m   Compiling[0m cargo-platform v0.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:26.8279980Z [1m[92m   Compiling[0m quick-xml v0.39.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:27.0245190Z [1m[92m   Compiling[0m bytes v1.11.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:27.2360610Z [1m[92m   Compiling[0m base64 v0.22.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:27.6213430Z [1m[92m   Compiling[0m base64 v0.21.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:27.7283300Z [1m[92m   Compiling[0m dyn-clone v1.0.20
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:27.8349150Z [1m[92m   Compiling[0m dunce v1.0.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:27.8899140Z [1m[92m   Compiling[0m foldhash v0.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:27.9267400Z [1m[92m   Compiling[0m same-file v1.0.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:28.0248480Z [1m[92m   Compiling[0m dom_query v0.27.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:28.0441840Z [1m[92m   Compiling[0m walkdir v2.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:28.3472030Z [1m[92m   Compiling[0m http v1.4.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:29.1143890Z [1m[92m   Compiling[0m plist v1.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:29.3372920Z [1m[92m   Compiling[0m json-patch v3.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:29.4489550Z [1m[92m   Compiling[0m cargo_metadata v0.19.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:29.9181800Z [1m[92m   Compiling[0m brotli v8.0.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:30.0048350Z [1m[92m   Compiling[0m urlpattern v0.3.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:30.7211450Z [1m[92m   Compiling[0m serde-untagged v0.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:30.7529810Z [1m[92m   Compiling[0m infer v0.19.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:30.9196290Z [1m[92m   Compiling[0m ctor v0.8.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:30.9683060Z [1m[92m   Compiling[0m serde_with v3.21.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:31.0641640Z [1m[92m   Compiling[0m objc2-exception-helper v0.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:31.4174560Z [1m[92m   Compiling[0m glob v0.3.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:32.8407670Z [1m[92m   Compiling[0m tauri-utils v2.9.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:33.3809580Z [1m[92m   Compiling[0m once_cell v1.21.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:35.0534350Z [1m[92m   Compiling[0m objc2 v0.6.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:35.8467030Z [1m[92m   Compiling[0m objc2-encode v4.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:39.3324790Z [1m[92m   Compiling[0m crc32fast v1.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:41.8889050Z [1m[92m   Compiling[0m rustc_version v0.4.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:42.0961980Z [1m[92m   Compiling[0m toml_datetime v0.7.5+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:42.3628740Z [1m[92m   Compiling[0m winnow v0.7.15
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:43.4778670Z [1m[92m   Compiling[0m pin-project-lite v0.2.17
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:43.5382810Z [1m[92m   Compiling[0m option-ext v0.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:43.6413910Z [1m[92m   Compiling[0m dirs-sys v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:43.7223500Z [1m[92m   Compiling[0m embed-resource v3.0.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:43.9565570Z [1m[92m   Compiling[0m objc2-core-foundation v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:44.2137670Z [1m[92m   Compiling[0m toml v0.9.12+spec-1.1.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:44.8706820Z [1m[92m   Compiling[0m block2 v0.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:45.0991310Z [1m[92m   Compiling[0m heck v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:45.2109990Z [1m[92m   Compiling[0m objc2-foundation v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:45.2224470Z [1m[92m   Compiling[0m cargo_toml v0.22.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:47.2622280Z [1m[92m   Compiling[0m tauri-winres v0.3.6
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:47.4854220Z [1m[92m   Compiling[0m dirs v6.0.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:48.0315510Z [1m[92m   Compiling[0m tauri-build v2.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:48.8737790Z [1m[92m   Compiling[0m tauri-plugin v2.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:49.1250290Z [1m[92m   Compiling[0m objc2-app-kit v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:50.4029890Z [1m[92m   Compiling[0m generic-array v0.14.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:50.5745070Z [1m[92m   Compiling[0m mio v1.2.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:51.2910200Z [1m[92m   Compiling[0m socket2 v0.6.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:52.0862360Z [1m[92m   Compiling[0m tokio v1.52.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:55.9789120Z [1m[92m   Compiling[0m time-macros v0.2.27
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:56.5465830Z [1m[92m   Compiling[0m typenum v1.20.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:57.5223630Z [1m[92m   Compiling[0m core-foundation-sys v0.8.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:57.6174230Z [1m[92m   Compiling[0m simd-adler32 v0.3.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:19:58.2444830Z [1m[92m   Compiling[0m tauri v2.11.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:05.3407360Z [1m[92m   Compiling[0m crossbeam-utils v0.8.21
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:05.7973410Z [1m[92m   Compiling[0m raw-window-handle v0.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:06.1562270Z [1m[92m   Compiling[0m adler2 v2.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:06.2273380Z [1m[92m   Compiling[0m miniz_oxide v0.8.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:08.1333330Z [1m[92m   Compiling[0m dpi v0.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:08.5820330Z [1m[92m   Compiling[0m cookie v0.18.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:10.7661080Z [1m[92m   Compiling[0m futures-core v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:14.2274520Z [1m[92m   Compiling[0m flate2 v1.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:15.0886680Z [1m[92m   Compiling[0m crypto-common v0.1.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:15.1591570Z [1m[92m   Compiling[0m block-buffer v0.10.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:15.2612150Z [1m[92m   Compiling[0m fdeflate v0.3.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:15.6794380Z [1m[92m   Compiling[0m core-foundation v0.10.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:22.5524320Z [1m[92m   Compiling[0m foreign-types-macros v0.2.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:24.6134640Z [1m[92m   Compiling[0m foreign-types-shared v0.3.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:24.6912880Z [1m[92m   Compiling[0m bitflags v1.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:25.8736370Z [1m[92m   Compiling[0m png v0.17.16
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:26.9971170Z [1m[92m   Compiling[0m foreign-types v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:29.1937920Z [1m[92m   Compiling[0m core-graphics-types v0.2.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:29.2994180Z [1m[92m   Compiling[0m digest v0.10.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:30.6041650Z [1m[92m   Compiling[0m crossbeam-channel v0.5.15
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:35.7513940Z [1m[92m   Compiling[0m objc2-web-kit v0.3.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:36.0260450Z [1m[92m   Compiling[0m dispatch2 v0.3.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:36.8248250Z [1m[92m   Compiling[0m cpufeatures v0.2.17
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:36.9053040Z [1m[92m   Compiling[0m ring v0.17.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:38.1629690Z [1m[92m   Compiling[0m tauri-runtime v2.11.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:38.5625040Z [1m[92m   Compiling[0m wry v0.55.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:40.1351700Z [1m[92m   Compiling[0m sha2 v0.10.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:40.3125850Z [1m[92m   Compiling[0m core-graphics v0.25.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:41.6912210Z [1m[92m   Compiling[0m ico v0.5.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:43.6521070Z [1m[92m   Compiling[0m mime v0.3.17
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:44.2300490Z [1m[92m   Compiling[0m zeroize v1.8.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:44.4109540Z [1m[92m   Compiling[0m unicode-segmentation v1.13.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:44.9349270Z [1m[92m   Compiling[0m tauri-runtime-wry v2.11.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:45.1044250Z [1m[92m   Compiling[0m getrandom v0.3.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:45.3411330Z [1m[92m   Compiling[0m keyboard-types v0.7.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:46.1904510Z [1m[92m   Compiling[0m rustls-pki-types v1.14.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:47.4776700Z [1m[92m   Compiling[0m png v0.18.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:50.9511990Z [1m[92m   Compiling[0m tauri-codegen v2.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:53.4267590Z [1m[92m   Compiling[0m tao v0.35.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:55.1118570Z [1m[92m   Compiling[0m http-body v1.0.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:55.2419190Z [1m[92m   Compiling[0m getrandom v0.2.17
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:55.4281110Z [1m[92m   Compiling[0m serialize-to-javascript-impl v0.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:55.9658990Z [1m[92m   Compiling[0m untrusted v0.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:56.0834790Z [1m[92m   Compiling[0m httparse v1.10.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:56.3095080Z [1m[92m   Compiling[0m futures-task v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:56.3942450Z [1m[92m   Compiling[0m zerocopy v0.8.50
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:56.6448770Z [1m[92m   Compiling[0m slab v0.4.12
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:56.7646810Z [1m[92m   Compiling[0m futures-util v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:20:59.3515870Z [1m[92m   Compiling[0m serialize-to-javascript v0.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:01.3011630Z [1m[92m   Compiling[0m tauri-macros v2.6.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:03.8273000Z [1m[92m   Compiling[0m muda v0.19.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:05.1480270Z [1m[92m   Compiling[0m window-vibrancy v0.6.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:05.4308590Z [1m[92m   Compiling[0m tauri-plugin-fs v2.5.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:06.4179670Z [1m[92m   Compiling[0m ahash v0.8.12
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:06.6903810Z [1m[92m   Compiling[0m serde_repr v0.1.20
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:07.1333340Z [1m[92m   Compiling[0m errno v0.3.14
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:07.2458880Z [1m[92m   Compiling[0m rustls v0.23.40
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:07.3988870Z [1m[92m   Compiling[0m embed_plist v1.2.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:07.4503140Z [1m[92m   Compiling[0m signal-hook v0.3.18
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:07.6195380Z [1m[92m   Compiling[0m try-lock v0.2.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:07.6798080Z [1m[92m   Compiling[0m tower-service v0.3.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:09.9381140Z [1m[92m   Compiling[0m want v0.3.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:10.0625600Z [1m[92m   Compiling[0m signal-hook-registry v1.4.8
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:10.5557890Z [1m[92m   Compiling[0m rustls-webpki v0.103.13
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:16.9715140Z [1m[92m   Compiling[0m futures-channel v0.3.32
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:17.1760500Z [1m[92m   Compiling[0m tracing-core v0.1.36
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:18.3392110Z [1m[92m   Compiling[0m atomic-waker v1.1.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:18.4298550Z [1m[92m   Compiling[0m pkg-config v0.3.33
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:19.0849460Z [1m[92m   Compiling[0m unicase v2.9.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:19.2386440Z [1m[92m   Compiling[0m vcpkg v0.2.15
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:19.7599670Z [1m[92m   Compiling[0m subtle v2.6.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:27.6244460Z [1m[92m   Compiling[0m libsqlite3-sys v0.30.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:28.4528540Z [1m[92m   Compiling[0m mime_guess v2.0.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:29.1321610Z [1m[92m   Compiling[0m hyper v1.10.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:30.7222500Z [1m[92m   Compiling[0m tracing v0.1.44
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:31.7243670Z [1m[92m   Compiling[0m sync_wrapper v1.0.2
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:31.8875100Z [1m[92m   Compiling[0m tauri-plugin-opener v2.5.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:34.0750840Z [1m[92m   Compiling[0m tauri-plugin-shell v2.3.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:35.1547180Z [1m[92m   Compiling[0m tauri-plugin-dialog v2.7.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:35.2557200Z [1m[92m   Compiling[0m num-traits v0.2.19
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:35.6020320Z [1m[92m   Compiling[0m os_pipe v1.2.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:35.7994280Z [1m[92m   Compiling[0m pathdiff v0.2.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:35.8098370Z [1m[92m   Compiling[0m ipnet v2.12.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:35.8836150Z [1m[92m   Compiling[0m tower-layer v0.3.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:36.1364310Z [1m[92m   Compiling[0m rfd v0.16.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:36.3451260Z [1m[92m   Compiling[0m hyper-util v0.1.20
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:37.2182780Z [1m[92m   Compiling[0m tower v0.5.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:37.7536470Z [1m[92m   Compiling[0m open v5.3.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:37.9469070Z [1m[92m   Compiling[0m sigchld v0.2.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:38.4320420Z [1m[92m   Compiling[0m hashbrown v0.14.5
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:39.7302400Z [1m[92m   Compiling[0m tokio-rustls v0.26.4
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:39.9923470Z [1m[92m   Compiling[0m webpki-roots v1.0.7
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:40.0507790Z [1m[92m   Compiling[0m ryu v1.0.23
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:41.2210210Z [1m[92m   Compiling[0m serde_urlencoded v0.7.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:41.4420850Z [1m[92m   Compiling[0m hyper-rustls v0.27.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:41.9129230Z [1m[92m   Compiling[0m hashlink v0.9.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:43.2134780Z [1m[92m   Compiling[0m shared_child v1.1.1
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:43.4576400Z [1m[92m   Compiling[0m tower-http v0.6.11
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:47.2717270Z [1m[92m   Compiling[0m http-body-util v0.1.3
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:47.4543550Z [1m[92m   Compiling[0m iana-time-zone v0.1.65
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:47.5750090Z [1m[92m   Compiling[0m zev-digital v0.1.0 (/Users/runner/work/Zev.Digital/Zev.Digital/src-tauri)
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:47.9667330Z [1m[92m   Compiling[0m encoding_rs v0.8.35
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.4286540Z [1m[92m   Compiling[0m fallible-iterator v0.3.0
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.7100080Z [1m[92m   Compiling[0m fallible-streaming-iterator v0.1.9
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.9080660Z [1m[91merror[0m: failed to run custom build command for `zev-digital v0.1.0 (/Users/runner/work/Zev.Digital/Zev.Digital/src-tauri)`
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.9183770Z 
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.9293640Z Caused by:
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.9405580Z   process didn't exit successfully: `/Users/runner/work/Zev.Digital/Zev.Digital/src-tauri/target/release/build/zev-digital-9527d57f0f1010ec/build-script-build` (exit status: 1)
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.9529300Z   --- stdout
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.9652560Z   cargo:rerun-if-env-changed=TAURI_CONFIG
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.9776610Z   cargo:rustc-check-cfg=cfg(desktop)
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:48.9900130Z   cargo:rustc-cfg=desktop
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0001440Z   cargo:rustc-check-cfg=cfg(mobile)
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0002120Z   cargo:rerun-if-changed=/Users/runner/work/Zev.Digital/Zev.Digital/src-tauri/tauri.conf.json
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0002860Z   cargo:rustc-env=TAURI_ANDROID_PACKAGE_NAME_APP_NAME=desktop
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0003410Z   cargo:rustc-env=TAURI_ANDROID_PACKAGE_NAME_PREFIX=com_zevdigital
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0003980Z   cargo:rustc-check-cfg=cfg(dev)
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0005520Z   cargo:PERMISSION_FILES_PATH=/Users/runner/work/Zev.Digital/Zev.Digital/src-tauri/target/x86_64-apple-darwin/release/build/zev-digital-e7539ec918c9dee9/out/app-manifest/__app__-permission-files
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0006430Z   cargo:rerun-if-changed=capabilities
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0006900Z   cargo:rerun-if-env-changed=REMOVE_UNUSED_COMMANDS
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0007380Z   cargo:rustc-env=TAURI_ENV_TARGET_TRIPLE=x86_64-apple-darwin
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0008010Z   resource path `binaries/contxt-sidecar-x86_64-apple-darwin` doesn't exist
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:21:49.0009110Z [1m[33mwarning[0m: build failed, waiting for other jobs to finish...
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:22:11.3439290Z failed to build app: failed to build app
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:22:11.3691120Z        Error failed to build app: failed to build app
+build (macos-latest, x86_64-apple-darwin, --target x86_64-apple-darwin)	Build + release	2026-07-22T11:22:11.4384630Z ##[error]Command "npm ["run","tauri","build","--","--target","x86_64-apple-darwin"]" failed with exit code 1

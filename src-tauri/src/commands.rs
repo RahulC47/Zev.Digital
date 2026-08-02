@@ -4,7 +4,7 @@ use crate::capture::CaptureProvider;
 use crate::chunk;
 use crate::graphiti;
 use crate::langfuse;
-use crate::llm::{ChatResult, Health, Llm};
+use crate::llm::{ChatResult, Health, Llm, ModelSpec};
 use crate::settings::Settings;
 use crate::vault::{self, Expert, LlmTrace, Retrieved, SourceMeta};
 use chrono::Utc;
@@ -75,6 +75,16 @@ pub struct CouncilResponse {
     pub expert_name: String,
     pub expert_icon: String,
     pub answer: Answer,
+}
+
+#[derive(Serialize, Clone)]
+pub struct CompareResponse {
+    pub label: String,
+    pub provider: String,
+    pub model: String,
+    pub answer: Answer,
+    pub latency_ms: u64,
+    pub error: Option<String>,
 }
 
 #[derive(Serialize)]
@@ -1334,6 +1344,145 @@ pub async fn ask_council(
         // For local models, we run sequentially (already the case in the loop).
         // For cloud, we could parallelize but keep it simple for now.
         let _ = is_local;
+    }
+
+    Ok(responses)
+}
+
+#[tauri::command]
+pub async fn ask_compare(
+    state: State<'_, AppState>,
+    question: String,
+    model_specs: Vec<ModelSpec>,
+    collections: Option<Vec<String>>,
+    source_ids: Option<Vec<String>>,
+    expert_id: Option<String>,
+) -> Result<Vec<CompareResponse>, String> {
+    if model_specs.is_empty() {
+        return Err("No models selected for comparison.".into());
+    }
+
+    let settings = snapshot_settings(&state);
+    let collections = collections.unwrap_or_default();
+    let source_ids = source_ids.unwrap_or_default();
+
+    // Load expert if specified.
+    let expert: Option<Expert> = expert_id.and_then(|eid| {
+        let conn = state.db.lock().unwrap();
+        vault::get_expert(&conn, &eid).ok().flatten()
+    });
+    let temperature = expert.as_ref().and_then(|e| e.temperature);
+
+    // Load project instructions when a single collection is in scope.
+    let project_instructions = if collections.len() == 1 {
+        let conn = state.db.lock().unwrap();
+        vault::get_collection_instructions(&conn, &collections[0]).unwrap_or_default()
+    } else {
+        String::new()
+    };
+
+    // ── Retrieve context ONCE (shared across all model calls) ────────────
+    let (context, citations, ctx_label) = if !source_ids.is_empty() {
+        // Source-pinned path
+        let pinned: std::collections::HashSet<String> = source_ids.into_iter().collect();
+        let retrieved = {
+            let conn = state.db.lock().unwrap();
+            let mut hits = vault::search(&conn, &question, TOP_K * 3).map_err(estr)?;
+            hits.retain(|h| pinned.contains(&h.source_id));
+            hits.truncate(TOP_K);
+            if hits.is_empty() {
+                let mut recent = vault::recent_context(&conn, TOP_K * 3).map_err(estr)?;
+                recent.retain(|r| pinned.contains(&r.source_id));
+                recent.truncate(TOP_K);
+                recent
+            } else {
+                hits
+            }
+        };
+        let ctx = retrieved.iter().enumerate().map(|(i, r)| {
+            format!("[{}] {} — {} ({})\n{}", i + 1, r.app, r.window_title, r.captured_at, r.snippet)
+        }).collect::<Vec<_>>().join("\n\n");
+        let cits: Vec<Citation> = retrieved.into_iter().map(|r| Citation {
+            source_id: r.source_id, app: r.app, window_title: r.window_title,
+            captured_at: r.captured_at, snippet: truncate(&r.snippet, 240),
+            score: r.score, url: r.url,
+        }).collect();
+        (ctx, cits, "Captured context")
+    } else if is_sidecar_ready(&state) {
+        if let Ok(results) = graphiti::search(state.sidecar_port, &question, TOP_K, &collections).await {
+            if !results.is_empty() {
+                let ctx = results.iter().enumerate().map(|(i, r)| {
+                    let ent = if r.entities.is_empty() { String::new() }
+                    else { format!("\nEntities: {}", r.entities.join(", ")) };
+                    format!("[{}] {} ({}){}\n{}", i + 1, r.name, r.valid_at, ent, r.fact)
+                }).collect::<Vec<_>>().join("\n\n");
+                let cits: Vec<Citation> = results.into_iter().map(|r| Citation {
+                    source_id: String::new(), app: String::new(),
+                    window_title: r.name, captured_at: r.valid_at,
+                    snippet: truncate(&r.fact, 240), score: 0.0, url: None,
+                }).collect();
+                (ctx, cits, "Knowledge graph context")
+            } else {
+                council_fts5_context(&state, &question, &collections)?
+            }
+        } else {
+            council_fts5_context(&state, &question, &collections)?
+        }
+    } else {
+        council_fts5_context(&state, &question, &collections)?
+    };
+
+    if context.is_empty() {
+        return Ok(vec![]);
+    }
+
+    let ctx_instr = "Answer using the provided context. Cite specific facts. \
+                     If the answer is not in the context, say so. Be concise and specific.";
+    let system = compose_system_prompt(ctx_instr, expert.as_ref(), &project_instructions, &settings.default_system_prompt);
+    let user_prompt = format!("{ctx_label}:\n{context}\n\nQuestion: {question}");
+
+    // ── Fan out to all models in parallel ─────────────────────────────────
+    let mut handles = Vec::with_capacity(model_specs.len());
+    for spec in &model_specs {
+        let llm = Llm::from_model_spec(spec);
+        let sys = system.clone();
+        let up = user_prompt.clone();
+        let temp = temperature;
+        let label = spec.label.clone().unwrap_or_else(|| format!("{}/{}", spec.provider, spec.model));
+        let provider = spec.provider.clone();
+        let model = spec.model.clone();
+        let cits = citations.clone();
+        handles.push(tauri::async_runtime::spawn(async move {
+            let t0 = std::time::Instant::now();
+            let result = llm.chat(&sys, &up, temp).await;
+            let latency_ms = t0.elapsed().as_millis() as u64;
+            match result {
+                Ok(cr) => CompareResponse {
+                    label,
+                    provider,
+                    model,
+                    answer: Answer { text: cr.text, citations: cits },
+                    latency_ms,
+                    error: None,
+                },
+                Err(e) => CompareResponse {
+                    label,
+                    provider,
+                    model,
+                    answer: Answer { text: String::new(), citations: vec![] },
+                    latency_ms,
+                    error: Some(e.to_string()),
+                },
+            }
+        }));
+    }
+
+    let mut responses = Vec::with_capacity(handles.len());
+    for h in handles {
+        match h.await {
+            Ok(r) => responses.push(r),
+            Err(e) => log::warn!("Compare task join error: {e}"),
+        }
     }
 
     Ok(responses)

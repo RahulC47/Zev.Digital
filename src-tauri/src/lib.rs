@@ -145,6 +145,7 @@ pub fn run() {
             commands::delete_expert,
             commands::set_collection_instructions,
             commands::ask_council,
+            commands::ask_compare,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

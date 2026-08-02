@@ -4,6 +4,8 @@ import { useStore } from "../store/useStore";
 import { type Citation } from "../lib/api";
 import { Orb } from "./Orb";
 import { ChatHistory } from "./ChatHistory";
+import CompareModelPicker from "./CompareModelPicker";
+import CompareResults from "./CompareResults";
 
 function CitationCard({ c }: { c: Citation }) {
   return (
@@ -58,6 +60,14 @@ export function Chat() {
   const councilResults = useStore((s) => s.councilResults);
   const askCouncil = useStore((s) => s.askCouncil);
 
+  // Compare mode state
+  const compareMode = useStore((s) => s.compareMode);
+  const toggleCompareMode = useStore((s) => s.toggleCompareMode);
+  const compareModels = useStore((s) => s.compareModels);
+  const compareResults = useStore((s) => s.compareResults);
+  const comparing = useStore((s) => s.comparing);
+  const askCompare = useStore((s) => s.askCompare);
+
   const [input, setInput] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerFilter, setPickerFilter] = useState("");
@@ -95,7 +105,10 @@ export function Chat() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (councilMode && councilExperts.length > 0) {
+    if (!input.trim()) return;
+    if (compareMode && compareModels.length >= 2) {
+      askCompare(input);
+    } else if (councilMode && councilExperts.length > 0) {
       askCouncil(input);
     } else {
       ask(input);
@@ -173,16 +186,25 @@ export function Chat() {
                 >
                   {t.role === "assistant" ? (
                     <div className="space-y-3">
-                      <div
-                        className="whitespace-pre-wrap text-sm"
-                        style={{ color: t.error ? "var(--danger)" : "var(--text)" }}
-                      >
-                        {t.pending ? (
-                          <span style={{ color: "var(--muted)" }}>Thinking…</span>
-                        ) : (
-                          t.text
-                        )}
-                      </div>
+                      {/* Compare results — shown inline in history */}
+                      {t.text === "__compare__" ? (
+                        <CompareResults
+                          results={compareResults}
+                          comparing={comparing}
+                          modelCount={compareModels.length}
+                        />
+                      ) : (
+                        <div
+                          className="whitespace-pre-wrap text-sm"
+                          style={{ color: t.error ? "var(--danger)" : "var(--text)" }}
+                        >
+                          {t.pending ? (
+                            <span style={{ color: "var(--muted)" }}>Thinking…</span>
+                          ) : (
+                            t.text
+                          )}
+                        </div>
+                      )}
                       {t.answer && t.answer.citations.length > 0 && (
                         <div className="space-y-2">
                           <div
@@ -205,6 +227,14 @@ export function Chat() {
                 </div>
               </div>
             ))}
+            {/* Live compare results when comparing and no turn yet */}
+            {comparing && (
+              <CompareResults
+                results={compareResults}
+                comparing={comparing}
+                modelCount={compareModels.length}
+              />
+            )}
             <div ref={endRef} />
           </div>
         )}
@@ -470,6 +500,22 @@ export function Chat() {
             👥 Council
           </button>
 
+          {/* Compare mode toggle */}
+          <button
+            type="button"
+            onClick={toggleCompareMode}
+            className="rounded-lg px-2.5 py-1 text-xs transition"
+            style={{
+              background: compareMode ? "rgba(34,197,94,0.12)" : "transparent",
+              border: `1px solid ${compareMode ? "#22c55e" : "var(--border)"}`,
+              color: compareMode ? "#22c55e" : "var(--muted)",
+              cursor: "pointer",
+            }}
+            title="Compare mode: ask multiple models at once and compare answers"
+          >
+            ⚖️ Compare
+          </button>
+
           {councilMode && (
             <div className="flex flex-1 flex-wrap items-center gap-1">
               {experts.map((ex) => {
@@ -498,6 +544,18 @@ export function Chat() {
             </div>
           )}
         </div>
+
+        {/* ── Compare model picker (shown when compare mode active) ────── */}
+        {compareMode && (
+          <div className="mx-auto mb-2 max-w-2xl">
+            <CompareModelPicker />
+            {compareModels.length < 2 && (
+              <p className="mt-1 text-center text-[11px]" style={{ color: "var(--muted)" }}>
+                Add at least 2 models to compare
+              </p>
+            )}
+          </div>
+        )}
 
         {/* ── Council results (stacked cards) ──────────────────────────── */}
         {councilResults && councilResults.length > 0 && (
@@ -591,11 +649,14 @@ export function Chat() {
           />
           <button
             type="submit"
-            disabled={asking || !input.trim()}
+            disabled={(comparing || asking) || !input.trim() || (compareMode && compareModels.length < 2)}
             className="rounded-xl px-4 py-2.5 text-sm font-medium text-white transition disabled:opacity-50"
-            style={{ background: "var(--accent)", border: "none" }}
+            style={{
+              background: compareMode ? "#22c55e" : "var(--accent)",
+              border: "none",
+            }}
           >
-            {asking ? "…" : "Ask"}
+            {comparing ? "…" : compareMode ? "Compare" : asking ? "…" : "Ask"}
           </button>
         </div>
       </form>

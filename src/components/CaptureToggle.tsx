@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useStore } from "../store/useStore";
 
+const IS_WINDOWS = navigator.userAgent.includes("Windows");
+
 /**
  * Start/Stop pill for the background continuous-capture loop.
  * Sits next to the manual CaptureButton in the header.
@@ -13,6 +15,8 @@ export function CaptureToggle() {
   useEffect(() => {
     refresh();
   }, [refresh]);
+
+  if (!IS_WINDOWS) return null;
 
   return (
     <button

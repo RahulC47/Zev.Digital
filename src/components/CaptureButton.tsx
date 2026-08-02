@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useStore } from "../store/useStore";
 
 const COUNTDOWN_FROM = 3;
+const IS_WINDOWS = navigator.userAgent.includes("Windows");
 
 export function CaptureButton() {
   const capture = useStore((s) => s.capture);
@@ -14,6 +15,8 @@ export function CaptureButton() {
       if (timer.current) window.clearInterval(timer.current);
     };
   }, []);
+
+  if (!IS_WINDOWS) return null;
 
   const start = () => {
     if (count !== null || capturing) return;

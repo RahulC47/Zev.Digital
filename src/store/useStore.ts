@@ -3,11 +3,13 @@ import {
   api,
   type Answer,
   type Collection,
+  type CompareResponse,
   type CouncilResponse,
   type Expert,
   type GraphData,
   type GraphitiHealth,
   type LlmHealth,
+  type ModelSpec,
   type Settings,
   type Source,
 } from "../lib/api";
@@ -82,6 +84,17 @@ interface AppState {
   setCouncilExperts: (ids: string[]) => void;
   councilResults: CouncilResponse[] | null;
   askCouncil: (question: string) => Promise<void>;
+
+  // compare mode
+  compareMode: boolean;
+  compareModels: ModelSpec[];
+  compareResults: CompareResponse[];
+  comparing: boolean;
+  toggleCompareMode: () => void;
+  addCompareModel: (spec: ModelSpec) => void;
+  removeCompareModel: (index: number) => void;
+  setCompareModels: (models: ModelSpec[]) => void;
+  askCompare: (question: string) => Promise<void>;
 
   // orb
   orbState: OrbState;
@@ -432,6 +445,139 @@ export const useStore = create<AppState>((set, get) => ({
       });
     } finally {
       set({ asking: false, orbState: "idle" });
+    }
+  },
+
+  // ── compare mode ──────────────────────────────────────────────────────────
+  compareMode: false,
+  compareModels: [],
+  compareResults: [],
+  comparing: false,
+  toggleCompareMode: () => {
+    set((s) => {
+      const next = !s.compareMode;
+      if (next && s.compareModels.length === 0) {
+        // auto-fill from current settings
+        const settings = s.settings;
+        const models: ModelSpec[] = [];
+        if (settings) {
+          if (settings.chat_provider === "ollama") {
+            models.push({
+              provider: "ollama",
+              model: settings.ollama_chat_model,
+              base_url: settings.ollama_url,
+              label: "Ollama · " + settings.ollama_chat_model,
+            });
+          }
+          if (settings.openrouter_api_key) {
+            models.push({
+              provider: "openrouter",
+              model: settings.openrouter_model,
+              api_key: settings.openrouter_api_key,
+              label: "OpenRouter · " + settings.openrouter_model,
+            });
+          }
+          for (const p of settings.custom_api_profiles) {
+            models.push({
+              provider: "byok",
+              model: p.model,
+              base_url: p.base_url,
+              api_key: p.api_key,
+              label: p.name + " · " + p.model,
+            });
+          }
+        }
+        return { compareMode: next, compareModels: models };
+      }
+      return { compareMode: next };
+    });
+  },
+  addCompareModel: (spec) => set((s) => ({ compareModels: [...s.compareModels, spec] })),
+  removeCompareModel: (index) => set((s) => ({ compareModels: s.compareModels.filter((_, i) => i !== index) })),
+  setCompareModels: (models) => set({ compareModels: models }),
+  askCompare: async (question) => {
+    if (!question.trim() || get().comparing) return;
+    const models = get().compareModels;
+    if (models.length === 0) return;
+
+    const userTurn: ChatTurn = { id: uid(), role: "user", text: question };
+    const assistantId = uid();
+    const sessionId = get().activeSessionId;
+
+    set((s) => {
+      const sessions = s.sessions.map((sess) => {
+        if (sess.id !== sessionId) return sess;
+        const turns = [
+          ...sess.turns,
+          userTurn,
+          { id: assistantId, role: "assistant" as const, text: "", pending: true },
+        ];
+        return {
+          ...sess,
+          turns,
+          title: sess.turns.length === 0 ? deriveTitle(question) : sess.title,
+          updatedAt: Date.now(),
+        };
+      });
+      const active = sessions.find((x) => x.id === s.activeSessionId);
+      return {
+        comparing: true,
+        orbState: "thinking" as OrbState,
+        turns: active?.turns ?? s.turns,
+        sessions,
+        compareResults: [],
+      };
+    });
+
+    try {
+      const pinned = get().pinnedSourceIds;
+      const expertId = get().activeExpertId;
+      const results = await api.askCompare(
+        question,
+        models,
+        get().selectedCollections,
+        pinned.length > 0 ? pinned : undefined,
+        expertId ?? undefined,
+      );
+      set((s) => {
+        const assistantText = "__compare__";
+        const sessions = s.sessions.map((sess) =>
+          sess.id === sessionId
+            ? {
+                ...sess,
+                turns: sess.turns.map((t) =>
+                  t.id === assistantId
+                    ? { ...t, text: assistantText, pending: false }
+                    : t,
+                ),
+                updatedAt: Date.now(),
+              }
+            : sess,
+        );
+        const active = sessions.find((x) => x.id === s.activeSessionId);
+        persistSessions(sessions, s.activeSessionId);
+        return { compareResults: results, turns: active?.turns ?? s.turns, sessions };
+      });
+    } catch (e) {
+      set((s) => {
+        const sessions = s.sessions.map((sess) =>
+          sess.id === sessionId
+            ? {
+                ...sess,
+                turns: sess.turns.map((t) =>
+                  t.id === assistantId
+                    ? { ...t, text: String(e), pending: false, error: true }
+                    : t,
+                ),
+              }
+            : sess,
+        );
+        const active = sessions.find((x) => x.id === s.activeSessionId);
+        persistSessions(sessions, s.activeSessionId);
+        return { turns: active?.turns ?? s.turns, sessions };
+      });
+    } finally {
+      set({ comparing: false, orbState: "idle" });
     }
   },
 

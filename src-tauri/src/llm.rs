@@ -31,6 +31,16 @@ enum Backend {
     Byok { base: String, key: String, provider_name: &'static str },
 }
 
+/// A single model configuration for multi-model compare mode.
+#[derive(serde::Deserialize, Clone, Debug)]
+pub struct ModelSpec {
+    pub provider: String,
+    pub model: String,
+    pub base_url: Option<String>,
+    pub api_key: Option<String>,
+    pub label: Option<String>,
+}
+
 pub struct Llm {
     http: reqwest::Client,
     backend: Backend,
@@ -68,6 +78,41 @@ impl Llm {
                     provider_name: "byok",
                 },
                 chat_model: s.byok_chat_model.clone(),
+            },
+        }
+    }
+
+    /// Build an Llm from an explicit model spec (for multi-model compare).
+    pub fn from_model_spec(spec: &ModelSpec) -> Self {
+        let http = reqwest::Client::builder()
+            .timeout(std::time::Duration::from_secs(120))
+            .build()
+            .unwrap_or_default();
+        match spec.provider.as_str() {
+            "ollama" => Llm {
+                http,
+                backend: Backend::Ollama {
+                    url: spec.base_url.as_deref().unwrap_or("http://localhost:11434").trim_end_matches('/').to_string(),
+                },
+                chat_model: spec.model.clone(),
+            },
+            "openrouter" => Llm {
+                http,
+                backend: Backend::Byok {
+                    base: crate::settings::OPENROUTER_BASE_URL.to_string(),
+                    key: spec.api_key.clone().unwrap_or_default(),
+                    provider_name: "openrouter",
+                },
+                chat_model: spec.model.clone(),
+            },
+            _ => Llm {
+                http,
+                backend: Backend::Byok {
+                    base: spec.base_url.as_deref().unwrap_or("").trim_end_matches('/').to_string(),
+                    key: spec.api_key.clone().unwrap_or_default(),
+                    provider_name: "byok",
+                },
+                chat_model: spec.model.clone(),
             },
         }
     }

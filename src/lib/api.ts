@@ -177,6 +177,24 @@ export interface CouncilResponse {
   answer: Answer;
 }
 
+/** A model configuration for multi-model compare mode. */
+export interface ModelSpec {
+  provider: ChatProvider;
+  model: string;
+  base_url?: string;
+  api_key?: string;
+  label?: string;
+}
+
+export interface CompareResponse {
+  label: string;
+  provider: string;
+  model: string;
+  answer: Answer;
+  latency_ms: number;
+  error?: string;
+}
+
 export const api = {
   captureActiveWindow: () => invoke<CaptureResult>("capture_active_window"),
   ask: (question: string, collections?: string[], sourceIds?: string[], expertId?: string) =>
@@ -282,6 +300,16 @@ export const api = {
       question,
       expertIds,
       collections: collections ?? null,
+    }),
+
+  // multi-model compare
+  askCompare: (question: string, modelSpecs: ModelSpec[], collections?: string[], sourceIds?: string[], expertId?: string) =>
+    invoke<CompareResponse[]>("ask_compare", {
+      question,
+      modelSpecs,
+      collections: collections ?? null,
+      sourceIds: sourceIds && sourceIds.length > 0 ? sourceIds : null,
+      expertId: expertId ?? null,
     }),
 
   // collection instructions
