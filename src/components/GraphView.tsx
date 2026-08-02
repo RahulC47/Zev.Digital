@@ -572,7 +572,16 @@ export function GraphView({ data }: Props) {
       ctx.fillStyle = theme === "light" ? "rgba(241,245,249,0.9)" : "rgba(13,19,32,0.85)";
       ctx.beginPath();
       const pad = 2 / scale;
-      ctx.roundRect(midX - textW / 2 - pad, midY - fs / 2 - pad, textW + pad * 2, fs + pad * 2, 3 / scale);
+      const rx = midX - textW / 2 - pad;
+      const ry = midY - fs / 2 - pad;
+      const rw = textW + pad * 2;
+      const rh = fs + pad * 2;
+      const radVal = 3 / scale;
+      if (typeof (ctx as any).roundRect === "function") {
+        (ctx as any).roundRect(rx, ry, rw, rh, radVal);
+      } else {
+        ctx.rect(rx, ry, rw, rh);
+      }
       ctx.fill();
 
       ctx.fillStyle = theme === "light" ? "rgba(100,116,139,0.9)" : "rgba(139,147,167,0.9)";
