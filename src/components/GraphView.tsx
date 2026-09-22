@@ -35,6 +35,7 @@ export function GraphView({ data }: Props) {
   const fgRef = useRef<any>(null);
   const minimapRef = useRef<HTMLCanvasElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const lastClickRef = useRef<{ nodeId: string; time: number } | null>(null);
   const [size, setSize] = useState({ w: 700, h: 600 });
   const [graphBg, setGraphBg] = useState("var(--bg)");
   const [labelColor, setLabelColor] = useState("#cdd3e0");
@@ -769,6 +770,16 @@ export function GraphView({ data }: Props) {
               d3AlphaDecay={0.02}
               onNodeClick={(node: any, event: MouseEvent) => {
                 if (drag.current?.active) return;
+                const now = Date.now();
+                if (lastClickRef.current && lastClickRef.current.nodeId === node.id && now - lastClickRef.current.time < 350) {
+                  setDetailNode(node);
+                  setSelectedNodeIds(new Set([node.id]));
+                  setTimeout(() => zoomToNode(node), 100);
+                  lastClickRef.current = null;
+                  return;
+                }
+                lastClickRef.current = { nodeId: node.id, time: now };
+
                 setDetailNode(null);
                 setSelectedNodeIds((prev) => {
                   const next = new Set(prev);
@@ -780,11 +791,6 @@ export function GraphView({ data }: Props) {
                   }
                   return next;
                 });
-              }}
-              onNodeDblClick={(node: any) => {
-                setDetailNode(node);
-                setSelectedNodeIds(new Set([node.id]));
-                setTimeout(() => zoomToNode(node), 100);
               }}
               onNodeRightClick={(node: any, event: MouseEvent) => {
                 event.preventDefault();
