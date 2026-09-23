@@ -4,8 +4,6 @@ import { useStore } from "../store/useStore";
 import { type Citation } from "../lib/api";
 import { Orb } from "./Orb";
 import { ChatHistory } from "./ChatHistory";
-import CompareModelPicker from "./CompareModelPicker";
-import CompareResults from "./CompareResults";
 
 function CitationCard({ c }: { c: Citation }) {
   return (
@@ -49,34 +47,11 @@ export function Chat() {
   const graphContext = useStore((s) => s.graphContext);
   const setGraphContext = useStore((s) => s.setGraphContext);
 
-  // Expert state
-  const experts = useStore((s) => s.experts);
-  const activeExpertId = useStore((s) => s.activeExpertId);
-  const setActiveExpert = useStore((s) => s.setActiveExpert);
-  const councilMode = useStore((s) => s.councilMode);
-  const toggleCouncilMode = useStore((s) => s.toggleCouncilMode);
-  const councilExperts = useStore((s) => s.councilExperts);
-  const setCouncilExperts = useStore((s) => s.setCouncilExperts);
-  const councilResults = useStore((s) => s.councilResults);
-  const askCouncil = useStore((s) => s.askCouncil);
-
-  // Compare mode state
-  const compareMode = useStore((s) => s.compareMode);
-  const toggleCompareMode = useStore((s) => s.toggleCompareMode);
-  const compareModels = useStore((s) => s.compareModels);
-  const compareResults = useStore((s) => s.compareResults);
-  const comparing = useStore((s) => s.comparing);
-  const askCompare = useStore((s) => s.askCompare);
-
   const [input, setInput] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerFilter, setPickerFilter] = useState("");
-  const [expertPickerOpen, setExpertPickerOpen] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
-  const expertPickerRef = useRef<HTMLDivElement>(null);
-
-  const activeExpert = experts.find((e) => e.id === activeExpertId);
 
   const scopeLabel =
     selected.length === 0
@@ -95,9 +70,6 @@ export function Chat() {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
         setPickerOpen(false);
       }
-      if (expertPickerRef.current && !expertPickerRef.current.contains(e.target as Node)) {
-        setExpertPickerOpen(false);
-      }
     };
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
@@ -106,13 +78,7 @@ export function Chat() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
-    if (compareMode && compareModels.length >= 2) {
-      askCompare(input);
-    } else if (councilMode && councilExperts.length > 0) {
-      askCouncil(input);
-    } else {
-      ask(input);
-    }
+    ask(input);
     setInput("");
   };
 
@@ -186,25 +152,16 @@ export function Chat() {
                 >
                   {t.role === "assistant" ? (
                     <div className="space-y-3">
-                      {/* Compare results — shown inline in history */}
-                      {t.text === "__compare__" ? (
-                        <CompareResults
-                          results={compareResults}
-                          comparing={comparing}
-                          modelCount={compareModels.length}
-                        />
-                      ) : (
-                        <div
-                          className="whitespace-pre-wrap text-sm"
-                          style={{ color: t.error ? "var(--danger)" : "var(--text)" }}
-                        >
-                          {t.pending ? (
-                            <span style={{ color: "var(--muted)" }}>Thinking…</span>
-                          ) : (
-                            t.text
-                          )}
-                        </div>
-                      )}
+                      <div
+                        className="whitespace-pre-wrap text-sm"
+                        style={{ color: t.error ? "var(--danger)" : "var(--text)" }}
+                      >
+                        {t.pending ? (
+                          <span style={{ color: "var(--muted)" }}>Thinking…</span>
+                        ) : (
+                          t.text
+                        )}
+                      </div>
                       {t.answer && t.answer.citations.length > 0 && (
                         <div className="space-y-2">
                           <div
@@ -227,14 +184,6 @@ export function Chat() {
                 </div>
               </div>
             ))}
-            {/* Live compare results when comparing and no turn yet */}
-            {comparing && (
-              <CompareResults
-                results={compareResults}
-                comparing={comparing}
-                modelCount={compareModels.length}
-              />
-            )}
             <div ref={endRef} />
           </div>
         )}
@@ -416,185 +365,6 @@ export function Chat() {
           </div>
         )}
 
-        {/* ── Expert picker row ──────────────────────────────────────────── */}
-        <div className="mx-auto mb-1.5 flex max-w-2xl items-center gap-2">
-          <div ref={expertPickerRef} className="relative">
-            <button
-              type="button"
-              onClick={() => setExpertPickerOpen((o) => !o)}
-              className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs transition"
-              style={{
-                background: activeExpertId ? "rgba(91,140,255,0.12)" : "var(--panel2)",
-                border: `1px solid ${activeExpertId ? "var(--accent)" : "var(--border)"}`,
-                color: activeExpertId ? "var(--accent)" : "var(--muted)",
-                cursor: "pointer",
-              }}
-            >
-              <span>{activeExpert?.icon ?? "🧠"}</span>
-              <span>{activeExpert?.name ?? "Zev (default)"}</span>
-              <span style={{ fontSize: 10 }}>▾</span>
-            </button>
-
-            {expertPickerOpen && (
-              <div
-                className="absolute bottom-full left-0 z-50 mb-1 w-56 overflow-hidden rounded-lg shadow-lg"
-                style={{ background: "var(--panel)", border: "1px solid var(--border)" }}
-              >
-                <button
-                  onClick={() => { setActiveExpert(null); setExpertPickerOpen(false); }}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs transition"
-                  style={{
-                    background: !activeExpertId ? "rgba(91,140,255,0.1)" : "transparent",
-                    border: "none",
-                    color: !activeExpertId ? "var(--accent)" : "var(--text)",
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={(e) => { if (activeExpertId) e.currentTarget.style.background = "var(--hover)"; }}
-                  onMouseLeave={(e) => { if (activeExpertId) e.currentTarget.style.background = "transparent"; }}
-                >
-                  <span>🧠</span> Zev (default)
-                </button>
-                {experts.length > 0 && (
-                  <div className="px-3 py-1 text-[10px] uppercase tracking-wide" style={{ color: "var(--muted)", borderTop: "1px solid var(--border)" }}>
-                    Experts
-                  </div>
-                )}
-                <ul className="max-h-48 overflow-y-auto">
-                  {experts.map((ex) => (
-                    <li key={ex.id}>
-                      <button
-                        onClick={() => { setActiveExpert(ex.id); setExpertPickerOpen(false); }}
-                        className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs transition"
-                        style={{
-                          background: activeExpertId === ex.id ? "rgba(91,140,255,0.1)" : "transparent",
-                          border: "none",
-                          color: activeExpertId === ex.id ? "var(--accent)" : "var(--text)",
-                          cursor: "pointer",
-                        }}
-                        onMouseEnter={(e) => { if (activeExpertId !== ex.id) e.currentTarget.style.background = "var(--hover)"; }}
-                        onMouseLeave={(e) => { if (activeExpertId !== ex.id) e.currentTarget.style.background = "transparent"; }}
-                      >
-                        <span>{ex.icon}</span>
-                        <span className="truncate">{ex.name}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Council mode toggle */}
-          <button
-            type="button"
-            onClick={toggleCouncilMode}
-            className="rounded-lg px-2.5 py-1 text-xs transition"
-            style={{
-              background: councilMode ? "rgba(91,140,255,0.12)" : "transparent",
-              border: `1px solid ${councilMode ? "var(--accent)" : "var(--border)"}`,
-              color: councilMode ? "var(--accent)" : "var(--muted)",
-              cursor: "pointer",
-            }}
-            title="Council mode: get answers from multiple experts"
-          >
-            👥 Council
-          </button>
-
-          {/* Compare mode toggle */}
-          <button
-            type="button"
-            onClick={toggleCompareMode}
-            className="rounded-lg px-2.5 py-1 text-xs transition"
-            style={{
-              background: compareMode ? "rgba(34,197,94,0.12)" : "transparent",
-              border: `1px solid ${compareMode ? "#22c55e" : "var(--border)"}`,
-              color: compareMode ? "#22c55e" : "var(--muted)",
-              cursor: "pointer",
-            }}
-            title="Compare mode: ask multiple models at once and compare answers"
-          >
-            ⚖️ Compare
-          </button>
-
-          {councilMode && (
-            <div className="flex flex-1 flex-wrap items-center gap-1">
-              {experts.map((ex) => {
-                const on = councilExperts.includes(ex.id);
-                return (
-                  <button
-                    key={ex.id}
-                    type="button"
-                    onClick={() => {
-                      setCouncilExperts(
-                        on ? councilExperts.filter((id) => id !== ex.id) : [...councilExperts, ex.id],
-                      );
-                    }}
-                    className="rounded-full px-2 py-0.5 text-[11px] transition"
-                    style={{
-                      background: on ? "rgba(91,140,255,0.15)" : "var(--panel2)",
-                      border: `1px solid ${on ? "var(--accent)" : "var(--border)"}`,
-                      color: on ? "var(--accent)" : "var(--muted)",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {ex.icon} {ex.name}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* ── Compare model picker (shown when compare mode active) ────── */}
-        {compareMode && (
-          <div className="mx-auto mb-2 max-w-2xl">
-            <CompareModelPicker />
-            {compareModels.length < 2 && (
-              <p className="mt-1 text-center text-[11px]" style={{ color: "var(--muted)" }}>
-                Add at least 2 models to compare
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* ── Council results (stacked cards) ──────────────────────────── */}
-        {councilResults && councilResults.length > 0 && (
-          <div className="mx-auto mb-2 max-w-2xl space-y-3">
-            <div className="text-[11px] font-medium uppercase tracking-wide" style={{ color: "var(--muted)" }}>
-              Council Responses
-            </div>
-            {councilResults.map((cr) => (
-              <div
-                key={cr.expert_id}
-                className="rounded-xl p-4"
-                style={{ background: "var(--panel2)", border: "1px solid var(--border)" }}
-              >
-                <div className="mb-2 flex items-center gap-2">
-                  <span className="text-lg">{cr.expert_icon}</span>
-                  <span className="text-sm font-medium" style={{ color: "var(--text)" }}>
-                    {cr.expert_name}
-                  </span>
-                </div>
-                <div className="whitespace-pre-wrap text-sm" style={{ color: cr.expert_id === "error" ? "var(--danger)" : "var(--text)" }}>
-                  {cr.answer.text}
-                </div>
-                {cr.answer.citations.length > 0 && (
-                  <div className="mt-3 space-y-2">
-                    <div className="text-[10px] font-medium uppercase tracking-wide" style={{ color: "var(--muted)" }}>
-                      Sources
-                    </div>
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      {cr.answer.citations.map((c, i) => (
-                        <CitationCard key={i} c={c} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
         {/* ── Input row ─────────────────────────────────────────────────── */}
         <div className="mx-auto flex max-w-2xl items-center gap-2">
           {/* File upload */}
@@ -649,14 +419,14 @@ export function Chat() {
           />
           <button
             type="submit"
-            disabled={(comparing || asking) || !input.trim() || (compareMode && compareModels.length < 2)}
+            disabled={asking || !input.trim()}
             className="rounded-xl px-4 py-2.5 text-sm font-medium text-white transition disabled:opacity-50"
             style={{
-              background: compareMode ? "#22c55e" : "var(--accent)",
+              background: "var(--accent)",
               border: "none",
             }}
           >
-            {comparing ? "…" : compareMode ? "Compare" : asking ? "…" : "Ask"}
+            {asking ? "…" : "Ask"}
           </button>
         </div>
       </form>
