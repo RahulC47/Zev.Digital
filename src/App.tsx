@@ -3,10 +3,11 @@ import { listen } from "@tauri-apps/api/event";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
 import { useStore, type View } from "./store/useStore";
 import { Chat } from "./components/Chat";
-import { Experts } from "./components/Experts";
 import { Sources } from "./components/Sources";
 import { Settings } from "./components/Settings";
 import { Traces } from "./components/Traces";
+import { GraphView } from "./components/GraphView";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { HealthPill } from "./components/HealthPill";
 import { CaptureButton } from "./components/CaptureButton";
 import { CaptureToggle } from "./components/CaptureToggle";
@@ -16,9 +17,9 @@ import type { CaptureResult } from "./lib/api";
 import { ProviderSelector } from "./components/ProviderSelector";
 
 const NAV: { id: View; label: string; icon: string }[] = [
+  { id: "graph", label: "Memory", icon: "🧠" },
   { id: "chat", label: "Ask", icon: "💬" },
-  { id: "experts", label: "Experts", icon: "🧠" },
-  { id: "sources", label: "Memory", icon: "🗄️" },
+  { id: "sources", label: "Sources", icon: "🗄️" },
   { id: "traces", label: "Traces", icon: "📊" },
   { id: "settings", label: "Settings", icon: "⚙️" },
 ] as const;
@@ -32,10 +33,12 @@ function App() {
   const refreshHealth = useStore((s) => s.refreshHealth);
   const refreshGraphitiHealth = useStore((s) => s.refreshGraphitiHealth);
   const refreshCaptureLoopStatus = useStore((s) => s.refreshCaptureLoopStatus);
-  const refreshExperts = useStore((s) => s.refreshExperts);
   const onAutoCapture = useStore((s) => s.onAutoCapture);
   const loadSettings = useStore((s) => s.loadSettings);
   const importFiles = useStore((s) => s.importFiles);
+  const graphData = useStore((s) => s.graphData);
+  const graphLoading = useStore((s) => s.graphLoading);
+  const refreshGraph = useStore((s) => s.refreshGraph);
   const [dragOver, setDragOver] = useState(false);
 
   useEffect(() => {
@@ -43,7 +46,6 @@ function App() {
     refreshHealth();
     loadSettings();
     refreshCaptureLoopStatus();
-    refreshExperts();
     // Check graphiti after a short delay (sidecar takes time to warm up).
     const timer = setTimeout(refreshGraphitiHealth, 5000);
     // Live updates from the background capture loop.
@@ -76,12 +78,16 @@ function App() {
     refreshHealth,
     refreshGraphitiHealth,
     refreshCaptureLoopStatus,
-    refreshExperts,
     onAutoCapture,
     loadSettings,
     importFiles,
     setView,
   ]);
+
+  // Auto-load graph when switching to graph view
+  useEffect(() => {
+    if (view === "graph") refreshGraph();
+  }, [view, refreshGraph]);
 
   return (
     <div className="relative flex h-full w-full overflow-hidden">
@@ -181,8 +187,26 @@ function App() {
         </header>
 
         <main className="flex-1 overflow-hidden">
+          {view === "graph" && (
+            <div className="h-full w-full">
+              {graphLoading && !graphData ? (
+                <div className="flex h-full items-center justify-center text-sm" style={{ color: "var(--muted)" }}>
+                  Loading knowledge graph…
+                </div>
+              ) : graphData ? (
+                <ErrorBoundary>
+                  <GraphView data={graphData} />
+                </ErrorBoundary>
+              ) : (
+                <div className="flex h-full flex-col items-center justify-center gap-3 text-sm" style={{ color: "var(--muted)" }}>
+                  <span style={{ fontSize: 40 }}>🧠</span>
+                  <p>Knowledge graph is building…</p>
+                  <p className="text-xs opacity-60">Capture some content first, then the graph will appear here.</p>
+                </div>
+              )}
+            </div>
+          )}
           {view === "chat" && <Chat />}
-          {view === "experts" && <Experts />}
           {view === "sources" && <Sources />}
           {view === "traces" && <Traces />}
           {view === "settings" && <Settings />}

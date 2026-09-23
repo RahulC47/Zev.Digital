@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../store/useStore";
 import { api, type ChunkRow, type Source } from "../lib/api";
-import { GraphView } from "./GraphView";
-import { ErrorBoundary } from "./ErrorBoundary";
 import { CollectionsBar } from "./CollectionsBar";
  
 const IS_WINDOWS = navigator.userAgent.includes("Windows");
-
-type Tab = "list" | "graph";
 
 function SourceRow({
   s,
@@ -383,15 +379,11 @@ function SourceRow({
 export function Sources() {
   const sources = useStore((s) => s.sources);
   const refreshSources = useStore((s) => s.refreshSources);
-  const graphData = useStore((s) => s.graphData);
-  const graphLoading = useStore((s) => s.graphLoading);
-  const refreshGraph = useStore((s) => s.refreshGraph);
   const selected = useStore((s) => s.selectedCollections);
   const refreshCollections = useStore((s) => s.refreshCollections);
   const collections = useStore((s) => s.collections);
   const moveSource = useStore((s) => s.moveSource);
 
-  const [tab, setTab] = useState<Tab>("list");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkTarget, setBulkTarget] = useState("");
   const [bulkMoving, setBulkMoving] = useState(false);
@@ -431,10 +423,6 @@ export function Sources() {
     refreshCollections();
   }, [refreshSources, refreshCollections]);
 
-  useEffect(() => {
-    if (IS_WINDOWS && tab === "graph") refreshGraph();
-  }, [tab, refreshGraph, selected.join(","), sources.length]);
-
 
   const clearAll = async () => {
     if (!confirm("Delete the entire memory vault? This cannot be undone.")) return;
@@ -466,7 +454,7 @@ export function Sources() {
                   : " on this device"}.
               </p>
             </div>
-            {sources.length > 0 && tab === "list" && (
+            {sources.length > 0 && (
               <button
                 onClick={clearAll}
                 className="rounded-lg px-3 py-1.5 text-xs"
@@ -477,32 +465,8 @@ export function Sources() {
             )}
           </div>
 
-          {/* List / Graph toggle */}
-          {IS_WINDOWS && (
-            <div
-              className="mb-3 inline-flex rounded-lg p-0.5"
-              style={{ background: "var(--panel2)", border: "1px solid var(--border)" }}
-            >
-              {(["list", "graph"] as Tab[]).map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTab(t)}
-                  className="rounded-md px-4 py-1.5 text-xs font-medium transition"
-                  style={{
-                    background: tab === t ? "var(--accent)" : "transparent",
-                    color: tab === t ? "#fff" : "var(--muted)",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  {t === "list" ? "List" : "Graph"}
-                </button>
-              ))}
-            </div>
-          )}
-
           {/* Folders (collections) scoping + management + export */}
-          {IS_WINDOWS && tab === "list" && <CollectionsBar />}
+          {IS_WINDOWS && <CollectionsBar />}
 
           {/* Bulk-select action bar */}
           {selectedIds.size > 0 && (
@@ -551,50 +515,33 @@ export function Sources() {
 
       {/* Content area */}
       <div className="flex-1 overflow-hidden">
-        {tab === "list" || !IS_WINDOWS ? (
-          <div className="h-full overflow-y-auto px-5 pb-4">
-            <div className="mx-auto max-w-3xl">
-              {shown.length === 0 ? (
-                <div
-                  className="rounded-xl p-10 text-center text-sm"
-                  style={{ color: "var(--muted)", border: "1px dashed var(--border)" }}
-                >
-                  {sources.length === 0
-                    ? 'Nothing captured yet. Click "Capture current window" or drag and drop a file to add content to memory.'
-                    : "No captures in the selected folder(s)."}
-                </div>
-              ) : (
-                <ul className="space-y-2">
-                  {shown.map((s) => (
-                    <SourceRow
-                      key={s.id}
-                      s={s}
-                      selected={selectedIds.has(s.id)}
-                      onToggle={() => toggleSelect(s.id)}
-                    />
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="h-full w-full">
-            {graphLoading && !graphData ? (
-              <div className="flex h-full items-center justify-center text-sm" style={{ color: "var(--muted)" }}>
-                Loading graph…
+        <div className="h-full overflow-y-auto px-5 pb-4">
+          <div className="mx-auto max-w-3xl">
+            {shown.length === 0 ? (
+              <div
+                className="rounded-xl p-10 text-center text-sm"
+                style={{ color: "var(--muted)", border: "1px dashed var(--border)" }}
+              >
+                {sources.length === 0
+                  ? 'Nothing captured yet. Click "Capture current window" or drag and drop a file to add content to memory.'
+                  : "No captures in the selected folder(s)."}
               </div>
-            ) : graphData ? (
-              <ErrorBoundary>
-                <GraphView data={graphData} />
-              </ErrorBoundary>
             ) : (
-              <div className="flex h-full items-center justify-center text-sm" style={{ color: "var(--muted)" }}>
-                Knowledge graph unavailable. Make sure the sidecar is running.
-              </div>
+              <ul className="space-y-2">
+                {shown.map((s) => (
+                  <SourceRow
+                    key={s.id}
+                    s={s}
+                    selected={selectedIds.has(s.id)}
+                    onToggle={() => toggleSelect(s.id)}
+                  />
+                ))}
+              </ul>
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
 }
+

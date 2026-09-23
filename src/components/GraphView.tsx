@@ -8,7 +8,7 @@ type RectSel = { x: number; y: number; w: number; h: number } | null;
 type Modal = "addNode" | "addEdge" | null;
 type PathResult = { nodeIds: Set<string>; linkIds: Set<string> } | null;
 
-const COLORS = ["#5b8cff", "#7c5cff", "#34d399", "#f59e0b", "#ff5b6e", "#22d3ee", "#e879f9"];
+const COLORS = ["#a78bfa", "#34d399", "#fb923c", "#f472b6", "#38bdf8", "#fbbf24", "#818cf8", "#4ade80", "#f87171"];
 
 const inputStyle: React.CSSProperties = {
   background: "var(--input-bg)",
@@ -37,7 +37,6 @@ export function GraphView({ data }: Props) {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const lastClickRef = useRef<{ nodeId: string; time: number } | null>(null);
   const [size, setSize] = useState({ w: 700, h: 600 });
-  const [graphBg, setGraphBg] = useState("var(--bg)");
   const [labelColor, setLabelColor] = useState("#cdd3e0");
 
   // ── Selection & interaction state ─────────────────────────────────────────
@@ -106,7 +105,6 @@ export function GraphView({ data }: Props) {
   // ── Theme colors ──────────────────────────────────────────────────────────
   useEffect(() => {
     function updateColors() {
-      setGraphBg(getCSSVar("--bg") || "#0b0f17");
       setLabelColor(getCSSVar("--text") || "#cdd3e0");
     }
     updateColors();
@@ -573,10 +571,29 @@ export function GraphView({ data }: Props) {
     const isHovered = hoveredNode?.id === node.id;
     const isDimmed = dimmedNodeIds.has(node.id);
     const isPathNode = highlightedPath?.nodeIds.has(node.id);
+    const isConnectedToHover = hoveredNode && !isHovered && (
+      graph.links.some((l: any) => {
+        const s = typeof l.source === "object" ? l.source.id : l.source;
+        const t = typeof l.target === "object" ? l.target.id : l.target;
+        return (s === hoveredNode.id && t === node.id) || (t === hoveredNode.id && s === node.id);
+      })
+    );
     const r = nodeRadius(node.id);
-    const color = isPathNode ? "#f59e0b" : (colorByType[node.node_type] || "#5b8cff");
+    const color = isPathNode ? "#f59e0b" : (colorByType[node.node_type] || "#a78bfa");
 
-    ctx.globalAlpha = isDimmed ? 0.1 : 1;
+    ctx.globalAlpha = isDimmed ? 0.08 : 1;
+
+    // ── Obsidian-style bloom glow (always-on, subtle) ──
+    if (!isDimmed) {
+      ctx.save();
+      ctx.shadowColor = color;
+      ctx.shadowBlur = isHovered ? 28 : isSelected ? 22 : isConnectedToHover ? 16 : 10;
+      ctx.fillStyle = color;
+      ctx.globalAlpha = isHovered ? 0.5 : isSelected ? 0.4 : isConnectedToHover ? 0.3 : 0.2;
+      ctx.beginPath(); ctx.arc(node.x, node.y, r * 1.2, 0, 2 * Math.PI); ctx.fill();
+      ctx.restore();
+      ctx.globalAlpha = isDimmed ? 0.08 : 1;
+    }
 
     // Path node highlight ring
     if (isPathNode && !isSelected) {
@@ -588,44 +605,45 @@ export function GraphView({ data }: Props) {
       ctx.shadowBlur = 0;
     }
 
-    // Selected glow
+    // Selected ring
     if (isSelected) {
-      ctx.shadowColor = color; ctx.shadowBlur = 18;
-      ctx.strokeStyle = color; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.arc(node.x, node.y, r + 4, 0, 2 * Math.PI); ctx.stroke();
-      ctx.shadowBlur = 0;
+      ctx.strokeStyle = "rgba(255,255,255,0.7)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(node.x, node.y, r + 3, 0, 2 * Math.PI); ctx.stroke();
     }
 
-    // Hover ring
-    if (isHovered && !isSelected) {
-      ctx.strokeStyle = "rgba(255,255,255,0.5)"; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.arc(node.x, node.y, r + 3, 0, 2 * Math.PI); ctx.stroke();
+    // Connected-to-hover ring
+    if (isConnectedToHover && !isSelected) {
+      ctx.strokeStyle = "rgba(255,255,255,0.3)";
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(node.x, node.y, r + 2.5, 0, 2 * Math.PI); ctx.stroke();
     }
 
     // Node fill
     ctx.fillStyle = color;
     ctx.beginPath(); ctx.arc(node.x, node.y, r, 0, 2 * Math.PI); ctx.fill();
 
-    // Inner highlight gradient
-    const grad = ctx.createRadialGradient(node.x - r * 0.3, node.y - r * 0.3, r * 0.05, node.x, node.y, r);
-    grad.addColorStop(0, "rgba(255,255,255,0.35)"); grad.addColorStop(1, "rgba(0,0,0,0)");
+    // Subtle inner highlight (specular dot)
+    const grad = ctx.createRadialGradient(node.x - r * 0.25, node.y - r * 0.3, 0, node.x, node.y, r);
+    grad.addColorStop(0, "rgba(255,255,255,0.25)"); grad.addColorStop(0.5, "rgba(255,255,255,0.05)"); grad.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = grad;
     ctx.beginPath(); ctx.arc(node.x, node.y, r, 0, 2 * Math.PI); ctx.fill();
 
     // Label
     const label = node.label || "";
-    const showLabel = showAllLabels || isSelected || isHovered || scale > 1.5;
+    const showLabel = showAllLabels || isSelected || isHovered || isConnectedToHover || scale > 1.5;
     if (showLabel && label) {
       const safeScale = Math.max(scale, 0.001);
-      const fs = Math.max(10, Math.min(14, 12 / safeScale));
-      ctx.font = `${isSelected ? "600 " : ""}${fs}px -apple-system, system-ui, sans-serif`;
-      ctx.fillStyle = labelColor; ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 3;
-      ctx.fillText(label, node.x + r + 2, node.y + fs / 3);
+      const fs = Math.max(10, Math.min(13, 11 / safeScale));
+      ctx.font = `${isSelected ? "600 " : ""}${fs}px Inter, -apple-system, system-ui, sans-serif`;
+      ctx.fillStyle = isHovered || isSelected ? "#ffffff" : "rgba(220,225,240,0.85)";
+      ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 4;
+      ctx.fillText(label, node.x + r + 3, node.y + fs / 3);
       ctx.shadowBlur = 0;
     }
 
     ctx.globalAlpha = 1;
-  }, [selectedNodeIds, hoveredNode, dimmedNodeIds, nodeRadius, colorByType, labelColor, showAllLabels, highlightedPath]);
+  }, [selectedNodeIds, hoveredNode, dimmedNodeIds, nodeRadius, colorByType, labelColor, showAllLabels, highlightedPath, graph.links]);
 
   const linkCanvasObject = useCallback((link: any, ctx: CanvasRenderingContext2D, scale: number) => {
     const src = link.source;
@@ -637,19 +655,19 @@ export function GraphView({ data }: Props) {
     const isHov = hoveredLink && hoveredLink.id === link.id;
     const isPath = highlightedPath?.linkIds.has(link.id);
     const lc = isPath ? "#f59e0b"
-      : isHov ? "rgba(91,140,255,0.75)"
-      : theme === "light" ? "rgba(80,90,120,0.25)" : "rgba(150,160,190,0.3)";
+      : isHov ? "rgba(167,139,250,0.75)"
+      : theme === "light" ? "rgba(80,90,120,0.15)" : "rgba(130,140,170,0.18)";
 
-    // Quadratic bezier curve (slight arc for visual clarity)
+    // Quadratic bezier curve (gentle arc)
     const dx = tgt.x - src.x;
     const dy = tgt.y - src.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    const curvature = 0.12;
+    const curvature = 0.08;
     const mx = (src.x + tgt.x) / 2 + (-dy / Math.max(dist, 1)) * dist * curvature;
     const my = (src.y + tgt.y) / 2 + (dx / Math.max(dist, 1)) * dist * curvature;
 
     ctx.strokeStyle = lc;
-    ctx.lineWidth = isPath ? 2 / safeScale : isHov ? 1.5 / safeScale : 1 / safeScale;
+    ctx.lineWidth = isPath ? 1.8 / safeScale : isHov ? 1.2 / safeScale : 0.6 / safeScale;
     if (isPath) { ctx.shadowColor = "#f59e0b"; ctx.shadowBlur = 8; }
     ctx.beginPath(); ctx.moveTo(src.x, src.y); ctx.quadraticCurveTo(mx, my, tgt.x, tgt.y); ctx.stroke();
     ctx.shadowBlur = 0;
@@ -731,13 +749,18 @@ export function GraphView({ data }: Props) {
       <div
         ref={wrap}
         className="relative flex-1 h-full overflow-hidden"
-        style={{ userSelect: "none" }}
+        style={{ userSelect: "none", background: "#080b12" }}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseLeave}
         onContextMenu={(e) => e.preventDefault()}
       >
+        {/* Obsidian-style radial gradient background */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
+          background: "radial-gradient(ellipse at 50% 50%, rgba(167,139,250,0.06) 0%, rgba(52,211,153,0.03) 30%, transparent 70%)",
+        }} />
         {graph.nodes.length === 0 && !subgraphIds ? (
           <div className="flex h-full items-center justify-center text-sm" style={{ color: "var(--muted)" }}>
             <div className="text-center">
@@ -758,16 +781,16 @@ export function GraphView({ data }: Props) {
               width={size.w}
               height={size.h}
               graphData={graph}
-              backgroundColor={graphBg}
+              backgroundColor="rgba(0,0,0,0)"
               enablePanInteraction={true}
               enableNodeDrag={true}
               nodeLabel={() => ""}
               linkLabel={() => ""}
               linkColor={() => "transparent"}
               linkDirectionalArrowLength={0}
-              cooldownTime={1800}
-              d3VelocityDecay={0.3}
-              d3AlphaDecay={0.02}
+              cooldownTime={2200}
+              d3VelocityDecay={0.35}
+              d3AlphaDecay={0.015}
               onNodeClick={(node: any, event: MouseEvent) => {
                 if (drag.current?.active) return;
                 const now = Date.now();

@@ -33,7 +33,7 @@ export interface ChatSession {
   updatedAt: number;
 }
 
-export type View = "chat" | "sources" | "settings" | "traces" | "experts";
+export type View = "graph" | "chat" | "sources" | "settings" | "traces";
 export type Theme = "dark" | "light";
 export type OrbState = "idle" | "thinking";
 
@@ -197,7 +197,7 @@ const initialActive =
   initialChats.sessions[0];
 
 export const useStore = create<AppState>((set, get) => ({
-  view: "chat",
+  view: "graph",
   setView: (v) => set({ view: v }),
 
   // ── theme ──────────────────────────────────────────────────────────────────
