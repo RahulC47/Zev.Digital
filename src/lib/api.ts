@@ -221,6 +221,9 @@ export const api = {
   stopCaptureLoop: () => invoke<CaptureLoopStatus>("stop_capture_loop"),
   captureLoopStatus: () => invoke<CaptureLoopStatus>("capture_loop_status"),
 
+  checkOllama: () => invoke<boolean>("check_ollama"),
+  installOllama: () => invoke<void>("install_ollama"),
+
   // collections
   listCollections: () => invoke<Collection[]>("list_collections"),
   createCollection: (name: string) =>

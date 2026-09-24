@@ -19,6 +19,58 @@ const inputStyle: React.CSSProperties = {
   outline: "none",
 };
 
+function OllamaInstaller() {
+  const [installed, setInstalled] = useState<boolean | null>(null);
+  const [installing, setInstalling] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    api.checkOllama().then(setInstalled).catch(() => setInstalled(false));
+  }, []);
+
+  const handleInstall = async () => {
+    setInstalling(true);
+    setError(null);
+    try {
+      await api.installOllama();
+      setInstalled(true);
+    } catch (e: any) {
+      setError(e.toString());
+    } finally {
+      setInstalling(false);
+    }
+  };
+
+  if (installed === true) {
+    return (
+      <div className="flex items-center gap-2 rounded-lg p-3 text-sm" style={{ background: "rgba(74, 222, 128, 0.1)", border: "1px solid rgba(74, 222, 128, 0.2)" }}>
+        <span style={{ color: "#4ade80" }}>✅ Ollama is installed</span>
+      </div>
+    );
+  }
+
+  if (installed === false) {
+    return (
+      <div className="flex flex-col gap-2 rounded-lg p-3 text-sm" style={{ background: "var(--panel)", border: "1px solid var(--border)" }}>
+        <div className="font-medium">Ollama is not installed</div>
+        <div style={{ color: "var(--muted)", fontSize: 12 }}>
+          You need Ollama to run local AI models privately on your device.
+        </div>
+        <button
+          onClick={handleInstall}
+          disabled={installing}
+          className="mt-1 self-start rounded bg-[var(--accent)] px-3 py-1.5 text-xs font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+        >
+          {installing ? "Installing..." : "Install Ollama"}
+        </button>
+        {error && <div style={{ color: "var(--danger)", fontSize: 11 }}>{error}</div>}
+      </div>
+    );
+  }
+
+  return null;
+}
+
 function Field({
   label,
   hint,
@@ -163,6 +215,7 @@ export function Settings() {
 
         {draft.chat_provider === "ollama" ? (
           <div className="space-y-4">
+            <OllamaInstaller />
             <Field label="Ollama URL" hint="Default Ollama listens on this address.">
               <input
                 style={inputStyle}

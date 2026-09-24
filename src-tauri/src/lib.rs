@@ -6,6 +6,7 @@ mod foreground;
 mod graphiti;
 mod langfuse;
 mod llm;
+mod ollama;
 mod settings;
 mod vault;
 
@@ -138,6 +139,9 @@ pub fn run() {
             commands::start_capture_loop,
             commands::stop_capture_loop,
             commands::capture_loop_status,
+            ollama::check_ollama,
+            ollama::install_ollama,
+            commands::generate_daily_briefing,
             commands::list_collections,
             commands::create_collection,
             commands::rename_collection,

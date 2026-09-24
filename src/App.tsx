@@ -15,10 +15,12 @@ import { ThemeToggle } from "./components/ThemeToggle";
 import type { CaptureResult } from "./lib/api";
 
 import { ProviderSelector } from "./components/ProviderSelector";
+import Briefings from "./components/Briefings";
 
 const NAV: { id: View; label: string; icon: string }[] = [
   { id: "graph", label: "Memory", icon: "🧠" },
   { id: "chat", label: "Ask", icon: "💬" },
+  { id: "briefing", label: "Briefings", icon: "📰" },
   { id: "sources", label: "Sources", icon: "🗄️" },
   { id: "traces", label: "Traces", icon: "📊" },
   { id: "settings", label: "Settings", icon: "⚙️" },
@@ -207,6 +209,7 @@ function App() {
             </div>
           )}
           {view === "chat" && <Chat />}
+          {view === "briefing" && <Briefings />}
           {view === "sources" && <Sources />}
           {view === "traces" && <Traces />}
           {view === "settings" && <Settings />}

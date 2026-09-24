@@ -1529,3 +1529,67 @@ fn council_fts5_context(
         .collect();
     Ok((ctx, cits, "Captured context"))
 }
+
+#[tauri::command]
+pub async fn generate_daily_briefing(state: State<'_, AppState>) -> Result<String, String> {
+    let settings = snapshot_settings(&state);
+    
+    // 1. Get all sources from the last 24 hours
+    let now = chrono::Utc::now();
+    let yesterday = now - chrono::Duration::hours(24);
+    let yesterday_str = yesterday.to_rfc3339();
+    
+    let sources = {
+        let conn = state.db.lock().unwrap();
+        let all_sources = vault::list_sources(&conn).map_err(estr)?;
+        all_sources.into_iter()
+            .filter(|s| s.captured_at >= yesterday_str)
+            .take(50) // limit to avoid massive context
+            .collect::<Vec<_>>()
+    };
+    
+    if sources.is_empty() {
+        return Ok("No context captured in the last 24 hours to generate a briefing.".to_string());
+    }
+    
+    // 2. Fetch their content and group by category
+    let mut categorized_text: std::collections::HashMap<String, String> = std::collections::HashMap::new();
+    
+    {
+        let conn = state.db.lock().unwrap();
+        for s in sources {
+            if let Ok(chunks) = vault::read_source_chunks(&conn, &s.id) {
+                let full_text = chunks.join("\n");
+                let snippet = truncate(&full_text, 1000); // Take first 1000 chars per source
+                let entry = format!("- [{}] {}: {}\n", s.app, s.window_title, snippet.replace('\n', " "));
+                
+                categorized_text
+                    .entry(s.category.clone())
+                    .and_modify(|t| t.push_str(&entry))
+                    .or_insert_with(|| entry.clone());
+            }
+        }
+    }
+    
+    // 3. Build prompt
+    let mut prompt = String::from("Generate a Daily Briefing based on the following captured context from the last 24 hours.\n\n");
+    for (category, text) in categorized_text {
+        prompt.push_str(&format!("## Category: {}\n{}\n\n", category.to_uppercase(), text));
+    }
+    prompt.push_str("\nPlease provide a well-structured Markdown summary. Group the summary by category. Extract key action items, important discussions, and high-level insights. Be concise and professional.");
+    
+    // 4. Call LLM
+    let llm = Llm::from_settings(&settings);
+    let system = "You are an executive assistant synthesizing a daily briefing from the user's raw screen captures and digital context.";
+    
+    let t0 = std::time::Instant::now();
+    let result = llm.chat(system, &prompt, Some(0.3)).await;
+    let latency = t0.elapsed().as_millis() as i64;
+    
+    record_trace(&state, "briefing", system, &prompt, &result, latency);
+    
+    match result {
+        Ok(cr) => Ok(cr.text),
+        Err(e) => Err(e.to_string()),
+    }
+}
