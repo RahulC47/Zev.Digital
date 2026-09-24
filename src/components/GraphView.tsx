@@ -8,7 +8,7 @@ type RectSel = { x: number; y: number; w: number; h: number } | null;
 type Modal = "addNode" | "addEdge" | null;
 type PathResult = { nodeIds: Set<string>; linkIds: Set<string> } | null;
 
-const COLORS = ["#a78bfa", "#34d399", "#fb923c", "#f472b6", "#38bdf8", "#fbbf24", "#818cf8", "#4ade80", "#f87171"];
+const COLORS = ["#5b8cff", "#7c5cff", "#34d399", "#f59e0b", "#ff5b6e", "#22d3ee", "#e879f9", "#fb923c", "#4ade80"];
 
 const inputStyle: React.CSSProperties = {
   background: "var(--input-bg)",
@@ -579,7 +579,7 @@ export function GraphView({ data }: Props) {
       })
     );
     const r = nodeRadius(node.id);
-    const color = isPathNode ? "#f59e0b" : (colorByType[node.node_type] || "#a78bfa");
+    const color = isPathNode ? "#f59e0b" : (colorByType[node.node_type] || "#5b8cff");
 
     ctx.globalAlpha = isDimmed ? 0.12 : 1;
 
@@ -656,7 +656,7 @@ export function GraphView({ data }: Props) {
     const isHov = hoveredLink && hoveredLink.id === link.id;
     const isPath = highlightedPath?.linkIds.has(link.id);
     const lc = isPath ? "#f59e0b"
-      : isHov ? "rgba(167,139,250,0.8)"
+      : isHov ? "rgba(91,140,255,0.8)"
       : theme === "light" ? "rgba(80,90,120,0.22)" : "rgba(150,160,190,0.25)";
 
     // Quadratic bezier curve (gentle arc)
@@ -947,7 +947,7 @@ export function GraphView({ data }: Props) {
                 <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginRight: 4, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>Types</span>
                 {entityTypes.map((type) => (
                   <button key={type} onClick={() => setHighlightedType(highlightedType === type ? null : type)} style={{ display: "flex", alignItems: "center", gap: 5, background: highlightedType === type ? `${colorByType[type]}22` : "transparent", border: highlightedType === type ? `1px solid ${colorByType[type]}` : "1px solid transparent", borderRadius: 8, padding: "3px 8px", cursor: "pointer" }} title={`Highlight ${type}`}>
-                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: colorByType[type] || "#a78bfa", flexShrink: 0, border: "1px solid rgba(255,255,255,0.15)" }} />
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: colorByType[type] || "#5b8cff", flexShrink: 0, border: "1px solid rgba(255,255,255,0.15)" }} />
                     <span style={{ fontSize: 11, color: highlightedType === type ? colorByType[type] : "rgba(255,255,255,0.7)", fontWeight: highlightedType === type ? 600 : 400 }}>{type}</span>
                   </button>
                 ))}
