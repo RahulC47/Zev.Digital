@@ -182,9 +182,15 @@ function SourceRow({
               {s.window_title || "Untitled window"}
             </div>
           )}
-          <div className="truncate text-xs" style={{ color: "var(--muted)" }}>
-            {s.app} · {new Date(s.captured_at).toLocaleString()} ·{" "}
-            {s.char_count.toLocaleString()} chars · {s.chunk_count} chunks
+          <div className="flex items-center gap-2 truncate text-xs" style={{ color: "var(--muted)" }}>
+            <span className="shrink-0 rounded px-1.5 py-0.5 text-[10px] uppercase font-bold" style={{
+              background: "var(--border)", color: "var(--text)", letterSpacing: "0.05em"
+            }}>
+              {s.category || "other"}
+            </span>
+            <span className="truncate">
+              {s.app} · {new Date(s.captured_at).toLocaleString()} · {s.char_count.toLocaleString()} chars
+            </span>
           </div>
           {s.url && (
             <div className="truncate text-[11px]" style={{ color: "var(--accent)" }} title={s.url}>

@@ -26,6 +26,9 @@ pub struct SourceMeta {
     /// Page URL when the source was captured from a browser.
     #[serde(default)]
     pub url: Option<String>,
+    /// Auto-classified app category (e.g. "browsing", "communication").
+    #[serde(default)]
+    pub category: String,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -123,6 +126,11 @@ pub fn open(db_path: &Path) -> Result<Connection> {
     );
     // Migration: page URL for browser captures (same ignore-if-exists pattern).
     let _ = conn.execute("ALTER TABLE sources ADD COLUMN url TEXT", []);
+    // Migration: auto-classification category for sources.
+    let _ = conn.execute(
+        "ALTER TABLE sources ADD COLUMN category TEXT NOT NULL DEFAULT 'other'",
+        [],
+    );
 
     // LLM call traces for local observability.
     conn.execute_batch(
@@ -290,6 +298,32 @@ fn chrono_now() -> String {
 
 // ── write ─────────────────────────────────────────────────────────────────────
 
+/// Basic category tagging for captured apps
+pub fn classify_app(app: &str) -> String {
+    let lower = app.to_lowercase();
+    if lower.contains("chrome") || lower.contains("firefox") || lower.contains("edge") || lower.contains("arc") || lower.contains("brave") || lower.contains("safari") {
+        "browsing".into()
+    } else if lower.contains("slack") || lower.contains("teams") || lower.contains("discord") || lower.contains("whatsapp") || lower.contains("telegram") {
+        "communication".into()
+    } else if lower.contains("zoom") || lower.contains("meet") || lower.contains("webex") {
+        "meeting".into()
+    } else if lower.contains("code") || lower.contains("intellij") || lower.contains("cursor") || lower.contains("studio") || lower.contains("pycharm") || lower.contains("zed") {
+        "code".into()
+    } else if lower.contains("word") || lower.contains("docs") || lower.contains("notion") || lower.contains("obsidian") || lower.contains("pages") || lower.contains("acrobat") || lower.contains("pdf") {
+        "document".into()
+    } else if lower.contains("excel") || lower.contains("sheets") || lower.contains("numbers") {
+        "spreadsheet".into()
+    } else if lower.contains("outlook") || lower.contains("mail") || lower.contains("thunderbird") {
+        "email".into()
+    } else if lower.contains("figma") || lower.contains("canva") || lower.contains("photoshop") || lower.contains("illustrator") || lower.contains("design") {
+        "design".into()
+    } else if lower.contains("terminal") || lower.contains("powershell") || lower.contains("cmd") || lower.contains("iterm") || lower.contains("wezterm") || lower.contains("alacritty") {
+        "terminal".into()
+    } else {
+        "other".into()
+    }
+}
+
 pub fn insert_source(conn: &Connection, meta: &SourceMeta, md_path: Option<&str>) -> Result<()> {
     let collection = if meta.collection_id.is_empty() {
         DEFAULT_COLLECTION_ID
@@ -297,8 +331,8 @@ pub fn insert_source(conn: &Connection, meta: &SourceMeta, md_path: Option<&str>
         &meta.collection_id
     };
     conn.execute(
-        "INSERT INTO sources (id, app, window_title, captured_at, char_count, chunk_count, md_path, collection_id, url)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+        "INSERT INTO sources (id, app, window_title, captured_at, char_count, chunk_count, md_path, collection_id, url, category)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
         rusqlite::params![
             meta.id,
             meta.app,
@@ -309,6 +343,7 @@ pub fn insert_source(conn: &Connection, meta: &SourceMeta, md_path: Option<&str>
             md_path,
             collection,
             meta.url,
+            meta.category,
         ],
     )?;
     Ok(())
@@ -457,7 +492,7 @@ pub fn insert_chunk(conn: &Connection, source_id: &str, _idx: usize, text: &str)
 
 pub fn list_sources(conn: &Connection) -> Result<Vec<SourceMeta>> {
     let mut stmt = conn.prepare(
-        "SELECT id, app, window_title, captured_at, chunk_count, char_count, collection_id, url
+        "SELECT id, app, window_title, captured_at, chunk_count, char_count, collection_id, url, category
          FROM sources ORDER BY captured_at DESC",
     )?;
     let rows = stmt.query_map([], |r| {
@@ -470,6 +505,7 @@ pub fn list_sources(conn: &Connection) -> Result<Vec<SourceMeta>> {
             char_count: r.get(5)?,
             collection_id: r.get(6)?,
             url: r.get(7)?,
+            category: r.get(8)?,
         })
     })?;
     Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)

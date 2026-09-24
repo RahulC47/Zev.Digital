@@ -253,6 +253,7 @@ pub(crate) fn persist_normalized(
         char_count: normalized.chars().count() as i64,
         collection_id: collection_id.clone(),
         url: url.map(|u| u.to_string()),
+        category: vault::classify_app(app),
     };
 
     let md_path = vault::write_markdown(&state.vault_dir, &meta, normalized)
@@ -329,6 +330,7 @@ pub(crate) fn update_capture(
         char_count,
         collection_id: collection_id.clone(),
         url: url.map(|u| u.to_string()),
+        category: vault::classify_app(app),
     };
     let _ = vault::write_markdown(&state.vault_dir, &meta, normalized);
 

@@ -12,6 +12,8 @@ export interface Source {
   collection_id: string;
   /** Page URL when captured from a browser. */
   url?: string | null;
+  /** Auto-classified category (e.g. browsing, communication). */
+  category: string;
 }
 
 export interface Collection {
