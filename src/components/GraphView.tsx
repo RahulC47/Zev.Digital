@@ -156,7 +156,7 @@ export function GraphView({ data }: Props) {
 
   const nodeRadius = useCallback((nodeId: string) => {
     const deg = degreeMap[nodeId] || 0;
-    return 5 + Math.min(deg * 1.5, 12);
+    return 6 + Math.min(deg * 1.5, 14);
   }, [degreeMap]);
 
   // ── Clone + filter for subgraph view ─────────────────────────────────────
@@ -581,63 +581,64 @@ export function GraphView({ data }: Props) {
     const r = nodeRadius(node.id);
     const color = isPathNode ? "#f59e0b" : (colorByType[node.node_type] || "#a78bfa");
 
-    ctx.globalAlpha = isDimmed ? 0.08 : 1;
+    ctx.globalAlpha = isDimmed ? 0.12 : 1;
 
-    // ── Obsidian-style bloom glow (always-on, subtle) ──
-    if (!isDimmed) {
-      ctx.save();
-      ctx.shadowColor = color;
-      ctx.shadowBlur = isHovered ? 28 : isSelected ? 22 : isConnectedToHover ? 16 : 10;
-      ctx.fillStyle = color;
-      ctx.globalAlpha = isHovered ? 0.5 : isSelected ? 0.4 : isConnectedToHover ? 0.3 : 0.2;
-      ctx.beginPath(); ctx.arc(node.x, node.y, r * 1.2, 0, 2 * Math.PI); ctx.fill();
-      ctx.restore();
-      ctx.globalAlpha = isDimmed ? 0.08 : 1;
-    }
-
-    // Path node highlight ring
+    // ── Path node ring ──
     if (isPathNode && !isSelected) {
       ctx.strokeStyle = "#f59e0b";
-      ctx.lineWidth = 2;
-      ctx.shadowColor = "#f59e0b";
-      ctx.shadowBlur = 14;
-      ctx.beginPath(); ctx.arc(node.x, node.y, r + 5, 0, 2 * Math.PI); ctx.stroke();
-      ctx.shadowBlur = 0;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.arc(node.x, node.y, r + 4, 0, 2 * Math.PI); ctx.stroke();
     }
 
-    // Selected ring
+    // ── Selected: bright white ring ──
     if (isSelected) {
-      ctx.strokeStyle = "rgba(255,255,255,0.7)";
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
       ctx.beginPath(); ctx.arc(node.x, node.y, r + 3, 0, 2 * Math.PI); ctx.stroke();
     }
 
-    // Connected-to-hover ring
-    if (isConnectedToHover && !isSelected) {
-      ctx.strokeStyle = "rgba(255,255,255,0.3)";
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.arc(node.x, node.y, r + 2.5, 0, 2 * Math.PI); ctx.stroke();
+    // ── Hovered: colored ring ──
+    if (isHovered && !isSelected) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(node.x, node.y, r + 3, 0, 2 * Math.PI); ctx.stroke();
     }
 
-    // Node fill
+    // ── Connected-to-hover: subtle colored ring ──
+    if (isConnectedToHover && !isSelected) {
+      ctx.strokeStyle = color;
+      ctx.globalAlpha = isDimmed ? 0.12 : 0.5;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(node.x, node.y, r + 2.5, 0, 2 * Math.PI); ctx.stroke();
+      ctx.globalAlpha = isDimmed ? 0.12 : 1;
+    }
+
+    // ── Node fill (solid clean circle) ──
     ctx.fillStyle = color;
     ctx.beginPath(); ctx.arc(node.x, node.y, r, 0, 2 * Math.PI); ctx.fill();
 
-    // Subtle inner highlight (specular dot)
-    const grad = ctx.createRadialGradient(node.x - r * 0.25, node.y - r * 0.3, 0, node.x, node.y, r);
-    grad.addColorStop(0, "rgba(255,255,255,0.25)"); grad.addColorStop(0.5, "rgba(255,255,255,0.05)"); grad.addColorStop(1, "rgba(0,0,0,0)");
+    // ── Crisp border ring for bubble definition ──
+    ctx.strokeStyle = "rgba(255,255,255,0.15)";
+    ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.arc(node.x, node.y, r, 0, 2 * Math.PI); ctx.stroke();
+
+    // ── Inner specular highlight (bubble-like) ──
+    const grad = ctx.createRadialGradient(node.x - r * 0.3, node.y - r * 0.35, r * 0.05, node.x, node.y, r);
+    grad.addColorStop(0, "rgba(255,255,255,0.35)");
+    grad.addColorStop(0.45, "rgba(255,255,255,0.08)");
+    grad.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = grad;
     ctx.beginPath(); ctx.arc(node.x, node.y, r, 0, 2 * Math.PI); ctx.fill();
 
-    // Label
+    // ── Label ──
     const label = node.label || "";
-    const showLabel = showAllLabels || isSelected || isHovered || isConnectedToHover || scale > 1.5;
+    const showLabel = showAllLabels || isSelected || isHovered || isConnectedToHover || scale > 1.2;
     if (showLabel && label) {
       const safeScale = Math.max(scale, 0.001);
       const fs = Math.max(10, Math.min(13, 11 / safeScale));
-      ctx.font = `${isSelected ? "600 " : ""}${fs}px Inter, -apple-system, system-ui, sans-serif`;
-      ctx.fillStyle = isHovered || isSelected ? "#ffffff" : "rgba(220,225,240,0.85)";
-      ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 4;
+      ctx.font = `${isSelected || isHovered ? "600 " : ""}${fs}px Inter, -apple-system, system-ui, sans-serif`;
+      ctx.fillStyle = isHovered || isSelected ? "#ffffff" : "rgba(220,225,240,0.9)";
+      ctx.shadowColor = "rgba(0,0,0,0.85)"; ctx.shadowBlur = 3;
       ctx.fillText(label, node.x + r + 3, node.y + fs / 3);
       ctx.shadowBlur = 0;
     }
@@ -655,8 +656,8 @@ export function GraphView({ data }: Props) {
     const isHov = hoveredLink && hoveredLink.id === link.id;
     const isPath = highlightedPath?.linkIds.has(link.id);
     const lc = isPath ? "#f59e0b"
-      : isHov ? "rgba(167,139,250,0.75)"
-      : theme === "light" ? "rgba(80,90,120,0.15)" : "rgba(130,140,170,0.18)";
+      : isHov ? "rgba(167,139,250,0.8)"
+      : theme === "light" ? "rgba(80,90,120,0.22)" : "rgba(150,160,190,0.25)";
 
     // Quadratic bezier curve (gentle arc)
     const dx = tgt.x - src.x;
@@ -667,7 +668,7 @@ export function GraphView({ data }: Props) {
     const my = (src.y + tgt.y) / 2 + (dx / Math.max(dist, 1)) * dist * curvature;
 
     ctx.strokeStyle = lc;
-    ctx.lineWidth = isPath ? 1.8 / safeScale : isHov ? 1.2 / safeScale : 0.6 / safeScale;
+    ctx.lineWidth = isPath ? 2 / safeScale : isHov ? 1.2 / safeScale : 0.8 / safeScale;
     if (isPath) { ctx.shadowColor = "#f59e0b"; ctx.shadowBlur = 8; }
     ctx.beginPath(); ctx.moveTo(src.x, src.y); ctx.quadraticCurveTo(mx, my, tgt.x, tgt.y); ctx.stroke();
     ctx.shadowBlur = 0;
@@ -942,12 +943,12 @@ export function GraphView({ data }: Props) {
 
             {/* Type legend (bottom-left) */}
             {entityTypes.length > 0 && (
-              <div className="absolute flex flex-wrap items-center gap-1.5" style={{ bottom: selEdge ? 90 : 14, left: 14, maxWidth: "55%", zIndex: 20, background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 10, padding: "6px 10px", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}>
-                <span style={{ fontSize: 9, color: "var(--muted)", marginRight: 2, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>Types</span>
+              <div className="absolute flex flex-wrap items-center gap-2" style={{ bottom: selEdge ? 90 : 14, left: 14, maxWidth: "60%", zIndex: 20, background: "rgba(8,11,18,0.85)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: "8px 14px", boxShadow: "0 4px 16px rgba(0,0,0,0.3)" }}>
+                <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginRight: 4, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>Types</span>
                 {entityTypes.map((type) => (
-                  <button key={type} onClick={() => setHighlightedType(highlightedType === type ? null : type)} style={{ display: "flex", alignItems: "center", gap: 4, background: highlightedType === type ? `${colorByType[type]}22` : "transparent", border: highlightedType === type ? `1px solid ${colorByType[type]}` : "1px solid transparent", borderRadius: 6, padding: "2px 6px", cursor: "pointer" }} title={`Highlight ${type}`}>
-                    <span style={{ width: 7, height: 7, borderRadius: "50%", background: colorByType[type] || "#5b8cff", flexShrink: 0 }} />
-                    <span style={{ fontSize: 10, color: highlightedType === type ? colorByType[type] : "var(--muted)", fontWeight: highlightedType === type ? 600 : 400 }}>{type}</span>
+                  <button key={type} onClick={() => setHighlightedType(highlightedType === type ? null : type)} style={{ display: "flex", alignItems: "center", gap: 5, background: highlightedType === type ? `${colorByType[type]}22` : "transparent", border: highlightedType === type ? `1px solid ${colorByType[type]}` : "1px solid transparent", borderRadius: 8, padding: "3px 8px", cursor: "pointer" }} title={`Highlight ${type}`}>
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: colorByType[type] || "#a78bfa", flexShrink: 0, border: "1px solid rgba(255,255,255,0.15)" }} />
+                    <span style={{ fontSize: 11, color: highlightedType === type ? colorByType[type] : "rgba(255,255,255,0.7)", fontWeight: highlightedType === type ? 600 : 400 }}>{type}</span>
                   </button>
                 ))}
               </div>
