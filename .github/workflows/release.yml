@@ -109,7 +109,7 @@ jobs:
           tagName: ${{ github.ref_name }}
           releaseName: "Zev.Digital ${{ github.ref_name }}"
           releaseBody: "See the assets below to download Zev.Digital for your OS."
-          releaseDraft: true
+          releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
 

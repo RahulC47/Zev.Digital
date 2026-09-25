@@ -1,7 +1,7 @@
 {
   "name": "zev-digital",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.25",
   "type": "module",
   "scripts": {
     "dev": "vite",

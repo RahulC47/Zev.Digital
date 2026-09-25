@@ -1,6 +1,6 @@
 [package]
 name = "zev-digital"
-version = "0.1.0"
+version = "0.1.25"
 description = "Zev.Digital — a local-first, offline company brain (capture → vault → cited RAG chat)"
 authors = ["Zev.Digital contributors"]
 license = "MIT"
