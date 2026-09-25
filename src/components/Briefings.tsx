@@ -5,6 +5,7 @@ export default function Briefings() {
   const [briefing, setBriefing] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const fetchBriefing = async () => {
     setGenerating(true);
@@ -19,47 +20,120 @@ export default function Briefings() {
     }
   };
 
-  return (
-    <div className="flex h-full flex-col overflow-y-auto p-8 text-white">
-      <div className="mx-auto w-full max-w-3xl">
-        <h1 className="mb-2 text-3xl font-bold tracking-tight">Daily Briefing</h1>
-        <p className="mb-8 text-sm" style={{ color: "var(--muted)" }}>
-          A synthesized summary of your last 24 hours of captured context, meetings, and research.
-        </p>
+  const handleCopy = () => {
+    if (!briefing) return;
+    navigator.clipboard.writeText(briefing);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
+  return (
+    <div
+      className="flex h-full flex-col overflow-y-auto p-8"
+      style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}
+    >
+      <div className="mx-auto w-full max-w-3xl">
+        {/* Header */}
+        <div className="mb-6 flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
+              Daily Briefing
+            </h1>
+            <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>
+              A synthesized summary of your last 24 hours of captured context, meetings, and research.
+            </p>
+          </div>
+          {briefing && !generating && (
+            <div className="flex gap-2">
+              <button
+                onClick={handleCopy}
+                className="rounded-lg border px-3 py-1.5 text-xs font-medium transition hover:opacity-80"
+                style={{ borderColor: "var(--border)", backgroundColor: "var(--panel)", color: "var(--text)" }}
+              >
+                {copied ? "Copied ✓" : "Copy Briefing"}
+              </button>
+              <button
+                onClick={fetchBriefing}
+                className="rounded-lg px-3 py-1.5 text-xs font-medium text-white transition hover:opacity-90"
+                style={{ backgroundColor: "var(--accent)" }}
+              >
+                Regenerate ↻
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Empty state / Prompt to generate */}
         {!briefing && !generating && (
-          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/10 p-12 text-center">
+          <div
+            className="flex flex-col items-center justify-center rounded-2xl border p-12 text-center shadow-sm"
+            style={{
+              borderColor: "var(--border)",
+              backgroundColor: "var(--panel)",
+            }}
+          >
             <div className="mb-4 text-4xl">📰</div>
-            <h3 className="mb-2 text-lg font-medium">Ready for your briefing?</h3>
-            <p className="mb-6 text-sm opacity-70 max-w-md mx-auto">
+            <h3 className="mb-2 text-lg font-semibold" style={{ color: "var(--text)" }}>
+              Ready for your briefing?
+            </h3>
+            <p className="mb-6 max-w-md text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
               Zev will analyze everything captured in the last 24 hours, group it by app, and extract action items and insights.
             </p>
             <button
               onClick={fetchBriefing}
-              className="rounded-lg bg-[var(--accent)] px-6 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+              className="rounded-lg px-6 py-2.5 text-sm font-semibold text-white shadow transition hover:opacity-90"
+              style={{ backgroundColor: "var(--accent)" }}
             >
               Generate Today's Briefing
             </button>
           </div>
         )}
 
+        {/* Generating state */}
         {generating && (
-          <div className="flex animate-pulse flex-col items-center justify-center rounded-xl border border-white/5 bg-white/5 p-12 text-center">
-            <div className="mb-4 h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-[var(--accent)]"></div>
-            <div className="text-sm font-medium">Analyzing last 24 hours of context...</div>
-            <div className="mt-2 text-xs opacity-50">This may take a minute depending on your model.</div>
+          <div
+            className="flex flex-col items-center justify-center rounded-2xl border p-12 text-center shadow-sm"
+            style={{ borderColor: "var(--border)", backgroundColor: "var(--panel)" }}
+          >
+            <div
+              className="mb-4 h-9 w-9 animate-spin rounded-full border-2 border-t-transparent"
+              style={{ borderColor: "var(--accent)", borderTopColor: "transparent" }}
+            />
+            <div className="text-base font-semibold" style={{ color: "var(--text)" }}>
+              Synthesizing your daily briefing...
+            </div>
+            <div className="mt-2 text-xs" style={{ color: "var(--muted)" }}>
+              Analyzing captured windows, meetings, and notes from the last 24 hours.
+            </div>
           </div>
         )}
 
+        {/* Error state */}
         {error && (
-          <div className="rounded-lg bg-red-500/10 p-4 text-sm text-red-400 border border-red-500/20">
-            {error}
+          <div
+            className="rounded-xl border p-4 text-sm"
+            style={{ borderColor: "rgba(239, 68, 68, 0.3)", backgroundColor: "rgba(239, 68, 68, 0.1)", color: "#ef4444" }}
+          >
+            <strong>Error generating briefing:</strong> {error}
           </div>
         )}
 
+        {/* Result view */}
         {briefing && !generating && (
-          <div className="prose prose-invert max-w-none rounded-xl border border-white/10 bg-[var(--panel2)] p-8">
-            <div dangerouslySetInnerHTML={{ __html: briefing }} />
+          <div
+            className="rounded-2xl border p-8 shadow-sm"
+            style={{
+              borderColor: "var(--border)",
+              backgroundColor: "var(--panel)",
+              color: "var(--text)",
+            }}
+          >
+            <div
+              className="whitespace-pre-wrap text-sm leading-relaxed"
+              style={{ color: "var(--text)", fontFamily: "inherit" }}
+            >
+              {briefing}
+            </div>
           </div>
         )}
       </div>

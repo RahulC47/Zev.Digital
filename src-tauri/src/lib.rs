@@ -4,8 +4,10 @@ mod chunk;
 mod commands;
 mod foreground;
 mod graphiti;
+mod hermes;
 mod langfuse;
 mod llm;
+mod mcp;
 mod ollama;
 mod settings;
 mod skills;
@@ -181,6 +183,9 @@ pub fn run() {
             commands::set_collection_instructions,
             commands::ask_council,
             commands::ask_compare,
+            mcp::list_mcp_tools,
+            mcp::call_mcp_tool,
+            hermes::run_automation_step,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

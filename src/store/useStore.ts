@@ -34,7 +34,7 @@ export interface ChatSession {
   updatedAt: number;
 }
 
-export type View = "graph" | "chat" | "briefing" | "sources" | "settings" | "traces";
+export type View = "graph" | "chat" | "briefing" | "sources" | "settings" | "traces" | "hermes";
 export type Theme = "dark" | "light";
 export type OrbState = "idle" | "thinking";
 

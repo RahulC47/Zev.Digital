@@ -34,6 +34,23 @@ pub struct CustomApiProfile {
     pub model: String,
 }
 
+/// A configured MCP server.
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct McpServer {
+    #[serde(default)]
+    pub id: String,
+    #[serde(default)]
+    pub name: String,
+    /// "http" or "stdio"
+    #[serde(default = "d_mcp_transport")]
+    pub transport: String,
+    /// For http: base URL. For stdio: command with args (e.g. "npx @modelcontextprotocol/server-filesystem /home/user/docs")
+    #[serde(default)]
+    pub url: String,
+    #[serde(default = "d_true")]
+    pub enabled: bool,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Settings {
     // Chat
@@ -109,6 +126,10 @@ pub struct Settings {
     /// Index into custom_api_profiles that is currently active.
     #[serde(default)]
     pub active_custom_profile_idx: usize,
+
+    /// MCP server configurations.
+    #[serde(default)]
+    pub mcp_servers: Vec<McpServer>,
 }
 
 fn d_ollama_url() -> String { "http://localhost:11434".into() }
@@ -126,6 +147,7 @@ fn d_denylist() -> Vec<String> {
 }
 fn d_true() -> bool { true }
 fn d_langfuse_host() -> String { "https://cloud.langfuse.com".into() }
+fn d_mcp_transport() -> String { "http".into() }
 
 impl Default for Settings {
     fn default() -> Self {
@@ -151,6 +173,7 @@ impl Default for Settings {
             default_system_prompt: String::new(),
             custom_api_profiles: Vec::new(),
             active_custom_profile_idx: 0,
+            mcp_servers: Vec::new(),
         }
     }
 }

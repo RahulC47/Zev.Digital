@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../store/useStore";
 import { api, type ChatProvider, type GraphExtractionMode, type Settings as S } from "../lib/api";
+import McpSettings from "./McpSettings";
 
 const PROVIDERS: { id: ChatProvider; title: string; blurb: string }[] = [
   { id: "ollama", title: "Local (Ollama)", blurb: "Private, free, runs offline" },
@@ -618,6 +619,8 @@ export function Settings() {
             </>
           )}
         </div>
+
+        <McpSettings settings={draft} onChange={set} />
 
         <div
           className="flex items-center gap-3 pt-4"

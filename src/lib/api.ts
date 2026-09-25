@@ -126,6 +126,22 @@ export interface Settings {
   // Custom API profiles (BYOK multi-profile)
   custom_api_profiles: CustomApiProfile[];
   active_custom_profile_idx: number;
+  mcp_servers?: McpServer[];
+}
+
+export interface McpServer {
+  id: string;
+  name: string;
+  transport: 'http' | 'stdio';
+  url: string;
+  enabled: boolean;
+}
+
+export interface McpTool {
+  name: string;
+  description: string;
+  server_id: string;
+  input_schema?: string;
 }
 
 /** A named custom (OpenAI-compatible) API profile */
