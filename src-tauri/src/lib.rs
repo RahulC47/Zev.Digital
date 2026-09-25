@@ -8,6 +8,7 @@ mod langfuse;
 mod llm;
 mod ollama;
 mod settings;
+mod skills;
 mod vault;
 
 use commands::AppState;
@@ -142,6 +143,11 @@ pub fn run() {
             ollama::check_ollama,
             ollama::install_ollama,
             commands::generate_daily_briefing,
+            skills::list_skills,
+            skills::get_skill,
+            skills::save_skill,
+            skills::delete_skill,
+            skills::open_skills_folder,
             commands::list_collections,
             commands::create_collection,
             commands::rename_collection,

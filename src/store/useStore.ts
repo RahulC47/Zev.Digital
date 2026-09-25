@@ -11,6 +11,7 @@ import {
   type LlmHealth,
   type ModelSpec,
   type Settings,
+  type Skill,
   type Source,
 } from "../lib/api";
 
@@ -56,6 +57,11 @@ interface AppState {
   toggleCaptureLoop: () => Promise<void>;
   refreshCaptureLoopStatus: () => Promise<void>;
   onAutoCapture: (summary: string) => void;
+
+  // skills (.md files)
+  skills: Skill[];
+  refreshSkills: () => Promise<void>;
+  openSkillsFolder: () => Promise<void>;
 
   // experts
   experts: Expert[];
@@ -259,6 +265,19 @@ export const useStore = create<AppState>((set, get) => ({
   onAutoCapture: (summary) => {
     set({ lastCapture: summary });
     get().refreshSources();
+  },
+
+  // ── skills (.md files) ────────────────────────────────────────────────────────
+  skills: [],
+  refreshSkills: async () => {
+    try {
+      set({ skills: await api.listSkills() });
+    } catch { /* ignore */ }
+  },
+  openSkillsFolder: async () => {
+    try {
+      await api.openSkillsFolder();
+    } catch { /* ignore */ }
   },
 
   // ── experts ──────────────────────────────────────────────────────────────────

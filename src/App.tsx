@@ -41,6 +41,7 @@ function App() {
   const graphData = useStore((s) => s.graphData);
   const graphLoading = useStore((s) => s.graphLoading);
   const refreshGraph = useStore((s) => s.refreshGraph);
+  const refreshSkills = useStore((s) => s.refreshSkills);
   const [dragOver, setDragOver] = useState(false);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ function App() {
     refreshHealth();
     loadSettings();
     refreshCaptureLoopStatus();
+    refreshSkills();
     // Check graphiti after a short delay (sidecar takes time to warm up).
     const timer = setTimeout(refreshGraphitiHealth, 5000);
     // Live updates from the background capture loop.

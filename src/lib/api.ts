@@ -29,6 +29,15 @@ export interface ChunkRow {
   text: string;
 }
 
+export interface Skill {
+  id: string;
+  name: string;
+  icon: string;
+  temperature: number;
+  model_override?: string | null;
+  system_prompt: string;
+}
+
 export interface CaptureResult {
   source_id: string;
   app: string;
@@ -223,6 +232,13 @@ export const api = {
 
   checkOllama: () => invoke<boolean>("check_ollama"),
   installOllama: () => invoke<void>("install_ollama"),
+
+  // skills (.md prompts & personas)
+  listSkills: () => invoke<Skill[]>("list_skills"),
+  getSkill: (id: string) => invoke<Skill | null>("get_skill", { id }),
+  saveSkill: (skill: Skill) => invoke<Skill>("save_skill", { skill }),
+  deleteSkill: (id: string) => invoke<void>("delete_skill", { id }),
+  openSkillsFolder: () => invoke<void>("open_skills_folder"),
 
   // collections
   listCollections: () => invoke<Collection[]>("list_collections"),

@@ -6,6 +6,7 @@ use crate::graphiti;
 use crate::langfuse;
 use crate::llm::{ChatResult, Health, Llm, ModelSpec};
 use crate::settings::Settings;
+use crate::skills;
 use crate::vault::{self, Expert, LlmTrace, Retrieved, SourceMeta};
 use chrono::Utc;
 use rusqlite::Connection;
@@ -110,16 +111,18 @@ const ZEV_PROMPT_PREFIX: &str = "You are Contxt, a private assistant.";
 /// the built-in preamble when the user has customised the default persona.
 fn compose_system_prompt(
     context_instructions: &str,
-    expert: Option<&Expert>,
+    prompt_override: Option<&str>,
     project_instructions: &str,
     default_prompt: &str,
 ) -> String {
-    let base = if default_prompt.is_empty() { ZEV_PROMPT_PREFIX } else { default_prompt };
-    let mut prompt = if let Some(exp) = expert {
-        format!("{} {}", exp.system_prompt.trim(), context_instructions)
+    let base = if let Some(custom) = prompt_override {
+        custom.trim()
+    } else if !default_prompt.is_empty() {
+        default_prompt
     } else {
-        format!("{} {}", base, context_instructions)
+        ZEV_PROMPT_PREFIX
     };
+    let mut prompt = format!("{} {}", base, context_instructions);
     if !project_instructions.is_empty() {
         prompt.push_str("\n\nProject context:\n");
         prompt.push_str(project_instructions);
@@ -525,11 +528,20 @@ pub async fn ask(
     let settings = snapshot_settings(&state);
     let source_ids = source_ids.unwrap_or_default();
 
-    // Load expert + resolve collection scope.
-    let expert: Option<Expert> = expert_id.and_then(|eid| {
-        let conn = state.db.lock().unwrap();
-        vault::get_expert(&conn, &eid).ok().flatten()
-    });
+    // Load skill from MD files first; fallback to DB expert.
+    let skill = expert_id.as_deref().and_then(|id| skills::get_skill_internal(&state.vault_dir, id));
+    let expert: Option<Expert> = if skill.is_none() {
+        expert_id.and_then(|eid| {
+            let conn = state.db.lock().unwrap();
+            vault::get_expert(&conn, &eid).ok().flatten()
+        })
+    } else {
+        None
+    };
+
+    let prompt_override = skill.as_ref().map(|s| s.system_prompt.as_str())
+        .or_else(|| expert.as_ref().map(|e| e.system_prompt.as_str()));
+
     let collections = if let Some(ref exp) = expert {
         if let Some(ref scope) = exp.collection_scope {
             vec![scope.clone()]
@@ -548,10 +560,15 @@ pub async fn ask(
         String::new()
     };
 
-    let temperature = expert.as_ref().and_then(|e| e.temperature);
+    let temperature = skill.as_ref().map(|s| s.temperature)
+        .or_else(|| expert.as_ref().and_then(|e| e.temperature));
     let llm = {
         let mut l = Llm::from_settings(&settings);
-        if let Some(ref exp) = expert {
+        if let Some(ref s) = skill {
+            if let Some(ref m) = s.model_override {
+                l = l.with_model_override(m);
+            }
+        } else if let Some(ref exp) = expert {
             if let Some(ref m) = exp.model_override {
                 l = l.with_model_override(m);
             }
@@ -594,7 +611,7 @@ pub async fn ask(
             "Use the provided captured context (which contains your recent work or screen content) to answer the question. \
              Integrate this context naturally. If the answer is not in the context, or if the question is a general query, \
              answer using your general knowledge and research capabilities. Cite specific details from the context if used.",
-            expert.as_ref(),
+            prompt_override,
             &project_instructions,
             &settings.default_system_prompt,
         );
@@ -650,7 +667,7 @@ pub async fn ask(
                     "Use the knowledge graph facts and entities from the user's captured work to help answer the question. \
                      If the answer is not in the context, or if the question is a general query, answer using your general \
                      knowledge and research capabilities. Cite specific facts from the context if used.",
-                    expert.as_ref(),
+                    prompt_override,
                     &project_instructions,
                     &settings.default_system_prompt,
                 );
@@ -717,7 +734,7 @@ pub async fn ask(
          Integrate this context naturally. If the answer is not in the context, or if the question is a general query, \
          answer using your general knowledge and research capabilities. Cite specific details from the context if used."
     };
-    let system = compose_system_prompt(ctx_instr, expert.as_ref(), &project_instructions, &settings.default_system_prompt);
+    let system = compose_system_prompt(ctx_instr, prompt_override, &project_instructions, &settings.default_system_prompt);
     let user_prompt = format!("Captured context:\n{context}\n\nQuestion: {question}");
 
     let t0 = std::time::Instant::now();
@@ -1324,7 +1341,7 @@ pub async fn ask_council(
     let mut responses = Vec::with_capacity(experts.len());
 
     for exp in &experts {
-        let system = compose_system_prompt(ctx_instr, Some(exp), "", "");
+        let system = compose_system_prompt(ctx_instr, Some(exp.system_prompt.as_str()), "", "");
         let llm = {
             let mut l = Llm::from_settings(&settings);
             if let Some(ref m) = exp.model_override {
@@ -1377,12 +1394,20 @@ pub async fn ask_compare(
     let collections = collections.unwrap_or_default();
     let source_ids = source_ids.unwrap_or_default();
 
-    // Load expert if specified.
-    let expert: Option<Expert> = expert_id.and_then(|eid| {
-        let conn = state.db.lock().unwrap();
-        vault::get_expert(&conn, &eid).ok().flatten()
-    });
-    let temperature = expert.as_ref().and_then(|e| e.temperature);
+    // Load skill from MD files first; fallback to DB expert.
+    let skill = expert_id.as_deref().and_then(|id| skills::get_skill_internal(&state.vault_dir, id));
+    let expert: Option<Expert> = if skill.is_none() {
+        expert_id.and_then(|eid| {
+            let conn = state.db.lock().unwrap();
+            vault::get_expert(&conn, &eid).ok().flatten()
+        })
+    } else {
+        None
+    };
+    let prompt_override = skill.as_ref().map(|s| s.system_prompt.as_str())
+        .or_else(|| expert.as_ref().map(|e| e.system_prompt.as_str()));
+    let temperature = skill.as_ref().map(|s| s.temperature)
+        .or_else(|| expert.as_ref().and_then(|e| e.temperature));
 
     // Load project instructions when a single collection is in scope.
     let project_instructions = if collections.len() == 1 {
@@ -1452,7 +1477,7 @@ pub async fn ask_compare(
     let ctx_instr = "Use the provided captured context (recent work or screen content) to answer the question. \
                      If the answer is not in the context, or if the question is a general query, answer using your general \
                      knowledge and research capabilities. Cite specific facts from the context if used.";
-    let system = compose_system_prompt(ctx_instr, expert.as_ref(), &project_instructions, &settings.default_system_prompt);
+    let system = compose_system_prompt(ctx_instr, prompt_override, &project_instructions, &settings.default_system_prompt);
 
     // ── Fan out to all models in parallel ─────────────────────────────────
     let mut handles = Vec::with_capacity(model_specs.len());
@@ -1558,7 +1583,8 @@ pub async fn generate_daily_briefing(state: State<'_, AppState>) -> Result<Strin
     {
         let conn = state.db.lock().unwrap();
         for s in sources {
-            if let Ok(chunks) = vault::read_source_chunks(&conn, &s.id) {
+            if let Ok(chunk_rows) = vault::list_chunks(&conn, &s.id) {
+                let chunks: Vec<String> = chunk_rows.into_iter().map(|c| c.text).collect();
                 let full_text = chunks.join("\n");
                 let snippet = truncate(&full_text, 1000); // Take first 1000 chars per source
                 let entry = format!("- [{}] {}: {}\n", s.app, s.window_title, snippet.replace('\n', " "));

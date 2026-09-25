@@ -47,11 +47,19 @@ export function Chat() {
   const graphContext = useStore((s) => s.graphContext);
   const setGraphContext = useStore((s) => s.setGraphContext);
 
+  const skills = useStore((s) => s.skills);
+  const activeExpertId = useStore((s) => s.activeExpertId);
+  const setActiveExpert = useStore((s) => s.setActiveExpert);
+  const openSkillsFolder = useStore((s) => s.openSkillsFolder);
+  const refreshSkills = useStore((s) => s.refreshSkills);
+
   const [input, setInput] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerFilter, setPickerFilter] = useState("");
+  const [skillPickerOpen, setSkillPickerOpen] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
+  const skillPickerRef = useRef<HTMLDivElement>(null);
 
   const scopeLabel =
     selected.length === 0
@@ -61,6 +69,8 @@ export function Chat() {
           .map((c) => c.name)
           .join(", ") || `${selected.length} folders`;
 
+  const activeSkill = skills.find((sk) => sk.id === activeExpertId);
+
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [turns]);
@@ -69,6 +79,9 @@ export function Chat() {
     const onClick = (e: MouseEvent) => {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
         setPickerOpen(false);
+      }
+      if (skillPickerRef.current && !skillPickerRef.current.contains(e.target as Node)) {
+        setSkillPickerOpen(false);
       }
     };
     document.addEventListener("mousedown", onClick);
@@ -245,8 +258,88 @@ export function Chat() {
             </>
           )}
 
-          {/* Source picker */}
-          <div ref={pickerRef} className="relative ml-auto">
+          {/* Controls: Skill picker + Source picker */}
+          <div className="ml-auto flex items-center gap-2">
+            {/* Skill picker */}
+            <div ref={skillPickerRef} className="relative">
+              <button
+                type="button"
+                onClick={() => { setSkillPickerOpen((o) => !o); refreshSkills(); }}
+                className="rounded px-2 py-0.5 flex items-center gap-1.5 transition text-[11px]"
+                style={{
+                  background: activeSkill ? "rgba(91,140,255,0.15)" : "transparent",
+                  border: `1px solid ${activeSkill ? "var(--accent)" : "var(--border)"}`,
+                  color: activeSkill ? "var(--accent)" : "var(--muted)",
+                  cursor: "pointer",
+                }}
+                title="Select an expert skill (.md persona) for this chat"
+              >
+                <span>{activeSkill ? `${activeSkill.icon} ${activeSkill.name}` : "🤖 Default persona"}</span>
+                <span className="text-[9px] opacity-60">▾</span>
+              </button>
+
+              {skillPickerOpen && (
+                <div
+                  className="absolute bottom-full right-0 z-50 mb-1 w-64 overflow-hidden rounded-lg shadow-lg"
+                  style={{ background: "var(--panel)", border: "1px solid var(--border)" }}
+                >
+                  <div className="px-3 py-2" style={{ borderBottom: "1px solid var(--border)" }}>
+                    <div className="text-[10px] font-medium uppercase tracking-wide" style={{ color: "var(--muted)" }}>
+                      Skills (.md personas)
+                    </div>
+                  </div>
+                  <div className="max-h-56 overflow-y-auto py-1">
+                    <button
+                      type="button"
+                      onClick={() => { setActiveExpert(null); setSkillPickerOpen(false); }}
+                      className="w-full text-left px-3 py-1.5 text-xs flex items-center gap-2 transition"
+                      style={{
+                        color: !activeExpertId ? "var(--accent)" : "var(--text)",
+                        background: !activeExpertId ? "var(--hover)" : "transparent",
+                      }}
+                    >
+                      <span>🤖</span>
+                      <span className="font-medium">Default persona</span>
+                    </button>
+                    {skills.map((sk) => (
+                      <button
+                        key={sk.id}
+                        type="button"
+                        onClick={() => { setActiveExpert(sk.id); setSkillPickerOpen(false); }}
+                        className="w-full text-left px-3 py-1.5 text-xs flex items-center justify-between gap-2 transition"
+                        style={{
+                          color: activeExpertId === sk.id ? "var(--accent)" : "var(--text)",
+                          background: activeExpertId === sk.id ? "var(--hover)" : "transparent",
+                        }}
+                      >
+                        <span className="flex items-center gap-2 truncate">
+                          <span>{sk.icon}</span>
+                          <span className="font-medium truncate">{sk.name}</span>
+                        </span>
+                        {sk.model_override && (
+                          <span className="text-[10px] opacity-60 shrink-0 font-mono">
+                            {sk.model_override}
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="p-2 border-t" style={{ borderColor: "var(--border)", background: "var(--panel2)" }}>
+                    <button
+                      type="button"
+                      onClick={() => { openSkillsFolder(); setSkillPickerOpen(false); }}
+                      className="w-full rounded py-1 px-2 text-[11px] font-medium flex items-center justify-center gap-1.5 transition"
+                      style={{ color: "var(--text)", border: "1px solid var(--border)", background: "var(--panel)" }}
+                    >
+                      <span>📁</span> Open Skills Folder (.md)
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Source picker */}
+            <div ref={pickerRef} className="relative">
             <button
               type="button"
               onClick={() => { setPickerOpen((o) => !o); setPickerFilter(""); }}
@@ -335,6 +428,7 @@ export function Chat() {
               </div>
             )}
           </div>
+          </div> {/* closes ml-auto flex gap-2 */}
         </div>
 
         {/* ── Graph context banner — click to paste into input ────────── */}
